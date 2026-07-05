@@ -3,8 +3,9 @@ public class IngredientSlot {
   private String itemName;
   private int quantity;
 
-  public IngredientSlot(String itemname, int quantity){
-    
+  public IngredientSlot(String itemName, int quantity) {
+    this.itemName = itemName;
+    this.quantity = quantity;
   }
   
 }
