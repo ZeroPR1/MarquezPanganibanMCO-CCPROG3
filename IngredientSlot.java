@@ -15,4 +15,9 @@ public class IngredientSlot {
   public int getQuantity() {
     return this.quantity;
   }
+
+  public void emptySlot() {
+    this.itemName = "Empty";
+    this.quantity = 0;
+  }
 }
