@@ -7,5 +7,12 @@ public class IngredientSlot {
     this.itemName = itemName;
     this.quantity = quantity;
   }
-  
+
+  public String getItemName() {
+    return this.itemName;
+  }
+
+  public int getQuantity() {
+    return this.quantity;
+  }
 }
