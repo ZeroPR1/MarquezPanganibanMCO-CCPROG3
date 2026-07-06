@@ -4,9 +4,10 @@ public class Recipe {
   private int concoctionId;
   private String recipeName;
   private String baseName;
+  private int price;
   private ArrayList<String> requiredFruits;
 
-  public Recipe(int conconctionId, String recipeName, String baseName) {
+  public Recipe(int concoctionId, String recipeName, String baseName) {
     this.concoctionId = concoctionId;
     this.recipeName = recipeName;
     this.baseName = baseName;
@@ -20,6 +21,11 @@ public class Recipe {
   public int getConcoctionId() {
     return this.concoctionId;
   }
+
+  public int getBaseName(){
+    return this.baseName
+  }
+  
   public String getRecipeName() {
     return this.recipeName;
   }
