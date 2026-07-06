@@ -10,5 +10,9 @@ public class Player{
     this.inventory = new Inventory();
     this.spellbook = new Spellbook();
   }
+
+  public String getName(){
+    return this.name;
+  }
   
 }
