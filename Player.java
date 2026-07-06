@@ -14,5 +14,17 @@ public class Player{
   public String getName(){
     return this.name;
   }
+
+  public int getCrystals(){
+    return this.crystals;
+  }
+
+  public Inventory getInventory(){
+    return this.inventory;
+  }
+
+  public Spellbook getSpellbook(){
+    return this.spellbook;
+  }
   
 }
