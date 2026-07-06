@@ -24,4 +24,16 @@ public class Recipe {
     return this.recipeName;
   }
 
+  public boolean matchesIngredients(String inputBase, ArrayList<String> inputFruits) {
+    if (!this.baseName.equals(inputBase) || this.requiredFruits.size() != inputFruits.size()) {
+      return false;
+    }
+    for (int i = 0; i < this.requiredFruits.size(); i++) {
+      String required = this.requiredFruits.get(i);
+      if (!inputFruits.contains(required)) {
+        return false;
+      }
+    }
+    return true;
+  }
 }
