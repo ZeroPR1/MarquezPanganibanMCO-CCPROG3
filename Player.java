@@ -5,7 +5,10 @@ public class Player{
   private Spellbook spellbook;
 
   public Player(string name){
-    
+    this.name = name;
+    this.crystals = 5000;
+    this.inventory = new Inventory();
+    this.spellbook = new Spellbook();
   }
   
 }
