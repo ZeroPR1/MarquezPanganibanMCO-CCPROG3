@@ -12,5 +12,16 @@ public class Recipe {
     this.baseName = baseName;
     this.requiredFruits = new ArrayList<>();
   }
+  
+  public void addRequiredFruit(String fruitName) {
+    this.requiredFruits.add(fruitName);
+  }
+  
+  public int getConcoctionId() {
+    return this.concoctionId;
+  }
+  public String getRecipeName() {
+    return this.recipeName;
+  }
 
 }
