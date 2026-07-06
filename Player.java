@@ -26,5 +26,9 @@ public class Player{
   public Spellbook getSpellbook(){
     return this.spellbook;
   }
+
+  public void addCrystals(){
+    
+  }
   
 }
