@@ -6,4 +6,11 @@ public class Recipe {
   private String baseName;
   private ArrayList<String> requiredFruits;
 
+  public Recipe(int conconctionId, String recipeName, String baseName) {
+    this.concoctionId = concoctionId;
+    this.recipeName = recipeName;
+    this.baseName = baseName;
+    this.requiredFruits = new ArrayList<>();
+  }
+
 }
