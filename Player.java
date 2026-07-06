@@ -4,5 +4,8 @@ public class Player{
   private Inventory inventory;
   private Spellbook spellbook;
 
+  public Player(string name){
+    
+  }
   
 }
