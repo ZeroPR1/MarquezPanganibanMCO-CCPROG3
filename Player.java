@@ -27,8 +27,18 @@ public class Player{
     return this.spellbook;
   }
 
-  public void addCrystals(){
-    
+  public void addCrystals(int amount){
+    if (amount > 0){
+      this.crystals += amount;
+    }
+
+  public boolean deductCrystals(int amount){
+    if (amount > 0 && this.crystals >= amount){
+        this.crystals -= amount;
+        return true;
+    }
+    return false;
+  }
   }
   
 }
