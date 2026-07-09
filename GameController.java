@@ -14,55 +14,55 @@ public class GameController {
   private int brewsSinceMarket;
   private Scanner scanner;
 
-  public GameController() {
+  public GameController() { //darshan
     
   }
 
-  private void loadCompendium() {
+  private void loadCompendium() { //darshan
     
   }
 
-  public void startGame() {
+  public void startGame() { //kyle
     
   }
 
-  public void mainMenuLoop() {
+  public void mainMenuLoop() { //kyle
     
   }
 
-  private void brewMenu() {
+  private void brewMenu() { //kyle
     
   }
 
-  private void creativeMode() {
+  private void creativeMode() { //darshan
     
   }
 
-  private void recipeMode() {
+  private void recipeMode() { //darshan
     
   }
 
-  private int getIngredientPrice(String name) {
+  private int getIngredientPrice(String name) {//kyle
     
   }
 
-  private void visitMarket() {
+  private void visitMarket() { //darshan
     
   }
 
-  private void blessCauldronLogic() {
+  private void blessCauldronLogic() { //kyle
     
   }
 
-  private void claimLoginBonus() {
+  private void claimLoginBonus() { //kyle
     
   }
 
-  private void saveGame() {
+  private void saveGame() { //darshan
     
   }
 
-  private boolean loadSaveFile(String name) {
+  private boolean loadSaveFile(String name) { //darshan
     
   }
 
