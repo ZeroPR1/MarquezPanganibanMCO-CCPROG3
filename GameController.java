@@ -30,10 +30,10 @@ public class GameController {
           while (fileScanner.hasNextLine()) {
               String[] data = fileScanner.nextLine().split(",", -1);
               if (data.length >= 4) {
-                  Recipe r = new Recipe(data[0], data[1], data[2], Integer.parseInt(data[3]));
-                  if (data.length > 4 && !data[4].isEmpty()) { r.addFruitRequirement(data[4]); }
-                  if (data.length > 5 && !data[5].isEmpty()) { r.addFruitRequirement(data[5]); }
-                  if (data.length > 6 && !data[6].isEmpty()) { r.addFruitRequirement(data[6]); }
+                  Recipe r = new Recipe(Integer.parseInt(data[0]), data[1], data[2], Integer.parseInt(data[3]));
+                  if (data.length > 4 && !data[4].isEmpty()) { r.addaddRequiredFruit(data[4]); }
+                  if (data.length > 5 && !data[5].isEmpty()) { r.addaddRequiredFruit(data[5]); }
+                  if (data.length > 6 && !data[6].isEmpty()) { r.addaddRequiredFruit(data[6]); }
                   this.recipeCompendium.add(r);
               }
           }
@@ -94,7 +94,7 @@ public class GameController {
       if (scanner.nextLine().equalsIgnoreCase("Y")) {
           currentPlayer.getInventory().removeBase(base, 1);
           for(int i = 0; i < fruitList.size(); i++) {
-            currentPlayer.getInventory().removeFruit(fruitList.get(i), quantity: 1);
+            currentPlayer.getInventory().removeFruit(fruitList.get(i), 1);
           }
 
           boolean success = false;
