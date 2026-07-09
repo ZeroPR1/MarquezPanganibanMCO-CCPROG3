@@ -186,47 +186,33 @@ public class GameController {
     
     if (name.equals("STRAWBERRY")) {
       return 125;
-    }
-    else if (name.equals("ORANGE")) {
+    } else if (name.equals("ORANGE")) {
       return 80;
-    }
-    else if (name.equals("LEMON")) {
+    } else if (name.equals("LEMON")) {
       return 50;
-      }
-    else if (name.equals("BANANA")) {
+       else if (name.equals("BANANA")) {
       return 75;
-    }
-    else if (name.equals("MANGO")) {
+    } else if (name.equals("MANGO")) {
       return 90;
-    }
-    else if (name.equals("PINEAPPLE")) {
+     else if (name.equals("PINEAPPLE")) {
       return 240;
-    }
-    else if (name.equals("KIWI")) {
+    } else if (name.equals("KIWI")) {
       return 200;
-    }
-    else if (name.equals("BLUEBERRY")) {
+    } else if (name.equals("BLUEBERRY")) {
       return 120;
-    }
-    else if (name.equals("COCONUT")) {
+    } else if (name.equals("COCONUT")) {
       return 180;
-    }
-    else if (name.equals("SYRUP BASE")) {
+    } else if (name.equals("SYRUP BASE")) {
       return 50;
-    }
-    else if (name.equals("BUBBLE BASE")) {
+    } else if (name.equals("BUBBLE BASE")) {
       return 80;
-    }
-    else if (name.equals("PERFUME BASE")) {
+    } else if (name.equals("PERFUME BASE")) {
       return 250;
-    }
-    else if (name.equals("MILK BASE")) {
+    } else if (name.equals("MILK BASE")) {
       return 60;
-    }
-    else if (name.equals("LOTION BASE")) {
+    } else if (name.equals("LOTION BASE")) {
       return 150;
-    }
-    else if (name.equals("CAULDRON")) {
+    } else if (name.equals("CAULDRON")) {
       return 3000;
     }   
       return 0
@@ -276,13 +262,49 @@ public class GameController {
           }
       }    
   }
-
-  private void blessCauldronLogic() { //kyle
-    
-  }
-
   private void claimLoginBonus() { //kyle
+    if (this.loginBonusClaimed == true) {
+      System.out.println("You have already claimed your login bonus for this session!");
+      return;
+    }
     
+    String[] possibleItems = {"STRAWBERRY", "ORANGE", "LEMON", "BANANA", "MANGO", 
+                                "PINEAPPLE", "KIWI", "BLUEBERRY", "COCONUT", "SYRUP BASE",
+                                "BUBBLE BASE", "PERFUME BASE", "MILK BASE", "LOTION BASE"};
+    
+    Random rand = new Random();
+    int randomIndex = rand.nextInt(possibleItems.length);
+    String randomItem = possibleItems[randomIndex];
+    
+    if (randomItem.contains("BASE")) {
+      currentPlayer.getInventory().addBase(randomItem, 1);
+    } else {
+      currentPlayer.getInventory().addFruit(randomItem, 1);
+    }
+    
+    this.loginBonusClaimed = true;
+    System.out.println("Login Bonus Claimed! You received 1x " + randomItem + ".");
+  }
+  
+  private void blessCauldronLogic() { //kyle
+    int brokenCauldrons = currentPlayer.getInventory().getUnusableCauldronCount();
+    
+    if (brokenCauldrons == 0) {
+      System.out.println("You have no broken cauldrons to bless.");
+      return;
+    }
+    
+    System.out.println("Blessing a cauldron costs 1000 crystals. Proceed? (Y/N)");
+    String choice = scanner.nextLine();
+    
+    if (choice.equalsIgnoreCase("Y")) {
+      if (currentPlayer.deductCrystals(1000)) {
+        currentPlayer.getInventory().blessOneCauldron();
+        System.out.println("Success! A cauldron has been blessed and is ready to use.");
+      } else {
+        System.out.println("Error: You don't have enough crystals to bless a cauldron.");
+      }
+    }
   }
 
   private void saveGame() { //darshan
