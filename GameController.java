@@ -15,7 +15,12 @@ public class GameController {
   private Scanner scanner;
 
   public GameController() { //darshan
-    
+      this.scanner = new Scanner(System.in);
+      this.recipeCompendium = new ArrayList<Recipe>();
+      this.market = new Market();
+      this.loginBonusClaimed = false;
+      this.brewsSinceMarket = 0;
+      loadCompendium();
   }
 
   private void loadCompendium() { //darshan
