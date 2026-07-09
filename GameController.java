@@ -57,7 +57,14 @@ public class GameController {
   }
 
   private void recipeMode() { //darshan
-    
+      currentPlayer.getSpellbook().displaySpellbook();
+      System.out.print("Enter Recipe ID to brew: ");
+      String id = scanner.nextLine();
+
+      if (!currentPlayer.getSpellbook().hasRecipe(id)) {
+        System.out.println("Error: Recipe not unlocked");
+        return;
+      }
   }
 
   private void creativeMode() { //darshan
