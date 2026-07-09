@@ -213,7 +213,20 @@ public class GameController {
   }
 
   private void saveGame() { //darshan
-    
+      try {
+          FileWriter fw = new FileWriter(currentPlayer.getName() + ".txt");
+          PrintWriter pw = new PrintWriter(fw);
+          pw.println(currentPlayer.getName());
+          pw.println(currentPlayer.getCrystals());
+          pw.println("Fruits: " + currentPlayer.getInventory().exportFruitData());
+          pw.println("Bases: " + currentPlayer.getInventory().exportBaseData());
+          pw.println("Cauldrons:" + currentPlayer.getInventory().getUsableCauldronCount() + "," + currentPlayer.getInventory().getUnusableCauldronCount());
+          pw.println("Spellbook:" + currentPlayer.getSpellbook().exportSpellbookData());
+          pw.close();
+          System.out.println("Game saved successfully :3");
+      } catch (IOException e) {
+          System.out.println("Save failed.");
+      }
   }
 
   private boolean loadSaveFile(String name) { //darshan
