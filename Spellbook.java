@@ -29,7 +29,24 @@ public class Spellbook{
       return;
     }
 
-    
+    for (int i = 0; i < this.unlockedRecipes.size() - 1; i++) {
+      for (int j = 0; j < this.unlockedRecipes.size() - i - 1; j++){
+          int id1 = Integer.parseInt(this.unlockedRecipes.get(j).getId());
+          int id2 = Integer.parseInt(this.unlockedRecipes.get(j + 1).getId());
+
+        if (id1 > id2) {
+          Recipe temp = this.unlockedRecipes.get(j);
+          this.unlockedRecipes.set(j, this.unlockedRecipes.get(j + 1));
+          this.unlockedRecipes.set(j + 1, temp);
+        }
+      }
+    }
+
+    System.out.println("\n=== Your Spellbook ===");
+    for (int i = 0; i < this.unlockedRecipes.size(); i++) {
+        Recipe r = this.unlockedRecipes.get(i);
+        System.out.println("ID: " + r.getId() + " | " + r.getName() + " (Sells for " + r.getPrice() + ")");
+    }  
   }
   
 }
