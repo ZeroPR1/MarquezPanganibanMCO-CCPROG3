@@ -5,11 +5,11 @@ public class Market { //manages the dynamic market slots and transactions
     private boolean cauldronInStock;
 
     public Market(){
-      this.slots = new IngredientSlot[8]
+      this.slots = new IngredientSlot[8];
       refreshMarket();
     }
 
-    public void RefreshMarket(){ //randomly populates the market slots
+    public void refreshMarket(){ //randomly populates the market slots
       Random rand = new Random();
       this.cauldronInStock = false;
       String[] possibleItems = {"STRAWBERRY", "ORANGE", "LEMON", "BANANA", "MANGO", 
@@ -23,16 +23,13 @@ public class Market { //manages the dynamic market slots and transactions
               if (!this.cauldronInStock){
                   this.slots[i] = new IngredientSlot("CAULDRON", 1);
                   this.cauldronInStock = true;
-              }
-              else{
+              } else {
                     this.slots[i] = new IngredientSlot("STRAWBERRY", rand.nextInt(5) + 1);
-                  }
-              else{
+              } else {
                   this.slots[i] = new IngredientSlot(selectedItem, rand.nextInt(5) + 1);
               }
             }
           }
-      }
 
     public IngredientSlot getSlot(int index){
         return this.slots[index];
@@ -52,4 +49,3 @@ public class Market { //manages the dynamic market slots and transactions
         }
     }
   }
-}
