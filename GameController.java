@@ -156,7 +156,54 @@ public class GameController {
   }
 
   private int getIngredientPrice(String name) {//kyle
+    name = name.toUpperCase();
     
+    if (name.equals("STRAWBERRY")) {
+      return 125;
+    }
+    else if (name.equals("ORANGE")) {
+      return 80;
+    }
+    else if (name.equals("LEMON")) {
+      return 50;
+      }
+    else if (name.equals("BANANA")) {
+      return 75;
+    }
+    else if (name.equals("MANGO")) {
+      return 90;
+    }
+    else if (name.equals("PINEAPPLE")) {
+      return 240;
+    }
+    else if (name.equals("KIWI")) {
+      return 200;
+    }
+    else if (name.equals("BLUEBERRY")) {
+      return 120;
+    }
+    else if (name.equals("COCONUT")) {
+      return 180;
+    }
+    else if (name.equals("SYRUP BASE")) {
+      return 50;
+    }
+    else if (name.equals("BUBBLE BASE")) {
+      return 80;
+    }
+    else if (name.equals("PERFUME BASE")) {
+      return 250;
+    }
+    else if (name.equals("MILK BASE")) {
+      return 60;
+    }
+    else if (name.equals("LOTION BASE")) {
+      return 150;
+    }
+    else if (name.equals("CAULDRON")) {
+      return 3000;
+    }   
+      return 0
   }
 
   private void visitMarket() { //darshan
