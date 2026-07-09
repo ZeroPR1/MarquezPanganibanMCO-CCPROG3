@@ -25,6 +25,7 @@ public class Market { //manages the dynamic market slots and transactions
                   this.cauldronInStock = true;
               } else {
                     this.slots[i] = new IngredientSlot("STRAWBERRY", rand.nextInt(5) + 1);
+                  }
               } else {
                   this.slots[i] = new IngredientSlot(selectedItem, rand.nextInt(5) + 1);
               }
