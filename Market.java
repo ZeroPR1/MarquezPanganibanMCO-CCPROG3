@@ -35,6 +35,18 @@ public class Market {
         return this.slots[index];
     }
 
-    
+    public void displayMarket(){
+        System.out.println("\n=== Welcome to the Market! ===");
+        for (int i = 0; i < this.slots.length; i++){
+            IngredientSlot s = this.slots[i];
+
+            if (s.getQuantity() > 0 && !s.getItemName().equals("Empty")){
+                System.out.println("[" + i + "] " + s.getItemName() + " | Qty: " + s.getQuantity());
+            }
+            else{
+                System.out.println("[" + i + "] [SOLD OUT]");
+            }
+        }
+    }
   }
 }
