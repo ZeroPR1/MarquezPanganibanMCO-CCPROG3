@@ -12,7 +12,29 @@ public class Market {
     public void RefreshMarket(){
       Random rand = new Random();
       this.cauldronInStock = false;
-      String[] possibleItems = {}
+      String[] possibleItems = {"STRAWBERRY", "ORANGE", "LEMON", "BANANA", "MANGO", 
+                                "PINEAPPLE", "KIWI", "BLUEBERRY", "COCONUT", "SYRUP BASE",
+                                "BUBBLE BASE", "PERFUME BASE", "MILK BASE", "LOTION BASE", "CAULDRON"};
+
+      for (int i = 0; i < this.slots.length; i++){
+          String selectedItem = possibleItems[rand.nextInt(possibleItems.length)];
+
+          if (selectedItem.equals("CAULDRON")){
+              if (!this.cauldronInStock){
+                  this.slots[i] = new IngredientSlot("CAULDRON", 1);
+                  this.cauldronInStock = true;
+              }
+              else{
+                  this.slots[i] = new IngredientSlot(selectedItem, rand.nextInt(5) + 1);
+              }
+            }
+          }
+      }
+
+    public IngredientSlot getSlot(int index){
+        return this.slots[index];
     }
-  
+
+    
+  }
 }
