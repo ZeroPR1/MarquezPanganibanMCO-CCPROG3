@@ -4,7 +4,7 @@ public class Player{
   private Inventory inventory;
   private Spellbook spellbook;
 
-  public Player(string name){
+  public Player(String name){
     this.name = name;
     this.crystals = 5000;
     this.inventory = new Inventory();
@@ -31,6 +31,7 @@ public class Player{
     if (amount > 0){
       this.crystals += amount;
     }
+  }
 
   public boolean deductCrystals(int amount){
     if (amount > 0 && this.crystals >= amount){
