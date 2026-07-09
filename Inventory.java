@@ -12,10 +12,11 @@ public class Inventory {
     for(int i = 0; i < 3; i++){
         this.cauldrons.add(new Cauldron());
     }
+  }
 
     public void addFruit(String name, int quantity){
       for (int i = 0; i < this.fruits.size(); i++){
-          if (this.fruits.get(i).getname().equals(name)){
+          if (this.fruits.get(i).getName().equals(name)){
               this.fruits.get(i).addQuantity(quantity);
               return;
           }
@@ -123,6 +124,4 @@ public class Inventory {
       }
       return data;
     }
-
   }
-}
