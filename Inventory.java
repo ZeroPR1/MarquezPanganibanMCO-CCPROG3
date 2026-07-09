@@ -59,6 +59,41 @@ public class Inventory {
         }
       }
       return false;
+    }
     
+    public int getUsableCauldronCount() {
+      int count = 0;
+      for (int i = 0; i < this.cauldrons.size(); i++) {
+        if (this.cauldrons.get(i).checkUsability()) count++;
+      }
+      return count;
+    }
+    
+    public int getUnusableCauldronCount() {
+      return this.cauldrons.size() - getUsableCauldronCount();
+    }
+    
+    public void ruinOneCauldron() {
+      for (int i = 0; i < this.cauldrons.size(); i++) {
+        if (this.cauldrons.get(i).checkUsability()) {
+          this.cauldrons.get(i).ruinCauldron();
+          return;
+        }
+      }
+    }
+    
+    public void blessOneCauldron() {
+      for (int i = 0; i < this.cauldrons.size(); i++) {
+        if (!this.cauldrons.get(i).checkUsability()) {
+          this.cauldrons.get(i).blessCauldron();
+          return;
+        }
+      }
+    }
+    
+    public void addCauldron() {
+      this.cauldrons.add(new Cauldron());
+    }
+
   }
 }
