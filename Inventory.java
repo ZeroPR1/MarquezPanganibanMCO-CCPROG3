@@ -94,6 +94,35 @@ public class Inventory {
     public void addCauldron() {
       this.cauldrons.add(new Cauldron());
     }
+    
+    public void displayInventory() {
+      System.out.println("\n--- Fruits ---");
+      for (int i = 0; i < this.fruits.size(); i++) {
+        System.out.println(this.fruits.get(i).getName() + ": " + this.fruits.get(i).getQuantity());
+      }
+      System.out.println("--- Bases ---");
+      for (int i = 0; i < this.bases.size(); i++) {
+        System.out.println(this.bases.get(i).getName() + ": " + this.bases.get(i).getQuantity());
+      }
+      System.out.println("--- Cauldrons ---");
+      System.out.println("Usable: " + getUsableCauldronCount() + " | Unusable: " + getUnusableCauldronCount());
+    }
+    
+    public String exportFruitData() {
+      String data = "";
+      for (int i = 0; i < this.fruits.size(); i++) {
+        data += this.fruits.get(i).getName() + "=" + this.fruits.get(i).getQuantity() + ",";
+      }
+      return data;
+    }
+    
+    public String exportBaseData() {
+      String data = "";
+      for (int i = 0; i < this.bases.size(); i++) {
+        data += this.bases.get(i).getName() + "=" + this.bases.get(i).getQuantity() + ",";
+      }
+      return data;
+    }
 
   }
 }
