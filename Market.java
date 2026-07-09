@@ -25,6 +25,9 @@ public class Market { //manages the dynamic market slots and transactions
                   this.cauldronInStock = true;
               }
               else{
+                    this.slots[i] = new IngredientSlot("STRAWBERRY", rand.nextInt(5) + 1);
+                  }
+              else{
                   this.slots[i] = new IngredientSlot(selectedItem, rand.nextInt(5) + 1);
               }
             }
@@ -40,7 +43,7 @@ public class Market { //manages the dynamic market slots and transactions
         for (int i = 0; i < this.slots.length; i++){
             IngredientSlot s = this.slots[i];
 
-            if (s.getQuantity() > 0 && !s.getItemName().equals("Empty")){ //check if quantity is > 0 AND the slot hasnt been flagged as empty
+            if (s.getQuantity() > 0 && !"Empty".equals(s.getItemName())){ //check if quantity is > 0 AND the slot hasnt been flagged as empty
                 System.out.println("[" + i + "] " + s.getItemName() + " | Qty: " + s.getQuantity());
             }
             else{
