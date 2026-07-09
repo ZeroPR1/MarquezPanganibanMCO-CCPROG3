@@ -19,8 +19,8 @@ public class Market { //manages the dynamic market slots and transactions
       for (int i = 0; i < this.slots.length; i++){
           String selectedItem = possibleItems[rand.nextInt(possibleItems.length)];
 
-          if (selectedItem.equals("CAULDRON")){
-              if (!this.cauldronInStock){
+          if (selectedItem.equals("CAULDRON")) {
+              if (!this.cauldronInStock) {
                   this.slots[i] = new IngredientSlot("CAULDRON", 1);
                   this.cauldronInStock = true;
               } else {
