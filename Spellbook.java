@@ -31,8 +31,8 @@ public class Spellbook{
     //bubble sort to arrange by id in ascending order
     for (int i = 0; i < this.unlockedRecipes.size() - 1; i++) {
       for (int j = 0; j < this.unlockedRecipes.size() - i - 1; j++){
-          int id1 = Integer.parseInt(this.unlockedRecipes.get(j).getId());
-          int id2 = Integer.parseInt(this.unlockedRecipes.get(j + 1).getId());
+          int id1 = this.unlockedRecipes.get(j).getId();
+          int id2 = this.unlockedRecipes.get(j + 1).getId();
 
         if (id1 > id2) {
           Recipe temp = this.unlockedRecipes.get(j);
