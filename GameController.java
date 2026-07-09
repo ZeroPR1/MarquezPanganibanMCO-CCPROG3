@@ -53,7 +53,33 @@ public class GameController {
   }
 
   private void brewMenu() { //kyle
+    boolean brewing = true;
     
+    while (brewing) {
+      System.out.println("\n=== Brew Concoction ===");
+      System.out.println("[1] Recipe Mode");
+      System.out.println("[2] Creative Mode");
+      System.out.println("[3] Cancel (Return to Main Menu)");
+      System.out.print("Select an option: ");
+      
+      String choice = scanner.nextLine();
+      
+      if (choice.equals("1")) {
+        recipeMode();
+        brewing = false;
+      }
+      else if (choice.equals("2")) {
+        creativeMode();
+        brewing = false;
+      }
+      else if (choice.equals("3")) {
+        System.out.println("Canceling brew...");
+        brewing = false;
+      }
+      else {
+        System.out.println("Invalid option. Please try again.");
+      }
+    }
   }
 
   private void recipeMode() { //darshan
