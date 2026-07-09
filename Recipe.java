@@ -11,6 +11,7 @@ public class Recipe {
     this.concoctionId = concoctionId;
     this.recipeName = recipeName;
     this.baseName = baseName;
+    this.price = price;
     this.requiredFruits = new ArrayList<>();
   }
   
@@ -18,16 +19,20 @@ public class Recipe {
     this.requiredFruits.add(fruitName);
   }
   
-  public int getConcoctionId() {
+  public int getId() {
     return this.concoctionId;
   }
 
-  public int getBaseName(){
+  public String getBaseName(){
     return this.baseName;
   }
   
-  public String getRecipeName() {
+  public String getName() {
     return this.recipeName;
+  }
+
+  public int getPrice() {
+    return this.price;
   }
 
   public boolean matchesIngredients(String inputBase, ArrayList<String> inputFruits) {
