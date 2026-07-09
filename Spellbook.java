@@ -23,12 +23,12 @@ public class Spellbook{
     return false;
   }
 
-  public void displaySpellbook() {
+  public void displaySpellbook() { //displays all unlocked recipes sorted by concotion
     if (this.unlockedRecipes.isEmpty()) {
       System.out.println("Your spellbook is currently empty.");
       return;
     }
-
+    //bubble sort to arrange by id in ascending order
     for (int i = 0; i < this.unlockedRecipes.size() - 1; i++) {
       for (int j = 0; j < this.unlockedRecipes.size() - i - 1; j++){
           int id1 = Integer.parseInt(this.unlockedRecipes.get(j).getId());
@@ -48,5 +48,12 @@ public class Spellbook{
         System.out.println("ID: " + r.getId() + " | " + r.getName() + " (Sells for " + r.getPrice() + ")");
     }  
   }
-  
+
+  public String exportSpellbookData() {
+    String data = "";
+    for (int i = 0; i < this.unlockedRecipes.size(); i++) {
+        data += this.unlockedRecipes.get(i).getId() + ",";
+    }
+    return data;
+  }
 }
