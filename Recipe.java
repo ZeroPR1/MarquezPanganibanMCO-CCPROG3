@@ -7,7 +7,7 @@ public class Recipe {
   private int price;
   private ArrayList<String> requiredFruits;
 
-  public Recipe(int concoctionId, String recipeName, String baseName) {
+  public Recipe(int concoctionId, String recipeName, String baseName, int price) {
     this.concoctionId = concoctionId;
     this.recipeName = recipeName;
     this.baseName = baseName;
