@@ -65,6 +65,15 @@ public class GameController {
         System.out.println("Error: Recipe not unlocked");
         return;
       }
+
+      Recipe target = null;
+      for (int i = 0; i < recipeCompendium.size(); i++) {
+          if (recipeCompendium.get(i).getId().equals(id)) {
+            target = recipeCompendium.get(i);
+          }
+      }
+
+    
   }
 
   private void creativeMode() { //darshan
