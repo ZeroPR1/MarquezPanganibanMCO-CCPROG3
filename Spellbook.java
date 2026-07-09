@@ -22,5 +22,14 @@ public class Spellbook{
     }
     return false;
   }
+
+  public void displaySpellbook() {
+    if (this.unlockedRecipes.isEmpty()) {
+      System.out.println("Your spellbook is currently empty.");
+      return;
+    }
+
+    
+  }
   
 }
