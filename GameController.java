@@ -43,14 +43,85 @@ public class GameController {
         System.out.println("Warning: POTION COMPENDIUM.csv not found.");    
       }
   }
-
+  
   public void startGame() { //kyle
+    boolean gameStarted = false;
     
+    System.out.println("Welcome to Potion Prodigy!");
+    
+    while (!gameStarted) {
+      System.out.println("[1] New Game");
+      System.out.println("[2] Load Existing Save");
+      System.out.print("Choose an option: ");
+      String choice = scanner.nextLine();
+      
+      if (choice.equals("1")) {
+        System.out.print("Enter your name: ");
+        String name = scanner.nextLine();
+        this.currentPlayer = new Player(name);
+        System.out.println("Welcome, " + name + "! Starting a new adventure...");
+        gameStarted = true;
+      }
+      else if (choice.equals("2")) {
+        System.out.print("Enter the name of your save file: ");
+        String saveName = scanner.nextLine();
+        
+        boolean loadSuccess = loadSaveFile(saveName);
+              
+        if (loadSuccess) {
+          System.out.println("Welcome back!");
+          gameStarted = true;
+        } 
+        else {System.out.println("Save file not found. Please try again or start a New Game.");
+             }
+      } else {
+        System.out.println("Invalid choice.");
+      }
+    }
+    
+      mainMenuLoop();
   }
 
   public void mainMenuLoop() { //kyle
+    boolean playing = true;
     
+    while (playing) {
+      System.out.println("\n=== Main Menu ===");
+      System.out.println("Crystals: " + currentPlayer.getCrystals());
+      System.out.println("[1] Brew Concoction");
+      System.out.println("[2] Check Inventory");
+      System.out.println("[3] Check Spellbook");
+      System.out.println("[4] Visit Market");
+      System.out.println("[5] Bless Cauldron");
+      System.out.println("[6] Login Bonus");
+      System.out.println("[7] Exit Game");
+      System.out.print("What would you like to do? ");
+      
+      String choice = scanner.nextLine();
+      
+      if (choice.equals("1")) {
+        brewMenu();
+      } else if (choice.equals("2")) {
+        currentPlayer.getInventory().displayInventory();
+      } else if (choice.equals("3")) {
+        currentPlayer.getSpellbook().displaySpellbook();
+      } else if (choice.equals("4")) {
+        visitMarket();
+      } else if (choice.equals("5")) {
+        blessCauldronLogic();
+      } else if (choice.equals("6")) {
+        claimLoginBonus();
+      } else if (choice.equals("7")) {
+        System.out.println("Saving game...");
+        saveGame();
+        System.out.println("Thank you for playing Potion Prodigy!");
+        playing = false;
+      } else {
+        System.out.println("Invalid choice, please select 1-7.");
+      }
+    }
   }
+
 
   private void brewMenu() { //kyle
     boolean brewing = true;
