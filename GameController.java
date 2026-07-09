@@ -73,9 +73,31 @@ public class GameController {
           }
       }
 
-    
-  }
+    if (target != null) {
+        if (!currentPlayer.getInventory().checkIngredientAvailability(target.getBaseRequirement(), 1, true)) {
+            System.out.println("Error: Insufficient ingredients.");
+            return;
+        }
+        for (int i = 0; i < target.getFruitRequirements().size(); i++) {
+            if (!currentPlayer.getInventory().checkIngredientAvailability(target.getFruitRequirements().get(i), 1, false)) {
+                System.out.println("Error: Insufficient ingredients.");
+                return;
+            }
+        }
 
+        System.out.print("Confirm Brew? (Y/N): ");
+        if (scanner.nextLine().equalsIgnoreCase("Y")){
+            currentPlayer.getInventory().removeBase(target.getBaseRequirement(), 1);
+            for (int i = 0; i < target.getFruitRequirements().size(); i++) {
+                currentPlayer.getInventory().removeFruit(target.getFruitRequirements().get(i), 1);
+            }
+            System.out.println("Successfully brewed " + target.getName() + " and sold for " + target.getPrice() + "!");
+            currentPlayer.addCrystals(target.getPrice());
+            brewsSinceMarket++;
+        }
+    }
+}
+  
   private void creativeMode() { //darshan
       if (currentPlayer.getInventory().getUsableCauldronCount() <= 1){
           System.out.println("Error: You only have 1 usable cauldron left. Creative mode locked to prevent soft-lock");
