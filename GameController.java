@@ -160,7 +160,48 @@ public class GameController {
   }
 
   private void visitMarket() { //darshan
-    
+      if (brewsSinceMarket >= 3) {
+          market.refreshMarket();
+          brewsSinceMarket = 0;
+      }
+
+      market.displayMarket();
+      System.out.print("Enter slots to buy (comma-seperated, example: 1,4) or 'EXIT': ");
+      String input = scanner.nextline();
+
+      if (!input.equalsIgnoreCase("EXIT)) {
+          String[] choices = input.split(",");
+          for (int i = 0; i < choices.length; i++) {
+              try {
+                  int slot = Integer.parseInt(choices[i].trim());
+                  IngredientSlot s = market.getSlot(slot);
+
+                  if (s.getQuantity() > 0 && !s.getItemName().equals("Empty")) {
+                      int basePrice = getIngredientPrice(s.getItemName());
+                      int totalPrice = basePrice * s.getQuantity();
+
+                      String purchasedName = s.getItemName();
+                      int purchasedQty = s.getQuantity();
+
+                  if (currentPlayer.deductCrystals(totalPrice)) {
+                      s.emptySlot();
+                      System.out.println("Success! Bought " + purchasedQty + "x " + purchasedName + " for " + totalPrice + " crystals!");
+
+                      if (purchasedName.equals("CAULDRON)) { currentPlayer.get Inventory().addCauldron(); }
+                      else if (purchasedName.contains("BASE")) { currentPlayer.getInventory().addBase(purchasedName, purchasedQty); }
+                      else { currentPlayer.getInventory().addFruit(purchasedName, purchasedQty); }
+                  } else {
+                      System.out.println("Error: Insufficient funds. You need " + totalPrice + " crystals for this stack");
+                    }
+                } else {
+                    System.out.println("Slot [" + slot + "] is already empty");
+                }
+              }  catch (Exception e) {
+                  System.out.println("Invalid input skipped");
+              }
+              
+          }
+      }    
   }
 
   private void blessCauldronLogic() { //kyle
