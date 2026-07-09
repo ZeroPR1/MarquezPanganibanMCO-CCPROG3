@@ -91,7 +91,7 @@ public class GameController {
       }
 
       System.out.print("Confirm brew? (Y/N): ");
-      if (scanner.nextLine().equalsIgnoreCase("Y)) {
+      if (scanner.nextLine().equalsIgnoreCase("Y")) {
           currentPlayer.getInventory().removeBase(base, 1);
           for(int i = 0; i < fruitList.size(); i++) {
             currentPlayer.getInventory().removeFruit(fruitList.get(i), quantity: 1);
