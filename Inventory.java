@@ -41,5 +41,15 @@ public class Inventory {
         }
         this.bases.add(new Ingredient(name, quantity));
     }
+    
+    public boolean removeBase(String name, int quantity) {
+      for (int i = 0; i < this.bases.size(); i++) {
+        if (this.bases.get(i).getName().equals(name)) {
+          return this.bases.get(i).deductQuantity(quantity);
+        }
+      }
+      return false;
+    }
+
   }
 }
