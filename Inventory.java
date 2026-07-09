@@ -50,6 +50,15 @@ public class Inventory {
       }
       return false;
     }
-
+    
+    public boolean checkIngredientAvailability(String name, int requiredQty, boolean isBase) {
+      ArrayList<Ingredient> listToCheck = isBase ? this.bases : this.fruits;
+      for (int i = 0; i < listToCheck.size(); i++) {
+        if (listToCheck.get(i).getName().equals(name) && listToCheck.get(i).getQuantity() >= requiredQty) {
+          return true;
+        }
+      }
+      return false;
+    
   }
 }
