@@ -56,11 +56,11 @@ public class GameController {
     
   }
 
-  private void creativeMode() { //darshan
+  private void recipeMode() { //darshan
     
   }
 
-  private void recipeMode() { //darshan
+  private void creativeMode() { //darshan
       if (currentPlayer.getInventory().getUsableCauldronCount() <= 1){
           System.out.println("Error: You only have 1 usable cauldron left. Creative mode locked to prevent soft-lock");
           return;
