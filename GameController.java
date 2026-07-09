@@ -14,5 +14,57 @@ public class GameController {
   private int brewsSinceMarket;
   private Scanner scanner;
 
+  public GameController() {
+    
+  }
+
+  private void loadCompendium() {
+    
+  }
+
+  public void startGame() {
+    
+  }
+
+  public void mainMenuLoop() {
+    
+  }
+
+  private void brewMenu() {
+    
+  }
+
+  private void creativeMode() {
+    
+  }
+
+  private void recipeMode() {
+    
+  }
+
+  private int getIngredientPrice(String name) {
+    
+  }
+
+  private void visitMarket() {
+    
+  }
+
+  private void blessCauldronLogic() {
+    
+  }
+
+  private void claimLoginBonus() {
+    
+  }
+
+  private void saveGame() {
+    
+  }
+
+  private boolean loadSaveFile(String name) {
+    
+  }
+
   
 }
