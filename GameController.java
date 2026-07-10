@@ -398,7 +398,7 @@ public class GameController {
             price = 60;
             break;
           case "LOTION BASE":
-            price = 50;
+            price = 150;
             break;
           case "CAULDRON":
             price = 3000;
