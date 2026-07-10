@@ -237,7 +237,7 @@ public class GameController {
       Recipe targetRecipe = null;
       for (int i = 0; i < recipeCompendium.size(); i++) {
           if (recipeCompendium.get(i).getId() == id) {
-            target = recipeCompendium.get(i);
+            targetRecipe = recipeCompendium.get(i);
           }
       }
 
@@ -274,6 +274,7 @@ public class GameController {
             }
         }
       }
+  }
  
  /**
    * Handles free-form brewing where the player selects a base and up to 3 fruits
