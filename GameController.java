@@ -31,7 +31,7 @@ public class GameController {
               String[] data = fileScanner.nextLine().split(",", -1);
               if (data.length >= 4) {
                   Recipe r = new Recipe(Integer.parseInt(data[0]), data[1], data[2], Integer.parseInt(data[3]));
-                  if (data.length > 4 && !data[4].isEmpty()) { r.addaddRequiredFruit(data[4]); }
+                  if (data.length > 4 && !data[4].isEmpty()) { r.addRequiredFruit(data[4]); }
                   if (data.length > 5 && !data[5].isEmpty()) { r.addaddRequiredFruit(data[5]); }
                   if (data.length > 6 && !data[6].isEmpty()) { r.addaddRequiredFruit(data[6]); }
                   this.recipeCompendium.add(r);
@@ -171,12 +171,12 @@ public class GameController {
       }
 
     if (target != null) {
-        if (!currentPlayer.getInventory().checkIngredientAvailability(target.getBaseRequirement(), 1, true)) {
+        if (!currentPlayer.getInventory().checkIngredientAvailability(target.getBaseName(), 1, true)) {
             System.out.println("Error: Insufficient ingredients.");
             return;
         }
-        for (int i = 0; i < target.getFruitRequirements().size(); i++) {
-            if (!currentPlayer.getInventory().checkIngredientAvailability(target.getFruitRequirements().get(i), 1, false)) {
+        for (int i = 0; i < target.getRequiredFruits().size(); i++) {
+            if (!currentPlayer.getInventory().checkIngredientAvailability(target.getRequiredFruits().get(i), 1, false)) {
                 System.out.println("Error: Insufficient ingredients.");
                 return;
             }
@@ -184,9 +184,9 @@ public class GameController {
 
         System.out.print("Confirm Brew? (Y/N): ");
         if (scanner.nextLine().equalsIgnoreCase("Y")){
-            currentPlayer.getInventory().removeBase(target.getBaseRequirement(), 1);
-            for (int i = 0; i < target.getFruitRequirements().size(); i++) {
-                currentPlayer.getInventory().removeFruit(target.getFruitRequirements().get(i), 1);
+            currentPlayer.getInventory().removeBase(target.getBaseName(), 1);
+            for (int i = 0; i < target.getRequiredFruits().size(); i++) {
+                currentPlayer.getInventory().removeFruit(target.getRequiredFruits().get(i), 1);
             }
             System.out.println("Successfully brewed " + target.getName() + " and sold for " + target.getPrice() + "!");
             currentPlayer.addCrystals(target.getPrice());
@@ -297,9 +297,9 @@ public class GameController {
 
       market.displayMarket();
       System.out.print("Enter slots to buy (comma-seperated, example: 1,4) or 'EXIT': ");
-      String input = scanner.nextline();
+      String input = scanner.nextLine();
 
-      if (!input.equalsIgnoreCase("EXIT)) {
+      if (!input.equalsIgnoreCase("EXIT")) {
           String[] choices = input.split(",");
           for (int i = 0; i < choices.length; i++) {
               try {
