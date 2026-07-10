@@ -170,7 +170,7 @@ public class Inventory {
      */
     public void ruinOneCauldron() {
       boolean ruined = false;
-      for (int i = 0; i < this.cauldrons.size(); i++) {
+      for (int i = 0; i < this.cauldrons.size() && !ruined; i++) {
         if (this.cauldrons.get(i).checkUsability()) {
           this.cauldrons.get(i).ruinCauldron();
           ruined = true;
@@ -185,7 +185,7 @@ public class Inventory {
      */
     public void blessOneCauldron() {
       boolean blessed = false;
-      for (int i = 0; i < this.cauldrons.size(); i++) {
+      for (int i = 0; i < this.cauldrons.size() && !blessed; i++) {
         if (!this.cauldrons.get(i).checkUsability()) {
           this.cauldrons.get(i).blessCauldron();
           blessed = true;
