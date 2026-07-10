@@ -3,7 +3,10 @@
  */
 
 public class Game {
-	
+
+   /**
+	 * Default constructor for the Game class.
+	 */
 	public Game() {
 		
 	}
