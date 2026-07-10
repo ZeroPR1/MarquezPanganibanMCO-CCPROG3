@@ -41,7 +41,7 @@ public class GameController {
   /**
    * Constructs a new gameController and creates the games' core system
    * <p><b>Pre-conditions:</b> None.</p>
-   * <p><b>Post-conditions:<b> The scanner, recipe compendium, and market are created
+   * <p><b>Post-conditions:</b> The scanner, recipe compendium, and market are created
    * Tracks are reset, and the compendium is loaded from the external file.</p>
    */
   public GameController() {
@@ -56,7 +56,7 @@ public class GameController {
  /**
    * Loads the recipes from the POTION COMPENDIUM.csv file.
    * <p><b>Pre-conditions:</b> The recipeCompendium list must be created.</p>
-   * <p><b>Post-conditions:<b> If the file exists and is formally correctly, recipeCompendium
+   * <p><b>Post-conditions:</b> If the file exists and is formally correctly, recipeCompendium
    * is populated with Recipe objects. If the file is missing, an error is printed and the list remains empty.</p>
    */
   private void loadCompendium() { //darshan
@@ -87,7 +87,7 @@ public class GameController {
  /**
    * Initiates the game startup sequence, allowing the user to start a new game or load a save
    * <p><b>Pre-conditions:</b> The GameController must be created.</p>
-   * <p><b>Post-conditions:<b> A valid Player object is created (either new or loaded)
+   * <p><b>Post-conditions:</b> A valid Player object is created (either new or loaded)
    * and the game proceeds to the main menu loop.</p>
    */
   public void startGame() {
@@ -132,7 +132,7 @@ public class GameController {
   /**
    * Manages the main interactive loop of the game, displaying the primary options
    * <p><b>Pre-conditions:</b> A valid currentPlayer must exist.</p>
-   * <p><b>Post-conditions:<b> The game contninues until the player chooses to exit, at which
+   * <p><b>Post-conditions:</b> The game contninues until the player chooses to exit, at which
    * point the game state is saved and the loop stops.</p>
    */
   public void mainMenuLoop() { //kyle
@@ -179,7 +179,7 @@ public class GameController {
   /**
    * Displays and manages the brewing sub menu.
    * <p><b>Pre-conditions:</b> A valid currentPlayer must be present.</p>
-   * <p><b>Post-conditions:<b> Routes the user to either Recipe Mode, Creative Mode, or returns them to the main menu.</p>
+   * <p><b>Post-conditions:</b> Routes the user to either Recipe Mode, Creative Mode, or returns them to the main menu.</p>
    */
   private void brewMenu() { //kyle
     boolean brewing = true;
@@ -369,7 +369,7 @@ public class GameController {
    * @param name the name of the ingredient.
    * @return the integer price of the ingredient, or 0 if not found
    * <p><b>Pre-conditions:</b> The name provided is a non-null String.</p>
-   * <p><b>Post-conditions:<b> The correct integer price is returned.</p>
+   * <p><b>Post-conditions:</b> The correct integer price is returned.</p>
    */
   private int getIngredientPrice(String name) {
       int price;
