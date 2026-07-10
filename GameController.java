@@ -241,6 +241,15 @@ public class GameController {
               boolean canBrew = true;
               if (!currentPlayer.getInventory().checkIngredientAvailability(targetRecipe.getBaseName(), 1 true)) {
                 canBrew = false;
+              } else {
+                  for (int i = 0; i < targetRecipe.getRequiredFruits().size(); i++) {
+                      if (!currentPlayer.getInventory().checkIngredientAvailability(targetRecipe.getRequiredFruits().get(i), 1, false)) {
+                          canBrew = false;
+                      }
+                  }
+                  if (!canBrew) {
+                      System.out.println("Error: Insufficient fruit ingredients.");
+                  }
               }
 
 
