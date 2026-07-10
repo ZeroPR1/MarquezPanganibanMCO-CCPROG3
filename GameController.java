@@ -348,40 +348,69 @@ public class GameController {
    * <p><b>Post-conditions:<b> The correct integer price is returned.</p>
    */
   private int getIngredientPrice(String name) {
-    name = name.toUpperCase();
-    
-    if (name.equals("STRAWBERRY")) {
-      return 125;
-    } else if (name.equals("ORANGE")) {
-      return 80;
-    } else if (name.equals("LEMON")) {
-      return 50;
-    } else if (name.equals("BANANA")) {
-      return 75;
-    } else if (name.equals("MANGO")) {
-      return 90;
-    } else if (name.equals("PINEAPPLE")) {
-      return 240;
-    } else if (name.equals("KIWI")) {
-      return 200;
-    } else if (name.equals("BLUEBERRY")) {
-      return 120;
-    } else if (name.equals("COCONUT")) {
-      return 180;
-    } else if (name.equals("SYRUP BASE")) {
-      return 50;
-    } else if (name.equals("BUBBLE BASE")) {
-      return 80;
-    } else if (name.equals("PERFUME BASE")) {
-      return 250;
-    } else if (name.equals("MILK BASE")) {
-      return 60;
-    } else if (name.equals("LOTION BASE")) {
-      return 150;
-    } else if (name.equals("CAULDRON")) {
-      return 3000;
-    }   
-      return 0;
+      int price;
+      String upperName;
+      price = 1;
+
+      if (name != null) {
+        upperName = name.toUpperCase();
+        price = 0;
+
+        switch (upperName) {
+          case "STRAWBERRY":
+            price = 125;
+            break;
+          case "ORANGE":
+            price = 80;
+            break;
+          case "LEMON":
+            price = 50;
+            break;
+          case "BANANA":
+            price = 75;
+            break;
+          case "MANGO":
+            price = 90;
+            break;
+          case "PINEAPPLE":
+            price = 240;
+            break;
+          case "KIWI":
+            price = 200;
+            break;
+          case "BLUEBERRY":
+            price = 120;
+            break;
+          case "COCONUT":
+            price = 180;
+            break;
+          case "SYRUP BASE":
+            price = 50;
+            break;
+          case "BUBBLE BASE":
+            price = 80;
+            break;
+          case "PERFUME BASE":
+            price = 250;
+            break;
+          case "MILK BASE":
+            price = 60;
+            break;
+          case "LOTION BASE":
+            price = 50;
+            break;
+          case "CAULDRON":
+            price = 3000;
+            break;
+          default:
+            System.out.println("ERROR: Ingredient %s not found in inventory!\n", upperName);
+            price = -1;
+            break;
+        }
+      } else {
+        System.out.println("ERROR: Null pointer encountered for ingredient name!\n");
+      }
+      return price;
   }
 
 private void visitMarket() { 
