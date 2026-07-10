@@ -25,7 +25,7 @@ public class IngredientSlot {
    * @param itemName The name of the item to place in the slot.
    * @param quantity The initial quantity of the item available.
    * <p><b>Pre-conditions:</b> itemName must be a valid String and quantity is a valid integer.</p>
-   * <p><b>Post-conditions:<b> A new IngredientSlot object is instantiated with the provided data.</p>
+   * <p><b>Post-conditions:</b> A new IngredientSlot object is instantiated with the provided data.</p>
    */
   public IngredientSlot(String itemName, int quantity) {
     this.itemName = itemName;
@@ -36,7 +36,7 @@ public class IngredientSlot {
    * Retrieves the name of the item currently in this slot.
    * @return The String name of the item.
    * <p><b>Pre-conditions:</b> None.</p>
-   * <p><b>Post-conditions:<b> The itemName attribute is returned.</p>
+   * <p><b>Post-conditions:</b> The itemName attribute is returned.</p>
    */
   public String getItemName() {
     return this.itemName;
@@ -46,7 +46,7 @@ public class IngredientSlot {
    * Retrieves the current quantity of the item in this slot.
    * @return The integer amount of the item currently available.
    * <p><b>Pre-conditions:</b> None.</p>
-   * <p><b>Post-conditions:<b> The quantity attribute is returned.</p>
+   * <p><b>Post-conditions:</b> The quantity attribute is returned.</p>
    */
   public int getQuantity() {
     return this.quantity;
@@ -55,7 +55,7 @@ public class IngredientSlot {
   /**
    * Clears the current slot, removing the item and resetting the quantity to zero.
    * <p><b>Pre-conditions:</b> None.</p>
-   * <p><b>Post-conditions:<b> The itemName is set to "Empty" and the quantity is set to 0.</p>
+   * <p><b>Post-conditions:</b> The itemName is set to "Empty" and the quantity is set to 0.</p>
    */
   public void emptySlot() {
     this.itemName = "Empty";
