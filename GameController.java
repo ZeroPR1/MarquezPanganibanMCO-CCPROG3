@@ -413,7 +413,14 @@ public class GameController {
       return price;
   }
 
+ /**
+   * Manages the player's interactions with the Market (buying and selling).
+   * <p><b>Pre-conditions:</b> currentPlayer and market must be properly initialized.</p>
+   * <p><b>Post-conditions:</b> Player inventory and crystal balance may be altered. Market slots may be emptied. 
+   * If the brew threshold is met, the market is refreshed prior to entry.</p>
+   */
 private void visitMarket() { 
+  // Refresh market if the player has brewed enough potions
       if (brewsSinceMarket >= 3) {
           market.refreshMarket();
           brewsSinceMarket = 0;
@@ -435,6 +442,7 @@ private void visitMarket() {
               String input = scanner.nextLine();
 
               if (!input.equalsIgnoreCase("EXIT")) {
+                // Process multi-slot purchases
                   String[] choices = input.split(",");
                   for (int i = 0; i < choices.length; i++) {
                       try {
@@ -447,6 +455,7 @@ private void visitMarket() {
                               String purchasedName = s.getItemName();
                               int purchasedQty = s.getQuantity();
 
+                            // Attempt transaction and route item to correct inventory category
                               if (currentPlayer.deductCrystals(totalPrice)) {
                                   s.emptySlot();
                                   System.out.println("Success! Bought " + purchasedQty + "x " + purchasedName + " for " + totalPrice + " crystals!");
@@ -478,7 +487,8 @@ private void visitMarket() {
                       try {
                           int sellQty = Integer.parseInt(scanner.nextLine());
                           int sellPrice = getSellPrice(sellName) * sellQty;
-                          
+
+                        // Check which inventory collection to remove the item from
                           boolean hasItem = false;
                           if (sellName.contains("BASE")) {
                               hasItem = currentPlayer.getInventory().removeBase(sellName, sellQty);
@@ -505,7 +515,14 @@ private void visitMarket() {
           }
       }
   }
-
+  
+ /**
+   * Returns the selling price for an ingredient, which is generally lower than the purchase price.
+   * @param name The name of the ingredient to sell.
+   * @return The integer sell price of the ingredient, or 0 if not found.
+   * <p><b>Pre-conditions:</b> The provided name is a non-null String.</p>
+   * <p><b>Post-conditions:</b> The correct integer sell price is returned.</p>
+   */
   private int getSellPrice(String name) {
       name = name.toUpperCase();
       int price = 0;
@@ -526,7 +543,12 @@ private void visitMarket() {
       return price;
   }
 
-  
+  /**
+   * Grants the player a random ingredient once per session.
+   * <p><b>Pre-conditions:</b> loginBonusClaimed must be tracked for the current session.</p>
+   * <p><b>Post-conditions:</b> If unclaimed, a random item is added to the players inventory 
+   * and the flag is set to true. If already claimed, no action is taken.</p>
+   */
   private void claimLoginBonus() { //kyle
     if (this.loginBonusClaimed == true) {
       System.out.println("You have already claimed your login bonus for this session!");
@@ -539,7 +561,8 @@ private void visitMarket() {
     Random rand = new Random();
     int randomIndex = rand.nextInt(possibleItems.length);
     String randomItem = possibleItems[randomIndex];
-    
+
+    // Route to correct inventory type
     if (randomItem.contains("BASE")) {
       currentPlayer.getInventory().addBase(randomItem, 1);
     } else {
@@ -550,6 +573,12 @@ private void visitMarket() {
     System.out.println("Login Bonus Claimed! You received 1x " + randomItem + ".");
     }
   }
+
+  /**
+   * Allows the player to repair a ruined cauldron for a crystal fee.
+   * <p><b>Pre-conditions:</b> The player must have at least one unusable cauldron and enough crystals (1000).</p>
+   * <p><b>Post-conditions:</b> If conditions are met, 1000 crystals are deducted and one cauldron is restored.</p>
+   */
   private void blessCauldronLogic() { //kyle
     int brokenCauldrons = currentPlayer.getInventory().getUnusableCauldronCount();
     
@@ -588,6 +617,13 @@ private void visitMarket() {
       }
   }
 
+  /**
+   * Saves the current player state to a text file.
+   * //darshan
+   * <p><b>Pre-conditions:</b> currentPlayer must be fully populated with valid state data.</p>
+   * <p><b>Post-conditions:</b> A text file named "[PlayerName].txt" is created containing the player's 
+   * crystals, inventory data, cauldron counts, and spell book data.</p>
+   */
   private boolean loadSaveFile(String name) { //darshan
       boolean isSuccess = false;
       try {
@@ -595,12 +631,15 @@ private void visitMarket() {
           if (!file.exists()) { return false; }
 
           Scanner fileScanner = new Scanner(file);
+
+          // Reconstruct basic player state
           String playerName = fileScanner.nextLine();
           this.currentPlayer = new Player(playerName);
           int crystals = Integer.parseInt(fileScanner.nextLine());
           this.currentPlayer.deductCrystals(5000);
           this.currentPlayer.addCrystals(crystals);
 
+          // Parse and populate Fruit Inventory
           String fruitLine = fileScanner.nextLine().replace("Fruits: ", "");
           if (!fruitLine.isEmpty()) {
               String[] fruits = fruitLine.split(",");
@@ -612,6 +651,7 @@ private void visitMarket() {
               }
           }
 
+          // Parse and populate Base Inventory
           String baseLine = fileScanner.nextLine().replace("Bases: ", "");
           if (!baseLine.isEmpty()) {
               String[] bases = baseLine.split(",");
@@ -623,15 +663,18 @@ private void visitMarket() {
               }
           }
 
+          // Parse and populate Cauldrons
           String cauldronLine = fileScanner.nextLine().replace("Cauldrons:", "");
           String[] cauldronCounts = cauldronLine.split(",");
           int usable = Integer.parseInt(cauldronCounts[0]);
           int unusable = Integer.parseInt(cauldronCounts[1]);
           int totalCauldrons = usable + unusable;
 
+          // Player starts with 3 by default, add only the extras beyond 3
           for (int i = 3; i < totalCauldrons; i++) {
               currentPlayer.getInventory().addCauldron();
           }
+          // Ruin the appropriate amount to match the save state
           for (int i = 0; i < unusable; i++) {
               currentPlayer.getInventory().ruinOneCauldron();
           }
@@ -642,6 +685,7 @@ private void visitMarket() {
               for (int i = 0; i < recipeIds.length; i++) {
                   if (!recipeIds[i].isEmpty()) {
                       int id = Integer.parseInt(recipeIds[i]);
+                      // Cross-reference the saved ID with the loaded compendium
                       for (int j = 0; j < recipeCompendium.size(); j++){
                           if (recipeCompendium.get(j).getId() == id) {
                               currentPlayer.getSpellbook().addRecipe(recipeCompendium.get(j));
