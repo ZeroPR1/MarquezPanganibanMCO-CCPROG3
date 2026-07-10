@@ -1,3 +1,10 @@
+/**
+ * GameController.java
+ * This file contains the GameController class, which serves as the core engine
+ * for Potion Prodigy. It handles the main game loop, user menus, crafting mechanics, 
+ * market interactions, and file input/output for saving and loading player states.
+ */
+
 import java.util.Scanner;
 import java.util.ArrayList;
 import java.io.File;
@@ -6,15 +13,32 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Random;
 
+/**
+ * Manages the primary flow, menus, and state of the game.
+ * This class coordinates interactions between the Player, Market, and Recipe Compendium,
+ * while processing console-based user inputs.
+ */
 public class GameController {
+
+  /** The player entity currently engaged in the game. */
   private Player currentPlayer;
+
+  /** The market instance where the player can buy and sell items. */
   private Market market;
+
+  /** A comprehensive list of all available recipes in the game. */
   private ArrayList<Recipe> recipeCompendium;
+
+  /** Tracks the number of potions brewed since the market was last refreshed. */
   private boolean loginBonusClaimed;
+
+  /** Tracks the number of potions brewed since the market was last refreshed. */
   private int brewsSinceMarket;
+
+  /** Scanner object used to read console input from the user. */
   private Scanner scanner;
 
-  public GameController() { //darshan
+  public GameController() {
       this.scanner = new Scanner(System.in);
       this.recipeCompendium = new ArrayList<Recipe>();
       this.market = new Market();
