@@ -397,38 +397,69 @@ public class GameController {
 
   private boolean loadSaveFile(String name) { //darshan
       try {
-          Scanner fs = new Scanner(new File(name + ".txt"));
-          this.currentPlayer = new Player(fs.nextLine());
-          this.currentPlayer = deductCrystals(5000);
-          this.currentPlayer.addCrystals(Integer.parseInt(fs.nextLine()));
+          File file = new File(name + ".txt");
+          if (!file.exists()) { return false; }
 
-          String[] fruits = fs.nextLine().replace("Fruits:", "").split(",");
-          for (int i = 0; i < fruits.length && fruits[0].length() > 0; i++) {
-              String[] p = fruits[i].split("=");
-              currentPlayer.getInventory().addFruit(p[0], Integer.parseInt(p[1]));
-          }
+          Scanner fileScanner = new Scanner(file);
+          String playerName = fileScanner.nextLine();
+          this.currentPlayer = new Player(playerName);
+          int crystals = Integer.parseInt(fileScanner.nextLine());
+          this.currentPlayer.deductCrystals(5000);
+          this.currentPlayer.addCrystals(crystals);
 
-          String[] bases = fs.nextLine().replace("Bases:", "").split(",");
-          for (int i = 0; i < bases.length && bases[0].length() > 0; i++) {
-              String[] p = bases[i].split("=");
-              currentPlayer.getInventory().addBase(p[0], Integer.parseInt(p[1]));
-          }
-
-          int unusable = Integer.parseInt(fs.nextLine().replace("Cauldrons:", "").split(",")[1]);
-          for (int i = 0; i < unusable; i++) { currentPlayer.getInventory().ruinOneCauldron(); }
-
-          if (fs.hasNextLine()) {
-              String[] spells = fs.nextLine().replace("Spellbook:", "").split(",");
-              for (int i = 0; i < spells.length && spells[0].length() > 0; i++) {
-                for (int j = 0; j < recipeCompendium.size(); j++) {
-                    if (recipeCompendium.get(j).getId().equals(spells[i])) {
-                        currentPlayer.getSpellbook().addRecipe(recipeCompendium.get(j));
-                }
+          String fruitLine = fileScanner.nextLine().replace("Fruits: ", "");
+          if (!fruitLine.isEmpty()) {
+              String[] fruits = fruitLine.split(",");
+              for (int i = 0; i < fruits.length; i++) {
+                  if (!fruits[i].isEmpty()) {
+                      String[] parts = fruits[i].split("=");
+                      currentPlayer.getInventory().addFruit(parts[0], Integer.parseInt(parts[1]));
+                  }
               }
-            }
           }
-          fs.close();
+
+          String baseLine = fileScanner.nextLine().replace("Bases: ", "");
+          if (!baseLine.isEmpty()) {
+              String[] fruits = baseLine.split(",");
+              for (int i = 0; i < bases.length; i++) {
+                  if (!bases[i].isEmpty()) {
+                      String[] parts = bases[i].split("=");
+                      currentPlayer.getInventory().addBase(parts[0], Integer.parseInt(parts[1]));
+                  }
+              }
+          }
+
+          String cauldronline = fileScanner.nextLine().replace("Cauldrons:", "");
+          String[] cauldronCounts = cauldronLine.split(",");
+          int usable = Integer.parseInt(cauldronCounts[0]);
+          int unusable = Integer.parseInt(cauldronCounts[1]);
+          int totalCauldrons = usable + unusable;
+
+          for (int i = 3; i < totalCauldrons; i++) {
+              currentPlayer.getInventory().addCauldron();
+          }
+          for (int i = 0; i < unusable; i++) {
+              currentPlayer.getInventory().ruinOneCauldron();
+          }
+
+          String spellbookLine = fileScanner.nextLine().replace("Spellbook:", "");
+          if (!spellbookLine.isEmpty()) {
+              String[] recipeIds = spellbookLine.split(",");
+              for (int i = 0; i < recipeIds.length; i++) {
+                  if (!recipeIds[i].isempty()) {
+                      int id = Integer.parseInt(recipeIds[i]);
+                      for (int j = 0; j < recipeCompendium.size(); j++){
+                          if (recipeCompendium.get(j).getId() == id) {
+                              currentPlayer.getSpellbook().addRecipe(recipeCompendium.get(j));
+                          }
+                      }
+                  }
+              }
+          }
+
+          fileScanner.close();
           return true;
-    } catch (Exception e) { return false; }
+
+      } catch (Exception e) { return false; }
+      }
   }
-}
