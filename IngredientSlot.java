@@ -4,7 +4,6 @@
  * IngredientSlot.java
  * This file contains the IngredientSlot class, which represents a single
  * slot within the market, holding a specific item and its available quantity.
- * (Note: Dictated by Kyle Marquez via Discord/Messenger due to hardware issues).
  */
 
 /**
