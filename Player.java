@@ -1,3 +1,8 @@
+/**
+ * Player.java
+ * * This file serves as the primary entity for a user in the game.
+ * It manages the player's identity, currency, items and abilities.
+ */
 public class Player{
   private String name;
   private int crystals;
