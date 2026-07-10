@@ -14,10 +14,10 @@ public class Spellbook{
     }
   }
 
-  public boolean hasRecipe(String id) {
-    boolean found = false
+  public boolean hasRecipe(int id) {
+    boolean found = false;
     for (int i = 0; i < this.unlockedRecipes.size(); i++){
-      if (this.unlockedRecipes.get(i).getId().equals(id)){
+      if (this.unlockedRecipes.get(i).getId() == id){
         found = true;
       }
     }
