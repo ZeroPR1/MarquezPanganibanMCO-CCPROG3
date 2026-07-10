@@ -15,51 +15,60 @@ public class Inventory {
   }
 
     public void addFruit(String name, int quantity){
+      boolean found = false;
       for (int i = 0; i < this.fruits.size(); i++){
           if (this.fruits.get(i).getName().equals(name)){
               this.fruits.get(i).addQuantity(quantity);
-              return;
+              found = true;
           }
       }
-      this.fruits.add(new Ingredient(name, quantity));
+      if (!found){
+          this.fruits.add(new Ingredient(name, quantity)); 
+      }
     }
 
     public boolean removeFruit(String name, int quantity){
+        boolean success = false
         for (int i = 0; i < this.fruits.size(); i++){
           if (this.fruits.get(i).getName().equals(name)){
-              return this.fruits.get(i).deductQuantity(quantity);
+              success = this.fruits.get(i).deductQuantity(quantity);
           }
         }
-        return false;
+        return success;
     }
 
     public void addBase(String name, int quantity){
+        boolean found = false;
         for (int i = 0; i < this.bases.size(); i++){
             if (this.bases.get(i).getName().equals(name)){
                 this.bases.get(i).addQuantity(quantity);
-                return;
+                found = true;
             }
         }
-        this.bases.add(new Ingredient(name, quantity));
+        if (!found) {
+            this.bases.add(new Ingredient(name, quantity));
+        }
     }
     
     public boolean removeBase(String name, int quantity) {
+      boolean success = false;
       for (int i = 0; i < this.bases.size(); i++) {
         if (this.bases.get(i).getName().equals(name)) {
-          return this.bases.get(i).deductQuantity(quantity);
+            success = this.bases.get(i).deductQuantity(quantity);
         }
       }
-      return false;
+      return success;
     }
     
     public boolean checkIngredientAvailability(String name, int requiredQty, boolean isBase) {
+      boolean available = false;
       ArrayList<Ingredient> listToCheck = isBase ? this.bases : this.fruits;
       for (int i = 0; i < listToCheck.size(); i++) {
         if (listToCheck.get(i).getName().equals(name) && listToCheck.get(i).getQuantity() >= requiredQty) {
-          return true;
+          available = true;
         }
       }
-      return false;
+      return available;
     }
     
     public int getUsableCauldronCount() {
@@ -75,19 +84,21 @@ public class Inventory {
     }
     
     public void ruinOneCauldron() {
+      boolean ruined = false;
       for (int i = 0; i < this.cauldrons.size(); i++) {
         if (this.cauldrons.get(i).checkUsability()) {
           this.cauldrons.get(i).ruinCauldron();
-          return;
+          ruined = true;
         }
       }
     }
     
     public void blessOneCauldron() {
+      boolean blessed = false;
       for (int i = 0; i < this.cauldrons.size(); i++) {
         if (!this.cauldrons.get(i).checkUsability()) {
           this.cauldrons.get(i).blessCauldron();
-          return;
+          blessed = true;
         }
       }
     }
