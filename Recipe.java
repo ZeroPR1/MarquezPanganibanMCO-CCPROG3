@@ -119,7 +119,7 @@ public class Recipe {
     if (!this.baseName.equals(inputBase) || this.requiredFruits.size() != inputFruits.size()) {
       isMatch = false;
     } else {
-      for (int i = 0; i < this.requiredFruits.size() && matches; i++) {
+      for (int i = 0; i < this.requiredFruits.size() && isMatch; i++) {
         String required = this.requiredFruits.get(i);
         if (!inputFruits.contains(required)) {
           isMatch = false;
