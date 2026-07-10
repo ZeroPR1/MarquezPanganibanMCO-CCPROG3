@@ -9,7 +9,7 @@ public class Game {
 	}
 	/**
      * The main entry point for the application.
-     * * @param args Command line arguments (not used).
+     * @param args Command line arguments (not used).
      */
   public static void main(String[] args){
     GameController gameController = new GameController();
