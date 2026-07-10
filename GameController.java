@@ -128,7 +128,13 @@ public class GameController {
     
       mainMenuLoop();
   }
-
+  
+  /**
+   * Manages the main interactive loop of the game, displaying the primary options
+   * <p><b>Pre-conditions:</b> A valid currentPlayer must exist.</p>
+   * <p><b>Post-conditions:<b> The game contninues until the player chooses to exit, at which
+   * point the game state is saved and the loop stops.</p>
+   */
   public void mainMenuLoop() { //kyle
     boolean playing = true;
     
@@ -145,7 +151,8 @@ public class GameController {
       System.out.print("What would you like to do? ");
       
       String choice = scanner.nextLine();
-      
+
+      // Route user to the appropriate sub-menus or actions based on the selection of the user
       if (choice.equals("1")) {
         brewMenu();
       } else if (choice.equals("2")) {
