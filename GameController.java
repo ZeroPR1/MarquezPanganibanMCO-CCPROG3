@@ -156,7 +156,7 @@ public class GameController {
   private void recipeMode() { //darshan
       currentPlayer.getSpellbook().displaySpellbook();
       System.out.print("Enter Recipe ID to brew: ");
-      String id = scanner.nextLine();
+      int id = Integer.parseInt(scanner.nextLine());
 
       if (!currentPlayer.getSpellbook().hasRecipe(id)) {
         System.out.println("Error: Recipe not unlocked");
@@ -286,7 +286,7 @@ public class GameController {
     } else if (name.equals("CAULDRON")) {
       return 3000;
     }   
-      return 0
+      return 0;
   }
 
   private void visitMarket() { //darshan
