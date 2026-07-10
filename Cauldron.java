@@ -23,12 +23,10 @@ public class Cauldron {
     this.isUsable = true;
   }
 
-  /**
-   * Checks the current operational status of the cauldron.
-   * * @return true if the cauldron can be used for brewing, false if otherwise
-   * <p><b>Pre-conditions:</b> The cauldron object must be created.</p>
-   * <p><b>Post-conditions:</b> The current usability state is returned. The state of the cauldron is unchanged</p>
-   */ 
+/**
+   * Checks if the cauldron is currently in a usable state.
+   * @return true if the cauldron is usable, false if it is ruined.
+   */
   public boolean checkUsability() {
     return this.isUsable;
   }
