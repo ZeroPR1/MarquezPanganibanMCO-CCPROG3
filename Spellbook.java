@@ -19,7 +19,7 @@ public class Spellbook{
   /**
    * Constructs a new Spellbook with an empty list of unlocked recipes.
    * <p><b>Pre-conditions:</b> None.</p>
-   * <p><b>Post-conditions:<b> The unlockedRecipes ArrayList is initialized and empty.</p>
+   * <p><b>Post-conditions:</b> The unlockedRecipes ArrayList is initialized and empty.</p>
    */
   public Spellbook() {
     this.unlockedRecipes = new ArrayList<Recipe>();
@@ -29,7 +29,7 @@ public class Spellbook{
    * Adds a newly discovered recipe to the spellbook if it hasn't been unlocked yet.
    * @param newRecipe The Recipe object to add.
    * <p><b>Pre-conditions:</b> newRecipe must be a valid, fully populated Recipe object.</p>
-   * <p><b>Post-conditions:<b> If the recipe ID is not already in the spellbook, it is added to the 
+   * <p><b>Post-conditions:</b> If the recipe ID is not already in the spellbook, it is added to the 
    * unlockedRecipes list and a success message is printed.</p>
    */
   public void addRecipe(Recipe newRecipe){
@@ -44,7 +44,7 @@ public class Spellbook{
    * @param id The integer ID of the recipe to check.
    * @return True if the recipe is in the spellbook, false otherwise.
    * <p><b>Pre-conditions:</b> None.</p>
-   * <p><b>Post-conditions:<b> Returns true if the ID matches an existing recipe, without modifying state.</p>
+   * <p><b>Post-conditions:</b> Returns true if the ID matches an existing recipe, without modifying state.</p>
    */
   public boolean hasRecipe(int id) {
     boolean found = false;
@@ -59,7 +59,7 @@ public class Spellbook{
   /**
    * Sorts and displays all currently unlocked recipes in ascending order by their ID.
    * <p><b>Pre-conditions:</b> None.</p>
-   * <p><b>Post-conditions:<b> The unlockedRecipes list is sorted via bubble sort, and the 
+   * <p><b>Post-conditions:</b> The unlockedRecipes list is sorted via bubble sort, and the 
    * ID, name, and price of each recipe are printed to the console.</p>
    */
   public void displaySpellbook() { //displays all unlocked recipes sorted by concotion
@@ -92,7 +92,7 @@ public class Spellbook{
    * Compiles the IDs of all unlocked recipes into a formatted string for saving.
    * @return A comma-separated String containing the IDs of all unlocked recipes.
    * <p><b>Pre-conditions:</b> None.</p>
-   * <p><b>Post-conditions:<b> A formatted data string is returned representing the unlocked recipes.</p>
+   * <p><b>Post-conditions:</b> A formatted data string is returned representing the unlocked recipes.</p>
    */
   public String exportSpellbookData() {
     String data = "";
