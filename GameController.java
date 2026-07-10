@@ -530,8 +530,7 @@ private void visitMarket() {
   private void claimLoginBonus() { //kyle
     if (this.loginBonusClaimed == true) {
       System.out.println("You have already claimed your login bonus for this session!");
-      return;
-    }
+    } else {
     
     String[] possibleItems = {"STRAWBERRY", "ORANGE", "LEMON", "BANANA", "MANGO", 
                                 "PINEAPPLE", "KIWI", "BLUEBERRY", "COCONUT", "SYRUP BASE",
@@ -549,8 +548,8 @@ private void visitMarket() {
     
     this.loginBonusClaimed = true;
     System.out.println("Login Bonus Claimed! You received 1x " + randomItem + ".");
+    }
   }
-  
   private void blessCauldronLogic() { //kyle
     int brokenCauldrons = currentPlayer.getInventory().getUnusableCauldronCount();
     
