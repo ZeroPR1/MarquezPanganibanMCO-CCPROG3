@@ -67,7 +67,7 @@ public class Ingredient{
    * <p><b>Post-conditions:<b> If valid, the quantity is decreased by the amount and true is returned. 
    * Otherwise, the state remains unchanged and false is returned.</p>
    */
-  public boolean deductQuantity(int amount){]
+  public boolean deductQuantity(int amount){
     boolean success = false;
     
     if (amount > 0 && this.quantity >= amount){
