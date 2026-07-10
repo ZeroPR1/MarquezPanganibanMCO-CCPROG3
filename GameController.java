@@ -297,7 +297,47 @@ public class GameController {
               ArrayList<String> fruitList = new ArrayList<>();
               boolean validFruits = true;
 
-            
+              for (int i = 0; i < fruits.length && i < 3 && validFruits; i++) {
+                  String f = fruits[i].trim();
+                  if (fruitList.contains(f)) {
+                      System.out.println("Error: cannot repeat ingredients.");
+                      validFruits = false;
+                  } else if (!currentPlayer.getInventory().checkIngredientAvailability(f, 1, false)){
+                      System.out.println("Error: Insufficient " + f + ".");
+                      validFruits = false;
+                  } else {
+                      fruitList.add(f);
+                  }
+              }
+              if (validFruits) {
+                  System.out.print("Confirm brew? (Y/N): ");
+                  if (scanner.nextLine().equalsIgnoreCase("Y")) {
+                      currentPlayer.getInventory().removeBase(base, 1);
+                      for(int i = 0; i < fruitList.size(); i++) {
+                        currentPlayer.getInventory().removeFruit(fruitList.get(i), 1);
+                      }
+
+                      boolean success = false;
+                      for (int i = 0; i < recipeCompendium.size() && !success; i++) {
+                          if (recipeCompendium.get(i).matchesIngredients(base, fruitList)) {
+                              success = true;
+                              Recipe r = recipeCompendium.get(i);
+                              System.out.println("Success! Brewed " + r.getName() + "!");
+                              currentPlayer.addCrystals(r.getPrice());
+                              currentPlayer.getSpellbook().addRecipe(r);
+                              brewsSinceMarket++;
+                          }
+                      }
+
+                      if (!success) {
+                          System.out.println("Failure! the mixture exploded D: cauldron ruined :<");
+                          currentPlayer.getInventory().ruinOneCauldron();
+                          brewsSinceMarket++;
+                      }
+                  }   
+              }
+          }
+      }
   }
 
  /**
