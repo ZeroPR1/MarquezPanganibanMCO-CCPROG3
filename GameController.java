@@ -29,7 +29,7 @@ public class GameController {
   /** A comprehensive list of all available recipes in the game. */
   private ArrayList<Recipe> recipeCompendium;
 
-  /** Tracks the number of potions brewed since the market was last refreshed. */
+  /** Tracks if the login bonus has been claimed during the current session to prevent multiple claims. */
   private boolean loginBonusClaimed;
 
   /** Tracks the number of potions brewed since the market was last refreshed. */
