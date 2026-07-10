@@ -176,7 +176,11 @@ public class GameController {
     }
   }
 
-
+  /**
+   * Displays and manages the brewing sub menu.
+   * <p><b>Pre-conditions:</b> A valid currentPlayer must be present.</p>
+   * <p><b>Post-conditions:<b> Routes the user to either Recipe Mode, Creative Mode, or returns them to the main menu.</p>
+   */
   private void brewMenu() { //kyle
     boolean brewing = true;
     
