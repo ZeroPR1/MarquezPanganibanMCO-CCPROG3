@@ -83,12 +83,19 @@ public class GameController {
         System.out.println("Warning: POTION COMPENDIUM.csv not found.");    
       }
   }
-  
-  public void startGame() { //kyle
+
+ /**
+   * Initiates the game startup sequence, allowing the user to start a new game or load a save
+   * <p><b>Pre-conditions:</b> The GameController must be created.</p>
+   * <p><b>Post-conditions:<b> A valid Player object is created (either new or loaded)
+   * and the game proceeds to the main menu loop.</p>
+   */
+  public void startGame() {
     boolean gameStarted = false;
     
     System.out.println("Welcome to Potion Prodigy!");
-    
+
+    // Keep prompting until a new game is created or a save is loaded
     while (!gameStarted) {
       System.out.println("[1] New Game");
       System.out.println("[2] Load Existing Save");
