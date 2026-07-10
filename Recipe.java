@@ -40,18 +40,18 @@ public class Recipe {
   }
   
   public boolean matchesIngredients(String inputBase, ArrayList<String> inputFruits) {
-    boolean matches = true;
+    boolean isMatch = true;
     
     if (!this.baseName.equals(inputBase) || this.requiredFruits.size() != inputFruits.size()) {
-      matches = false;
+      isMatch = false;
     } else {
       for (int i = 0; i < this.requiredFruits.size() && matches; i++) {
         String required = this.requiredFruits.get(i);
         if (!inputFruits.contains(required)) {
-          matches = false;
+          isMatch = false;
         }
       }
     }
-    return matches;
+    return isMatch;
   }
 }
