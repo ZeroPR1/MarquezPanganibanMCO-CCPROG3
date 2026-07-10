@@ -15,19 +15,19 @@ public class Spellbook{
   }
 
   public boolean hasRecipe(String id) {
+    boolean found = false
     for (int i = 0; i < this.unlockedRecipes.size(); i++){
       if (this.unlockedRecipes.get(i).getId().equals(id)){
-        return true;
+        found = true;
       }
     }
-    return false;
+    return found;
   }
 
   public void displaySpellbook() { //displays all unlocked recipes sorted by concotion
     if (this.unlockedRecipes.isEmpty()) {
       System.out.println("Your spellbook is currently empty.");
-      return;
-    }
+    } else {
     //bubble sort to arrange by id in ascending order
     for (int i = 0; i < this.unlockedRecipes.size() - 1; i++) {
       for (int j = 0; j < this.unlockedRecipes.size() - i - 1; j++){
@@ -46,7 +46,8 @@ public class Spellbook{
     for (int i = 0; i < this.unlockedRecipes.size(); i++) {
         Recipe r = this.unlockedRecipes.get(i);
         System.out.println("ID: " + r.getId() + " | " + r.getName() + " (Sells for " + r.getPrice() + ")");
-    }  
+      }  
+    }
   }
 
   public String exportSpellbookData() {
