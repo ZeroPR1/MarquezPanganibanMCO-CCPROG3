@@ -217,64 +217,39 @@ public class GameController {
    * <p><b>Post-conditions:<b> If its successful, the ingredients are consumed, crystals are awarded
    * and the market brew counter increases. If unsuccessfull, the state remains unchanged .</p>
    */
-  private void recipeMode() { //darshan
-      currentPlayer.getSpellbook().displaySpellbook();
-      System.out.print("Enter Recipe ID to brew: ");
-      int id = Integer.parseInt(scanner.nextLine());
+  private void recipeMode() {
+    currentPlayer.getSpellbook().displaySpellbook();
+    System.out.print("Enter Recipe ID to brew: ");
 
-      // Validate the player actually knows the recipe
-      if (!currentPlayer.getSpellbook().hasRecipe(id)) {
-        System.out.println("Error: Recipe not unlocked");
-      } else {
-        Recipe target = null;
-        for (int i = 0; i < recipeCompendium.size(); i++) {
-            if (recipeCompendium.get(i).getId() == id) {
-              target = recipeCompendium.get(i);
-            }
-        }
+    try {
+        int id = Integer.parseInt(scanner.nextLine());
 
-      //Fetch the full recipe from the compendium
-      Recipe targetRecipe = null;
-      for (int i = 0; i < recipeCompendium.size(); i++) {
-          if (recipeCompendium.get(i).getId() == id) {
-            targetRecipe = recipeCompendium.get(i);
+        // Validate if the player actually knows the recipe
+        if (!currentPlayer.getSpellbook().hasRecipe(id)) {
+            System.out.println("Error: Recipe not unlocked");
+        } else {
+          //Fetch the recipe from the compendium
+          Recipe targetRecipe = null;
+          for (int i = 0; i < recipeCompendium.size(); i++) {
+              if (recipeCompendium.get(i).getId() == id) {
+                  targetRecipe = recipeCompendium.get(i);
+              }
           }
-      }
 
-    if (targetRecipe != null) {
-        // Check if the ingredient is available before consuming anything 
-
-        boolean canBrew = true;
-        if (!currentPlayer.getInventory().checkIngredientAvailability(targetRecipe.getBaseName(), 1, true)) {
-                System.out.println("Error: Insufficient base ingredient.");
+          if (targetRecipe != null) {
+              //Check if the ingredient is available before deleting anything
+              boolean canBrew = true;
+              if (!currentPlayer.getInventory().checkIngredientAvailability(targetRecipe.getBaseName(), 1 true)) {
                 canBrew = false;
-            } else {
-                for (int i = 0; i < targetRecipe.getRequiredFruits().size(); i++) {
-                    if (!currentPlayer.getInventory().checkIngredientAvailability(targetRecipe.getRequiredFruits().get(i), 1, false)) {
-                        canBrew = false;
-                    }
-                }
-                if (!canBrew) {
-                    System.out.println("Error: Insufficient fruit ingredients.");
-                }
-            }
+              }
 
-      if (canBrew) {
-                System.out.print("Confirm Brew? (Y/N): ");
-                if (scanner.nextLine().equalsIgnoreCase("Y")){
-                    currentPlayer.getInventory().removeBase(targetRecipe.getBaseName(), 1);
-                    for (int i = 0; i < targetRecipe.getRequiredFruits().size(); i++) {
-                        currentPlayer.getInventory().removeFruit(targetRecipe.getRequiredFruits().get(i), 1);
-                    }
-                    
-                    System.out.println("Successfully brewed " + targetRecipe.getName() + " and sold for " + targetRecipe.getPrice() + "!");
-                    currentPlayer.addCrystals(targetRecipe.getPrice());
-                    brewsSinceMarket++;
-                }
-            }
+
+            
+          }
         }
-      }
+    }
   }
+
  
  /**
    * Handles free-form brewing where the player selects a base and up to 3 fruits
