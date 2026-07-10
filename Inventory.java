@@ -25,7 +25,7 @@ public class Inventory {
   /**
    * Constructs a new Inventory with empty ingredient lists and three default cauldrons.
    * <p><b>Pre-conditions:</b> None.</p>
-   * <p><b>Post-conditions:<b> Lists for fruits, bases, and cauldrons are instantiated, 
+   * <p><b>Post-conditions:</b> Lists for fruits, bases, and cauldrons are instantiated, 
    * and three new usable Cauldron objects are added to the cauldrons list.</p>
    */
   public Inventory() {
@@ -42,7 +42,7 @@ public class Inventory {
    * @param name The name of the fruit to add.
    * @param quantity The amount of the fruit to add.
    * <p><b>Pre-conditions:</b> name is a valid non-null String and quantity is greater than 0.</p>
-   * <p><b>Post-conditions:<b> If the fruit exists, its quantity is increased. Otherwise, 
+   * <p><b>Post-conditions:</b> If the fruit exists, its quantity is increased. Otherwise, 
    * a new Ingredient object is created and added to the fruits list.</p>
    */
     public void addFruit(String name, int quantity){
@@ -64,7 +64,7 @@ public class Inventory {
      * @param quantity The amount of the fruit to deduct.
      * @return True if successfully removed, false if insufficient quantity or not found.
      * <p><b>Pre-conditions:</b> name is a valid non-null String and quantity is greater than 0.</p>
-     * <p><b>Post-conditions:<b> If the player has enough of the fruit, the quantity is deducted 
+     * <p><b>Post-conditions:</b> If the player has enough of the fruit, the quantity is deducted 
      * and true is returned. Otherwise, the inventory is unchanged and false is returned.</p>
      */
     public boolean removeFruit(String name, int quantity){
@@ -82,7 +82,7 @@ public class Inventory {
      * @param name The name of the base to add.
      * @param quantity The amount of the base to add.
      * <p><b>Pre-conditions:</b> name is a valid non-null String and quantity is greater than 0.</p>
-     * <p><b>Post-conditions:<b> If the base exists, its quantity is increased. Otherwise, 
+     * <p><b>Post-conditions:</b> If the base exists, its quantity is increased. Otherwise, 
      * a new Ingredient object is created and added to the bases list.</p>
      */
     public void addBase(String name, int quantity){
@@ -105,7 +105,7 @@ public class Inventory {
      * @param quantity The amount of the base to deduct.
      * @return True if successfully removed, false if insufficient quantity or not found.
      * <p><b>Pre-conditions:</b> name is a valid non-null String and quantity is greater than 0.</p>
-     * <p><b>Post-conditions:<b> If the player has enough of the base, the quantity is deducted 
+     * <p><b>Post-conditions:</b> If the player has enough of the base, the quantity is deducted 
      * and true is returned. Otherwise, the inventory is unchanged and false is returned.</p>
      */
     public boolean removeBase(String name, int quantity) {
@@ -125,7 +125,7 @@ public class Inventory {
      * @param isBase True if checking the bases list, false if checking the fruits list.
      * @return True if the ingredient exists in sufficient quantity, false otherwise.
      * <p><b>Pre-conditions:</b> name is a valid non-null String and requiredQty is greater than 0.</p>
-     * <p><b>Post-conditions:<b> Returns true if the condition is met without altering the inventory state.</p>
+     * <p><b>Post-conditions:</b> Returns true if the condition is met without altering the inventory state.</p>
      */
     public boolean checkIngredientAvailability(String name, int requiredQty, boolean isBase) {
       boolean available = false;
@@ -142,7 +142,7 @@ public class Inventory {
      * Calculates the number of cauldrons currently available for brewing.
      * @return The integer count of usable cauldrons.
      * <p><b>Pre-conditions:</b> The cauldrons list is initialized.</p>
-     * <p><b>Post-conditions:<b> The total count of usable cauldrons is returned.</p>
+     * <p><b>Post-conditions:</b> The total count of usable cauldrons is returned.</p>
      */
     public int getUsableCauldronCount() {
       int count = 0;
@@ -156,7 +156,7 @@ public class Inventory {
      * Calculates the number of cauldrons that are ruined and cannot be used.
      * @return The integer count of unusable cauldrons.
      * <p><b>Pre-conditions:</b> The cauldrons list is initialized.</p>
-     * <p><b>Post-conditions:<b> The total count of unusable cauldrons is returned.</p>
+     * <p><b>Post-conditions:</b> The total count of unusable cauldrons is returned.</p>
      */
     public int getUnusableCauldronCount() {
       return this.cauldrons.size() - getUsableCauldronCount();
@@ -166,7 +166,7 @@ public class Inventory {
     /**
      * Changes the state of one usable cauldron to ruined.
      * <p><b>Pre-conditions:</b> There must be at least one usable cauldron in the inventory.</p>
-     * <p><b>Post-conditions:<b> The first encountered usable cauldron is set to a ruined state.</p>
+     * <p><b>Post-conditions:</b> The first encountered usable cauldron is set to a ruined state.</p>
      */
     public void ruinOneCauldron() {
       boolean ruined = false;
@@ -181,7 +181,7 @@ public class Inventory {
     /**
      * Restores one ruined cauldron back to a usable state.
      * <p><b>Pre-conditions:</b> There must be at least one unusable cauldron in the inventory.</p>
-     * <p><b>Post-conditions:<b> The first encountered ruined cauldron is restored to usability.</p>
+     * <p><b>Post-conditions:</b> The first encountered ruined cauldron is restored to usability.</p>
      */
     public void blessOneCauldron() {
       boolean blessed = false;
@@ -196,7 +196,7 @@ public class Inventory {
     /**
      * Adds a new, usable cauldron to the player's inventory.
      * <p><b>Pre-conditions:</b> None.</p>
-     * <p><b>Post-conditions:<b> A newly instantiated Cauldron object is appended to the cauldrons list.</p>
+     * <p><b>Post-conditions:</b> A newly instantiated Cauldron object is appended to the cauldrons list.</p>
      */
     public void addCauldron() {
       this.cauldrons.add(new Cauldron());
@@ -205,7 +205,7 @@ public class Inventory {
     /**
      * Prints the current state of the inventory to the console.
      * <p><b>Pre-conditions:</b> None.</p>
-     * <p><b>Post-conditions:<b> The names and quantities of all fruits and bases, along with 
+     * <p><b>Post-conditions:</b> The names and quantities of all fruits and bases, along with 
      * the counts of usable and unusable cauldrons, are output to the console.</p>
      */
     public void displayInventory() {
@@ -225,7 +225,7 @@ public class Inventory {
      * Compiles the player's fruit inventory into a formatted string for saving.
      * @return A comma-separated String containing fruit names and quantities.
      * <p><b>Pre-conditions:</b> None.</p>
-     * <p><b>Post-conditions:<b> A formatted data string is returned representing the fruits list.</p>
+     * <p><b>Post-conditions:</b> A formatted data string is returned representing the fruits list.</p>
      */
     public String exportFruitData() {
       String data = "";
@@ -239,7 +239,7 @@ public class Inventory {
      * Compiles the player's base inventory into a formatted string for saving.
      * @return A comma-separated String containing base names and quantities.
      * <p><b>Pre-conditions:</b> None.</p>
-     * <p><b>Post-conditions:<b> A formatted data string is returned representing the bases list.</p>
+     * <p><b>Post-conditions:</b> A formatted data string is returned representing the bases list.</p>
      */
     public String exportBaseData() {
       String data = "";
