@@ -211,16 +211,24 @@ public class GameController {
     }
   }
 
+  /**
+   * Handles brewing logic using predefined recipes from the players spell book.
+   * <p><b>Pre-conditions:</b> The player must have access to their inventory and spell book.</p>
+   * <p><b>Post-conditions:<b> If its successful, the ingredients are consumed, crystals are awarded
+   * and the market brew counter increases. If unsuccessfull, the state remains unchanged .</p>
+   */
   private void recipeMode() { //darshan
       currentPlayer.getSpellbook().displaySpellbook();
       System.out.print("Enter Recipe ID to brew: ");
       int id = Integer.parseInt(scanner.nextLine());
 
+      // Validate the player actually knows the recipe
       if (!currentPlayer.getSpellbook().hasRecipe(id)) {
         System.out.println("Error: Recipe not unlocked");
         return;
       }
 
+      //Fetch the full recipe from the compendium
       Recipe target = null;
       for (int i = 0; i < recipeCompendium.size(); i++) {
           if (recipeCompendium.get(i).getId() == id) {
@@ -229,6 +237,7 @@ public class GameController {
       }
 
     if (target != null) {
+        // Check if the ingredient is available before consuming anything 
         if (!currentPlayer.getInventory().checkIngredientAvailability(target.getBaseName(), 1, true)) {
             System.out.println("Error: Insufficient ingredients.");
             return;
@@ -242,10 +251,13 @@ public class GameController {
 
         System.out.print("Confirm Brew? (Y/N): ");
         if (scanner.nextLine().equalsIgnoreCase("Y")){
+            // Consumes ingredients
             currentPlayer.getInventory().removeBase(target.getBaseName(), 1);
             for (int i = 0; i < target.getRequiredFruits().size(); i++) {
                 currentPlayer.getInventory().removeFruit(target.getRequiredFruits().get(i), 1);
             }
+
+            // Reward the player
             System.out.println("Successfully brewed " + target.getName() + " and sold for " + target.getPrice() + "!");
             currentPlayer.addCrystals(target.getPrice());
             brewsSinceMarket++;
