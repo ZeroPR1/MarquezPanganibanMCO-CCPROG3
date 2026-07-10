@@ -28,7 +28,7 @@ public class Inventory {
     }
 
     public boolean removeFruit(String name, int quantity){
-        boolean success = false
+        boolean success = false;
         for (int i = 0; i < this.fruits.size(); i++){
           if (this.fruits.get(i).getName().equals(name)){
               success = this.fruits.get(i).deductQuantity(quantity);
