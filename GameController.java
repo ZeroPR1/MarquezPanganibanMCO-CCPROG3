@@ -589,6 +589,7 @@ private void visitMarket() {
   }
 
   private boolean loadSaveFile(String name) { //darshan
+      boolean isSuccess = false;
       try {
           File file = new File(name + ".txt");
           if (!file.exists()) { return false; }
@@ -651,8 +652,11 @@ private void visitMarket() {
           }
 
           fileScanner.close();
-          return true;
+          isSuccess = true;
 
-      } catch (Exception e) { return false; }
+      } catch (Exception e) {
+        
+      }
+      return isSuccess;
     }
 }
