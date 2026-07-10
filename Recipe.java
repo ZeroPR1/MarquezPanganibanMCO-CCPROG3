@@ -38,17 +38,20 @@ public class Recipe {
   public int getPrice() {
     return this.price;
   }
-
+  
   public boolean matchesIngredients(String inputBase, ArrayList<String> inputFruits) {
+    boolean matches = true;
+    
     if (!this.baseName.equals(inputBase) || this.requiredFruits.size() != inputFruits.size()) {
-      return false;
-    }
-    for (int i = 0; i < this.requiredFruits.size(); i++) {
-      String required = this.requiredFruits.get(i);
-      if (!inputFruits.contains(required)) {
-        return false;
+      matches = false;
+    } else {
+      for (int i = 0; i < this.requiredFruits.size() && matches; i++) {
+        String required = this.requiredFruits.get(i);
+        if (!inputFruits.contains(required)) {
+          matches = false;
+        }
       }
     }
-    return true;
+    return matches;
   }
 }
