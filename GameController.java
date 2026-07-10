@@ -508,21 +508,22 @@ private void visitMarket() {
 
   private int getSellPrice(String name) {
       name = name.toUpperCase();
-      if (name.equals("STRAWBERRY")) return 25;
-      if (name.equals("ORANGE")) return 40;
-      if (name.equals("LEMON")) return 25;
-      if (name.equals("BANANA")) return 50;
-      if (name.equals("MANGO")) return 30;
-      if (name.equals("PINEAPPLE")) return 120;
-      if (name.equals("KIWI")) return 80;
-      if (name.equals("BLUEBERRY")) return 20;
-      if (name.equals("COCONUT")) return 90;
-      if (name.equals("SYRUP BASE")) return 10;
-      if (name.equals("BUBBLE BASE")) return 20;
-      if (name.equals("PERFUME BASE")) return 50;
-      if (name.equals("MILK BASE")) return 15;
-      if (name.equals("LOTION BASE")) return 25;
-      return 0;
+      int price = 0;
+      if (name.equals("STRAWBERRY")) { price = 25; }
+      if (name.equals("ORANGE")) { price = 40; }
+      if (name.equals("LEMON")) { price = 25; }
+      if (name.equals("BANANA")) { price = 50; }
+      if (name.equals("MANGO")) { price = 30; }
+      if (name.equals("PINEAPPLE")) { price = 120; }
+      if (name.equals("KIWI")) { price = 80; }
+      if (name.equals("BLUEBERRY")) { price = 20; }
+      if (name.equals("COCONUT")) { price = 90; }
+      if (name.equals("SYRUP BASE")) { price = 10; }
+      if (name.equals("BUBBLE BASE")) { price = 20; }
+      if (name.equals("PERFUME BASE")) { price = 50; }
+      if (name.equals("MILK BASE")) { price = 15; }
+      if (name.equals("LOTION BASE")) { price = 25; }
+      return price;
   }
 
   
