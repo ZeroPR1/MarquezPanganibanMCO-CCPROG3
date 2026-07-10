@@ -32,8 +32,8 @@ public class GameController {
               if (data.length >= 4) {
                   Recipe r = new Recipe(Integer.parseInt(data[0]), data[1], data[2], Integer.parseInt(data[3]));
                   if (data.length > 4 && !data[4].isEmpty()) { r.addRequiredFruit(data[4]); }
-                  if (data.length > 5 && !data[5].isEmpty()) { r.addaddRequiredFruit(data[5]); }
-                  if (data.length > 6 && !data[6].isEmpty()) { r.addaddRequiredFruit(data[6]); }
+                  if (data.length > 5 && !data[5].isEmpty()) { r.addRequiredFruit(data[5]); }
+                  if (data.length > 6 && !data[6].isEmpty()) { r.addRequiredFruit(data[6]); }
                   this.recipeCompendium.add(r);
               }
           }
@@ -165,7 +165,7 @@ public class GameController {
 
       Recipe target = null;
       for (int i = 0; i < recipeCompendium.size(); i++) {
-          if (recipeCompendium.get(i).getId().equals(id)) {
+          if (recipeCompendium.get(i).getId() == id) {
             target = recipeCompendium.get(i);
           }
       }
@@ -261,11 +261,11 @@ public class GameController {
       return 80;
     } else if (name.equals("LEMON")) {
       return 50;
-       else if (name.equals("BANANA")) {
+    } else if (name.equals("BANANA")) {
       return 75;
     } else if (name.equals("MANGO")) {
       return 90;
-     else if (name.equals("PINEAPPLE")) {
+    } else if (name.equals("PINEAPPLE")) {
       return 240;
     } else if (name.equals("KIWI")) {
       return 200;
@@ -317,7 +317,7 @@ public class GameController {
                       s.emptySlot();
                       System.out.println("Success! Bought " + purchasedQty + "x " + purchasedName + " for " + totalPrice + " crystals!");
 
-                      if (purchasedName.equals("CAULDRON)) { currentPlayer.get Inventory().addCauldron(); }
+                      if (purchasedName.equals("CAULDRON")) { currentPlayer.getInventory().addCauldron(); }
                       else if (purchasedName.contains("BASE")) { currentPlayer.getInventory().addBase(purchasedName, purchasedQty); }
                       else { currentPlayer.getInventory().addFruit(purchasedName, purchasedQty); }
                   } else {
