@@ -38,6 +38,12 @@ public class GameController {
   /** Scanner object used to read console input from the user. */
   private Scanner scanner;
 
+  /**
+   * Constructs a new gameController and creates the games' core system
+   * <p><b>Pre-conditions:</b> None.</p>
+   * <p><b>Post-conditions:<b> The scanner, recipe compendium, and market are created
+   * Tracks are reset, and the compendium is loaded from the external file.</p>
+   */
   public GameController() {
       this.scanner = new Scanner(System.in);
       this.recipeCompendium = new ArrayList<Recipe>();
