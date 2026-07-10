@@ -53,14 +53,24 @@ public class GameController {
       loadCompendium();
   }
 
+ /**
+   * Loads the recipes from the POTION COMPENDIUM.csv file.
+   * <p><b>Pre-conditions:</b> The recipeCompendium list must be created.</p>
+   * <p><b>Post-conditions:<b> If the file exists and is formally correctly, recipeCompendium
+   * is populated with Recipe objects. If the file is missing, an error is printed and the list remains empty.</p>
+   */
   private void loadCompendium() { //darshan
       try {
           File file = new File("POTION COMPENDIUM.csv");
           Scanner fileScanner = new Scanner(file);
+
+          //parse the csv line by line to extract the recipe components
           while (fileScanner.hasNextLine()) {
               String[] data = fileScanner.nextLine().split(",", -1);
               if (data.length >= 4) {
                   Recipe r = new Recipe(Integer.parseInt(data[0]), data[1], data[2], Integer.parseInt(data[3]));
+
+                  //Dynamically adds fruits if they exist in the CSV columns
                   if (data.length > 4 && !data[4].isEmpty()) { r.addRequiredFruit(data[4]); }
                   if (data.length > 5 && !data[5].isEmpty()) { r.addRequiredFruit(data[5]); }
                   if (data.length > 6 && !data[6].isEmpty()) { r.addRequiredFruit(data[6]); }
