@@ -234,23 +234,23 @@ public class GameController {
         }
 
       //Fetch the full recipe from the compendium
-      Recipe target = null;
+      Recipe targetRecipe = null;
       for (int i = 0; i < recipeCompendium.size(); i++) {
           if (recipeCompendium.get(i).getId() == id) {
             target = recipeCompendium.get(i);
           }
       }
 
-    if (target != null) {
+    if (targetRecipe != null) {
         // Check if the ingredient is available before consuming anything 
 
         boolean canBrew = true;
-        if (!currentPlayer.getInventory().checkIngredientAvailability(target.getBaseName(), 1, true)) {
+        if (!currentPlayer.getInventory().checkIngredientAvailability(targetRecipe.getBaseName(), 1, true)) {
                 System.out.println("Error: Insufficient base ingredient.");
                 canBrew = false;
             } else {
-                for (int i = 0; i < target.getRequiredFruits().size(); i++) {
-                    if (!currentPlayer.getInventory().checkIngredientAvailability(target.getRequiredFruits().get(i), 1, false)) {
+                for (int i = 0; i < targetRecipe.getRequiredFruits().size(); i++) {
+                    if (!currentPlayer.getInventory().checkIngredientAvailability(targetRecipe.getRequiredFruits().get(i), 1, false)) {
                         canBrew = false;
                     }
                 }
@@ -262,13 +262,13 @@ public class GameController {
       if (canBrew) {
                 System.out.print("Confirm Brew? (Y/N): ");
                 if (scanner.nextLine().equalsIgnoreCase("Y")){
-                    currentPlayer.getInventory().removeBase(target.getBaseName(), 1);
-                    for (int i = 0; i < target.getRequiredFruits().size(); i++) {
-                        currentPlayer.getInventory().removeFruit(target.getRequiredFruits().get(i), 1);
+                    currentPlayer.getInventory().removeBase(targetRecipe.getBaseName(), 1);
+                    for (int i = 0; i < targetRecipe.getRequiredFruits().size(); i++) {
+                        currentPlayer.getInventory().removeFruit(targetRecipe.getRequiredFruits().get(i), 1);
                     }
                     
-                    System.out.println("Successfully brewed " + target.getName() + " and sold for " + target.getPrice() + "!");
-                    currentPlayer.addCrystals(target.getPrice());
+                    System.out.println("Successfully brewed " + targetRecipe.getName() + " and sold for " + targetRecipe.getPrice() + "!");
+                    currentPlayer.addCrystals(targetRecipe.getPrice());
                     brewsSinceMarket++;
                 }
             }
