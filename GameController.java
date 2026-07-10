@@ -211,7 +211,7 @@ public class GameController {
     }
   }
 
-/**
+   /**
      * Initiates the recipe brewing process by prompting the player for a known recipe ID.
      * <p><b>Pre-conditions:</b> The player must have an initialized spellbook, and the global 
      * recipe compendium must be loaded.</p>
@@ -285,7 +285,7 @@ public class GameController {
     }
 
  
-/**
+   /**
      * Allows the player to experiment with combinations of bases and fruits to discover new recipes.
      * * <p><b>Pre-conditions:</b> The player must have at least 2 usable cauldrons in their inventory.</p>
      * <p><b>Post-conditions:</b> Ingredients are consumed. If a valid recipe is discovered, it is 
@@ -364,6 +364,7 @@ public class GameController {
             }
         }
     }
+  
  /**
    * Returns the base purchase price for a specific ingredient in the market
    * @param name the name of the ingredient.
