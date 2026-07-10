@@ -555,18 +555,18 @@ private void visitMarket() {
     
     if (brokenCauldrons == 0) {
       System.out.println("You have no broken cauldrons to bless.");
-      return;
-    }
+    } else {
     
     System.out.println("Blessing a cauldron costs 1000 crystals. Proceed? (Y/N)");
     String choice = scanner.nextLine();
     
-    if (choice.equalsIgnoreCase("Y")) {
-      if (currentPlayer.deductCrystals(1000)) {
-        currentPlayer.getInventory().blessOneCauldron();
-        System.out.println("Success! A cauldron has been blessed and is ready to use.");
-      } else {
-        System.out.println("Error: You don't have enough crystals to bless a cauldron.");
+      if (choice.equalsIgnoreCase("Y")) {
+        if (currentPlayer.deductCrystals(1000)) {
+          currentPlayer.getInventory().blessOneCauldron();
+          System.out.println("Success! A cauldron has been blessed and is ready to use.");
+        } else {
+          System.out.println("Error: You don't have enough crystals to bless a cauldron.");
+        }
       }
     }
   }
