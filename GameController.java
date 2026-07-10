@@ -600,108 +600,179 @@ private void visitMarket() {
       }
     }
   }
-
-  private void saveGame() { //darshan
-      try {
-          FileWriter fw = new FileWriter(currentPlayer.getName() + ".txt");
-          PrintWriter pw = new PrintWriter(fw);
-          pw.println(currentPlayer.getName());
-          pw.println(currentPlayer.getCrystals());
-          pw.println("Fruits: " + currentPlayer.getInventory().exportFruitData());
-          pw.println("Bases: " + currentPlayer.getInventory().exportBaseData());
-          pw.println("Cauldrons:" + currentPlayer.getInventory().getUsableCauldronCount() + "," + currentPlayer.getInventory().getUnusableCauldronCount());
-          pw.println("Spellbook:" + currentPlayer.getSpellbook().exportSpellbookData());
-          pw.close();
-          System.out.println("Game saved successfully :3");
-      } catch (IOException e) {
-          System.out.println("Save failed.");
-      }
-  }
-
+  
   /**
    * Saves the current player state to a text file.
-   * //darshan
    * <p><b>Pre-conditions:</b> currentPlayer must be fully populated with valid state data.</p>
    * <p><b>Post-conditions:</b> A text file named "[PlayerName].txt" is created containing the player's 
    * crystals, inventory data, cauldron counts, and spell book data.</p>
    */
+  private void saveGame() { //darshan
+      boolean isSuccess = false;
+      
+      try {
+          FileWriter fw = new FileWriter(currentPlayer.getName().trim() + ".txt");
+          PrintWriter pw = new PrintWriter(fw);
+          
+          pw.println("NAME = " + currentPlayer.getName());
+          pw.println("CRYSTALS = " + currentPlayer.getCrystals());
+          pw.println(); // Empty line for readability
+          
+          pw.println("[INVENTORY]");
+          
+          // Fetch the comma-separated fruit string split it and write vertically
+          String fruitData = currentPlayer.getInventory().exportFruitData();
+          String[] fruits = fruitData.split(",");
+          for (int i = 0; i < fruits.length; i++) {
+              if (!fruits[i].trim().isEmpty()) {
+                  pw.println(fruits[i].trim());
+              }
+          }
+          
+          // Fetch the comma-separated base strin split it and write vertically
+          String baseData = currentPlayer.getInventory().exportBaseData();
+          String[] bases = baseData.split(",");
+          for (int i = 0; i < bases.length; i++) {
+              if (!bases[i].trim().isEmpty()) {
+                  pw.println(bases[i].trim());
+              }
+          }
+          
+          // Write cauldrons
+          int usable = currentPlayer.getInventory().getUsableCauldronCount();
+          int unusable = currentPlayer.getInventory().getUnusableCauldronCount();
+          pw.println("TOTAL CAULDRONS = " + (usable + unusable));
+          pw.println("USABLE CAULDRONS = " + usable);
+          pw.println(); // Empty line for readability
+          
+    
+          pw.println("[SPELLBOOK]");
+          pw.println(currentPlayer.getSpellbook().exportSpellbookData());
+          
+          pw.close();
+          isSuccess = true;
+          
+      } catch (IOException e) {
+          System.out.println("Save failed. Error writing file.");
+      }
+      
+      // Print the success message only if everything passed without throwing an error
+      if (isSuccess) {
+          System.out.println("Game saved successfully :3");
+      }
+  }
+  
+  /**
+   * Loads a saved player state from a specified text file.
+   * //darshan
+   * <p><b>Pre-conditions:</b> A text file matching the provided name must exist in the project root directory.</p>
+   * <p><b>Post-conditions:</b> If the file is found and successfully parsed, the currentPlayer object is 
+   * instantiated and populated with the saved crystals, inventory data, cauldron counts, and spellbook data. 
+   * Returns true if the load is successful, or false if the file does not exist or fails to read.</p>
+   *
+   * @param name The name of the save file to load (excluding the .txt extension).
+   * @return true if the save file was successfully loaded, false otherwise.
+   */
   private boolean loadSaveFile(String name) { //darshan
       boolean isSuccess = false;
+      
       try {
-          File file = new File(name + ".txt");
-          if (!file.exists()) { return false; }
+          File file = new File(name.trim() + ".txt");
+          
+          // Check existence without an early return
+          if (file.exists()) {
+              Scanner fileScanner = new Scanner(file);
+              String currentSection = "";
+              int totalCauldrons = 0;
+              int usableCauldrons = 0;
 
-          Scanner fileScanner = new Scanner(file);
+              while (fileScanner.hasNextLine()) {
+                  String line = fileScanner.nextLine().trim();
 
-          // Reconstruct basic player state
-          String playerName = fileScanner.nextLine();
-          this.currentPlayer = new Player(playerName);
-          int crystals = Integer.parseInt(fileScanner.nextLine());
-          this.currentPlayer.deductCrystals(5000);
-          this.currentPlayer.addCrystals(crystals);
+                  // Only process lines that have text (avoids using 'continue')
+                  if (!line.isEmpty()) {
+                      
+                      if (line.startsWith("[") && line.endsWith("]")) {
+                          currentSection = line;
+                      } else {
+                          
+                          // Reconstruct basic player state
+                          if (currentSection.isEmpty()) {
+                              if (line.startsWith("NAME =")) {
+                                  String playerName = line.split("=")[1].trim();
+                                  this.currentPlayer = new Player(playerName);
+                              } else if (line.startsWith("CRYSTALS =")) {
+                                  int crystals = Integer.parseInt(line.split("=")[1].trim());
+                                  this.currentPlayer.deductCrystals(5000);
+                                  this.currentPlayer.addCrystals(crystals);
+                              }
+                          } 
+                          
+                          // Parse and populate Inventory
+                          else if (currentSection.equals("[INVENTORY]")) {
+                              if (line.contains("=")) {
+                                  String[] parts = line.split("=");
+                                  String itemName = parts[0].trim();
+                                  int quantity = Integer.parseInt(parts[1].trim());
 
-          // Parse and populate Fruit Inventory
-          String fruitLine = fileScanner.nextLine().replace("Fruits: ", "");
-          if (!fruitLine.isEmpty()) {
-              String[] fruits = fruitLine.split(",");
-              for (int i = 0; i < fruits.length; i++) {
-                  if (!fruits[i].isEmpty()) {
-                      String[] parts = fruits[i].split("=");
-                      currentPlayer.getInventory().addFruit(parts[0], Integer.parseInt(parts[1]));
-                  }
-              }
-          }
-
-          // Parse and populate Base Inventory
-          String baseLine = fileScanner.nextLine().replace("Bases: ", "");
-          if (!baseLine.isEmpty()) {
-              String[] bases = baseLine.split(",");
-              for (int i = 0; i < bases.length; i++) {
-                  if (!bases[i].isEmpty()) {
-                      String[] parts = bases[i].split("=");
-                      currentPlayer.getInventory().addBase(parts[0], Integer.parseInt(parts[1]));
-                  }
-              }
-          }
-
-          // Parse and populate Cauldrons
-          String cauldronLine = fileScanner.nextLine().replace("Cauldrons:", "");
-          String[] cauldronCounts = cauldronLine.split(",");
-          int usable = Integer.parseInt(cauldronCounts[0]);
-          int unusable = Integer.parseInt(cauldronCounts[1]);
-          int totalCauldrons = usable + unusable;
-
-          // Player starts with 3 by default, add only the extras beyond 3
-          for (int i = 3; i < totalCauldrons; i++) {
-              currentPlayer.getInventory().addCauldron();
-          }
-          // Ruin the appropriate amount to match the save state
-          for (int i = 0; i < unusable; i++) {
-              currentPlayer.getInventory().ruinOneCauldron();
-          }
-
-          String spellbookLine = fileScanner.nextLine().replace("Spellbook:", "");
-          if (!spellbookLine.isEmpty()) {
-              String[] recipeIds = spellbookLine.split(",");
-              for (int i = 0; i < recipeIds.length; i++) {
-                  if (!recipeIds[i].isEmpty()) {
-                      int id = Integer.parseInt(recipeIds[i]);
-                      // Cross-reference the saved ID with the loaded compendium
-                      for (int j = 0; j < recipeCompendium.size(); j++){
-                          if (recipeCompendium.get(j).getId() == id) {
-                              currentPlayer.getSpellbook().addRecipe(recipeCompendium.get(j));
+                                  if (itemName.endsWith("BASE")) {
+                                      currentPlayer.getInventory().addBase(itemName, quantity);
+                                  } else if (itemName.equals("TOTAL CAULDRONS")) {
+                                      totalCauldrons = quantity;
+                                  } else if (itemName.equals("USABLE CAULDRONS")) {
+                                      usableCauldrons = quantity;
+                                  } else {
+                                      currentPlayer.getInventory().addFruit(itemName, quantity);
+                                  }
+                              }
+                          } 
+                          
+                          // Parse and populate Spellbook
+                          else if (currentSection.equals("[SPELLBOOK]")) {
+                              String[] recipeIds = line.split(",");
+                              for (int i = 0; i < recipeIds.length; i++) {
+                                  String idStr = recipeIds[i].trim();
+                                  
+                                  if (!idStr.isEmpty()) {
+                                      int id = Integer.parseInt(idStr);
+                                      boolean foundRecipe = false;
+                                      
+                                      // Cross-reference the saved ID without using 'break'
+                                      for (int j = 0; j < recipeCompendium.size() && !foundRecipe; j++) {
+                                          if (recipeCompendium.get(j).getId() == id) {
+                                              currentPlayer.getSpellbook().addRecipe(recipeCompendium.get(j));
+                                              foundRecipe = true;
+                                          }
+                                      }
+                                  }
+                              }
                           }
                       }
                   }
               }
+              
+              // Parse and populate Cauldrons
+              // Player starts with 3 by default, add only the extras beyond 3
+              for (int i = 3; i < totalCauldrons; i++) {
+                  currentPlayer.getInventory().addCauldron();
+              }
+              
+              // Ruin the appropriate amount to match the save state
+              int unusable = totalCauldrons - usableCauldrons;
+              for (int i = 0; i < unusable; i++) {
+                  currentPlayer.getInventory().ruinOneCauldron();
+              }
+
+              fileScanner.close();
+              isSuccess = true;
           }
-
-          fileScanner.close();
-          isSuccess = true;
-
+          
       } catch (Exception e) {
-        
+          // Optional: Print the error during testing so it doesn't fail silently
+          System.out.println("Error reading save file."); 
       }
+      
       return isSuccess;
-    }
-}
+  }
+ }
+
