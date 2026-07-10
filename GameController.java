@@ -289,50 +289,119 @@ public class GameController {
       return 0;
   }
 
-  private void visitMarket() { //darshan
+private void visitMarket() { 
       if (brewsSinceMarket >= 3) {
           market.refreshMarket();
           brewsSinceMarket = 0;
       }
 
-      market.displayMarket();
-      System.out.print("Enter slots to buy (comma-seperated, example: 1,4) or 'EXIT': ");
-      String input = scanner.nextLine();
+      boolean inMarket = true;
+      
+      while (inMarket) {
+          System.out.println("\n=== Welcome to the Market ===");
+          System.out.println("[1] Buy Ingredients");
+          System.out.println("[2] Sell Ingredients");
+          System.out.println("[3] Exit Market");
+          System.out.print("Choose an option: ");
+          String choice = scanner.nextLine();
+          
+          if (choice.equals("1")) {
+              market.displayMarket();
+              System.out.print("Enter slots to buy (comma-separated, example: 1,4) or 'EXIT': ");
+              String input = scanner.nextLine();
 
-      if (!input.equalsIgnoreCase("EXIT")) {
-          String[] choices = input.split(",");
-          for (int i = 0; i < choices.length; i++) {
-              try {
-                  int slot = Integer.parseInt(choices[i].trim());
-                  IngredientSlot s = market.getSlot(slot);
+              if (!input.equalsIgnoreCase("EXIT")) {
+                  String[] choices = input.split(",");
+                  for (int i = 0; i < choices.length; i++) {
+                      try {
+                          int slot = Integer.parseInt(choices[i].trim());
+                          IngredientSlot s = market.getSlot(slot);
 
-                  if (s.getQuantity() > 0 && !s.getItemName().equals("Empty")) {
-                      int basePrice = getIngredientPrice(s.getItemName());
-                      int totalPrice = basePrice * s.getQuantity();
+                          if (s.getQuantity() > 0 && !s.getItemName().equals("Empty")) {
+                              int basePrice = getIngredientPrice(s.getItemName());
+                              int totalPrice = basePrice * s.getQuantity();
+                              String purchasedName = s.getItemName();
+                              int purchasedQty = s.getQuantity();
 
-                      String purchasedName = s.getItemName();
-                      int purchasedQty = s.getQuantity();
+                              if (currentPlayer.deductCrystals(totalPrice)) {
+                                  s.emptySlot();
+                                  System.out.println("Success! Bought " + purchasedQty + "x " + purchasedName + " for " + totalPrice + " crystals!");
 
-                  if (currentPlayer.deductCrystals(totalPrice)) {
-                      s.emptySlot();
-                      System.out.println("Success! Bought " + purchasedQty + "x " + purchasedName + " for " + totalPrice + " crystals!");
-
-                      if (purchasedName.equals("CAULDRON")) { currentPlayer.getInventory().addCauldron(); }
-                      else if (purchasedName.contains("BASE")) { currentPlayer.getInventory().addBase(purchasedName, purchasedQty); }
-                      else { currentPlayer.getInventory().addFruit(purchasedName, purchasedQty); }
-                  } else {
-                      System.out.println("Error: Insufficient funds. You need " + totalPrice + " crystals for this stack");
-                    }
-                } else {
-                    System.out.println("Slot [" + slot + "] is already empty");
-                }
-              }  catch (Exception e) {
-                  System.out.println("Invalid input skipped");
+                                  if (purchasedName.equals("CAULDRON")) { currentPlayer.getInventory().addCauldron(); }
+                                  else if (purchasedName.contains("BASE")) { currentPlayer.getInventory().addBase(purchasedName, purchasedQty); }
+                                  else { currentPlayer.getInventory().addFruit(purchasedName, purchasedQty); }
+                              } else {
+                                  System.out.println("Error: Insufficient funds. You need " + totalPrice + " crystals for this stack");
+                              }
+                          } else {
+                              System.out.println("Slot [" + slot + "] is already empty");
+                          }
+                      }  catch (Exception e) {
+                          System.out.println("Invalid input skipped");
+                      }
+                  }
               }
+          } else if (choice.equals("2")) {
+              currentPlayer.getInventory().displayInventory();
+              System.out.print("Enter exactly ONE ingredient name to sell (e.g. MANGO) or 'EXIT': ");
+              String sellName = scanner.nextLine().toUpperCase();
               
+              if (!sellName.equals("EXIT")) {
+                  if (sellName.equals("CAULDRON")) {
+                      System.out.println("Error: Cauldrons cannot be sold.");
+                  } else {
+                      System.out.print("Enter quantity to sell: ");
+                      try {
+                          int sellQty = Integer.parseInt(scanner.nextLine());
+                          int sellPrice = getSellPrice(sellName) * sellQty;
+                          
+                          boolean hasItem = false;
+                          if (sellName.contains("BASE")) {
+                              hasItem = currentPlayer.getInventory().removeBase(sellName, sellQty);
+                          } else {
+                              hasItem = currentPlayer.getInventory().removeFruit(sellName, sellQty);
+                          }
+                          
+                          if (hasItem) {
+                              currentPlayer.addCrystals(sellPrice);
+                              System.out.println("Success! Sold " + sellQty + "x " + sellName + " for " + sellPrice + " crystals!");
+                          } else {
+                              System.out.println("Error: You don't have enough of that ingredient to sell.");
+                          }
+                      } catch (Exception e) {
+                          System.out.println("Invalid quantity.");
+                      }
+                  }
+              }
+          } else if (choice.equals("3")) {
+              System.out.println("Leaving the market...");
+              inMarket = false;
+          } else {
+              System.out.println("Invalid choice. Please select 1, 2, or 3.");
           }
-      }    
+      }
   }
+
+  private int getSellPrice(String name) {
+      name = name.toUpperCase();
+      if (name.equals("STRAWBERRY")) return 25;
+      if (name.equals("ORANGE")) return 40;
+      if (name.equals("LEMON")) return 25;
+      if (name.equals("BANANA")) return 50;
+      if (name.equals("MANGO")) return 30;
+      if (name.equals("PINEAPPLE")) return 120;
+      if (name.equals("KIWI")) return 80;
+      if (name.equals("BLUEBERRY")) return 20;
+      if (name.equals("COCONUT")) return 90;
+      if (name.equals("SYRUP BASE")) return 10;
+      if (name.equals("BUBBLE BASE")) return 20;
+      if (name.equals("PERFUME BASE")) return 50;
+      if (name.equals("MILK BASE")) return 15;
+      if (name.equals("LOTION BASE")) return 25;
+      return 0;
+  }
+
+  
   private void claimLoginBonus() { //kyle
     if (this.loginBonusClaimed == true) {
       System.out.println("You have already claimed your login bonus for this session!");
@@ -420,7 +489,7 @@ public class GameController {
 
           String baseLine = fileScanner.nextLine().replace("Bases: ", "");
           if (!baseLine.isEmpty()) {
-              String[] fruits = baseLine.split(",");
+              String[] bases = baseLine.split(",");
               for (int i = 0; i < bases.length; i++) {
                   if (!bases[i].isEmpty()) {
                       String[] parts = bases[i].split("=");
@@ -429,7 +498,7 @@ public class GameController {
               }
           }
 
-          String cauldronline = fileScanner.nextLine().replace("Cauldrons:", "");
+          String cauldronLine = fileScanner.nextLine().replace("Cauldrons:", "");
           String[] cauldronCounts = cauldronLine.split(",");
           int usable = Integer.parseInt(cauldronCounts[0]);
           int unusable = Integer.parseInt(cauldronCounts[1]);
@@ -446,7 +515,7 @@ public class GameController {
           if (!spellbookLine.isEmpty()) {
               String[] recipeIds = spellbookLine.split(",");
               for (int i = 0; i < recipeIds.length; i++) {
-                  if (!recipeIds[i].isempty()) {
+                  if (!recipeIds[i].isEmpty()) {
                       int id = Integer.parseInt(recipeIds[i]);
                       for (int j = 0; j < recipeCompendium.size(); j++){
                           if (recipeCompendium.get(j).getId() == id) {
@@ -461,5 +530,5 @@ public class GameController {
           return true;
 
       } catch (Exception e) { return false; }
-      }
-  }
+    }
+}
