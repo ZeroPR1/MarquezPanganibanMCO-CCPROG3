@@ -252,11 +252,26 @@ public class GameController {
                   }
               }
 
+              if (canBrew) {
+                  System.out.print("Confirm Brew? (Y/N): ");
+                  if (scanner.nextLine().equalsIgnoreCase("Y")){
+                      currentPlayer.getInventory().removeBase(targetRecipe.getBaseName(), 1);
+                      for (int i = 0; i < targetRecipe.getRequiredFruits().size(); i++) {
+                          currentPlayer.getInventory().removeFruit(targetRecipe.getRequiredFruits().get(i), 1);
+                      }
 
-            
+                      System.out.println("Successfully brewed " + targetRecipe.getName + " and sold for " + targetRecipe.getPrice() + "!");
+                      currentPlayer.addCrystals(targetRecipe.getPrice());
+                      brewsSinceMarket++;
+                  }
+              }
           }
+        } 
+      
+    }  catch (NumeberFormatException e) {
+            // Catches non-integer inputs to prevent a crash
+            System.out.println("Error: Invalid input. Please enter a valid numeric ID.");
         }
-    }
   }
 
  
