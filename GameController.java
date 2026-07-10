@@ -332,7 +332,14 @@ public class GameController {
       }   
   }
 
-  private int getIngredientPrice(String name) {//kyle
+ /**
+   * Returns the base purchase price for a specific ingredient in the market
+   * @param name the name of the ingredient.
+   * @return the integer price of the ingredient, or 0 if not found
+   * <p><b>Pre-conditions:</b> The name provided is a non-null String.</p>
+   * <p><b>Post-conditions:<b> The correct integer price is returned.</p>
+   */
+  private int getIngredientPrice(String name) {
     name = name.toUpperCase();
     
     if (name.equals("STRAWBERRY")) {
