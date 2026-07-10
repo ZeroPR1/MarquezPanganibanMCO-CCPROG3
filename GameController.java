@@ -396,8 +396,39 @@ public class GameController {
   }
 
   private boolean loadSaveFile(String name) { //darshan
-    
-  }
+      try {
+          Scanner fs = new Scanner(new File(name + ".txt"));
+          this.currentPlayer = new Player(fs.nextLine());
+          this.currentPlayer = deductCrystals(5000);
+          this.currentPlayer.addCrystals(Integer.parseInt(fs.nextLine()));
 
-  
+          String[] fruits = fs.nextLine().replace("Fruits:", "").split(",");
+          for (int i = 0; i < fruits.length && fruits[0].length() > 0; i++) {
+              String[] p = fruits[i].split("=");
+              currentPlayer.getInventory().addFruit(p[0], Integer.parseInt(p[1]));
+          }
+
+          String[] bases = fs.nextLine().replace("Bases:", "").split(",");
+          for (int i = 0; i < bases.length && bases[0].length() > 0; i++) {
+              String[] p = bases[i].split("=");
+              currentPlayer.getInventory().addBase(p[0], Integer.parseInt(p[1]));
+          }
+
+          int unusable = Integer.parseInt(fs.nextLine().replace("Cauldrons:", "").split(",")[1]);
+          for (int i = 0; i < unusable; i++) { currentPlayer.getInventory().ruinOneCauldron(); }
+
+          if (fs.hasNextLine()) {
+              String[] spells = fs.nextLine().replace("Spellbook:", "").split(",");
+              for (int i = 0; i < spells.length && spells[0].length() > 0; i++) {
+                for (int j = 0; j < recipeCompendium.size(); j++) {
+                    if (recipeCompendium.get(j).getId().equals(spells[i])) {
+                        currentPlayer.getSpellbook().addRecipe(recipeCompendium.get(j));
+                }
+              }
+            }
+          }
+          fs.close();
+          return true;
+    } catch (Exception e) { return false; }
+  }
 }
