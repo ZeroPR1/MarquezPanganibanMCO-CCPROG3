@@ -22,7 +22,7 @@ public class Market {
     /**
      * Constructs a new Market, initializing the slot array and populating it with random items.
      * <p><b>Pre-conditions:</b> None.</p>
-     * <p><b>Post-conditions:<b> The slots array is initialized with a size of 8 and 
+     * <p><b>Post-conditions:</b> The slots array is initialized with a size of 8 and 
      * refreshMarket() is called to populate them.</p>
      */
     public Market(){
@@ -33,7 +33,7 @@ public class Market {
     /**
      * Randomly populates the market slots with ingredients and a potential cauldron.
      * <p><b>Pre-conditions:</b> The slots array must be initialized.</p>
-     * <p><b>Post-conditions:<b> Each slot is filled with a randomly selected item and a random 
+     * <p><b>Post-conditions:</b> Each slot is filled with a randomly selected item and a random 
      * quantity (1-5). A maximum of one cauldron can spawn per refresh; if a second is rolled, 
      * it defaults to strawberries.</p>
      */
@@ -65,7 +65,7 @@ public class Market {
      * @param index The integer index of the slot to retrieve.
      * @return The IngredientSlot object at the specified index.
      * <p><b>Pre-conditions:</b> The index must be a valid integer within the bounds of the slots array (0-7).</p>
-     * <p><b>Post-conditions:<b> The corresponding IngredientSlot is returned without modifying the market state.</p>
+     * <p><b>Post-conditions:</b> The corresponding IngredientSlot is returned without modifying the market state.</p>
      */
     public IngredientSlot getSlot(int index){
         return this.slots[index];
@@ -74,7 +74,7 @@ public class Market {
     /**
      * Displays the current stock and quantities available in the market to the console.
      * <p><b>Pre-conditions:</b> None.</p>
-     * <p><b>Post-conditions:<b> Iterates through the slots and prints out the item name and 
+     * <p><b>Post-conditions:</b> Iterates through the slots and prints out the item name and 
      * quantity for available items, or "[SOLD OUT]" for empty slots.</p>
      */
     public void displayMarket(){ //displays current stock and prices.
