@@ -22,12 +22,13 @@ public class Ingredient{
     if (amount > 0) this.quantity += amount;
   }
 
-  public boolean deductQuantity(int amount){
+  public boolean deductQuantity(int amount){]
+    boolean success = false;
+    
     if (amount > 0 && this.quantity >= amount){
       this.quantity -= amount;
-      return true;
+      success = true;
     }
-    return false;
+    return success;
   }
-  
 }
