@@ -404,7 +404,7 @@ public class GameController {
             price = 3000;
             break;
           default:
-            System.out.println("ERROR: Ingredient %s not found in inventory!\n", upperName);
+            System.out.println("ERROR: Ingredient " + upperName + " not found in inventory!");
             price = -1;
             break;
         }
