@@ -31,6 +31,10 @@ public class Recipe {
     return this.recipeName;
   }
 
+  public ArrayList<String> getRequiredFruits() {
+    return this.requiredFruits;
+  }
+
   public int getPrice() {
     return this.price;
   }
