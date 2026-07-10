@@ -264,8 +264,15 @@ public class GameController {
         }
     }
 }
-  
-  private void creativeMode() { //darshan
+ 
+ /**
+   * Handles free-form brewing where the player selects a base and up to 3 fruits
+   * <p><b>Pre-conditions:</b> The player must have at least 2 usable cauldrons to prevent a soft-lock.</p>
+   * <p><b>Post-conditions:<b> Ingredients are consumed, if a valid recipe matches, the potion is sold,
+   * the recipe is added to spellbook and crystals are awarded. If it fails, a cauldron is ruined.</p>
+   */
+  private void creativeMode() {
+      // Prevent the player from ruining their final cauldron and soft locking the game
       if (currentPlayer.getInventory().getUsableCauldronCount() <= 1){
           System.out.println("Error: You only have 1 usable cauldron left. Creative mode locked to prevent soft-lock");
           return;
@@ -282,6 +289,7 @@ public class GameController {
       String[] fruits = scanner.nextLine().toUpperCase().split(",");
       ArrayList<String> fruitList = new ArrayList<>();
 
+      // Validate fruit input: it prevents repeats and checks the inventory
       for (int i = 0; i < fruits.length && i < 3; i++) {
           String f = fruits[i].trim();
           if (fruitList.contains(f)) {
@@ -297,12 +305,14 @@ public class GameController {
 
       System.out.print("Confirm brew? (Y/N): ");
       if (scanner.nextLine().equalsIgnoreCase("Y")) {
+          // Consumes the ingredients regardless whether or not it success or failed
           currentPlayer.getInventory().removeBase(base, 1);
           for(int i = 0; i < fruitList.size(); i++) {
             currentPlayer.getInventory().removeFruit(fruitList.get(i), 1);
           }
 
           boolean success = false;
+          // Check the concoction against the original "master" potion compendium
           for (int i = 0; i < recipeCompendium.size() && !success; i++) {
               if (recipeCompendium.get(i).matchesIngredients(base, fruitList)) {
                   success = true;
@@ -313,7 +323,7 @@ public class GameController {
                   brewsSinceMarket++;
               }
           }
-
+        // Penalizes the player for an incorrect mixture
         if (!success) {
             System.out.println("Failure! the mixture exploded D: cauldron ruined :<");
             currentPlayer.getInventory().ruinOneCauldron();
