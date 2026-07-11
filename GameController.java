@@ -106,6 +106,19 @@ public class GameController {
         System.out.print("Enter your name: ");
         String name = scanner.nextLine();
         this.currentPlayer = new Player(name);
+
+        this.currentPlayer.getInventory().addBase("SYRUP BASE", 1);
+        this.currentPlayer.getInventory().addBase("BUBBLE BASE", 1);
+        this.currentPlayer.getInventory().addBase("MILK BASE", 1);
+
+        this.currentPlayer.getInventory().addFruit("STRAWBERRY", 2);
+        this.currentPlayer.getInventory().addFruit("ORANGE", 4); 
+        this.currentPlayer.getInventory().addFruit("LEMON", 2);
+        this.currentPlayer.getInventory().addFruit("BANANA", 1);
+
+        if (this.recipeCompendium.size() > 0) {
+            this.currentPlayer.getSpellbook().addRecipe(this.recipeCompendium.get(0));
+        }
         System.out.println("Welcome, " + name + "! Starting a new adventure...");
         gameStarted = true;
       }
