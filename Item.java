@@ -1,6 +1,5 @@
 /**
  * Abstract superclass that represents a generic item in game
- * Provides standard properties for inventory and market management
  */
 
 public abstract class Item {
@@ -16,7 +15,7 @@ public abstract class Item {
  * @param sellPrice: The markets' selling price in crystals
  */
 
-  public item(String name, int buyPrice, int sellprice) {
+  public item(String name, int buyPrice, int sellPrice) {
     this.name = name;
     this.buyPrice = buyPrice;
     this.sellPrice = sellPrice;
