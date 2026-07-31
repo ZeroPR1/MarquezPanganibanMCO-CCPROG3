@@ -83,7 +83,7 @@ public class Fruit extends Item {
     return price;
   }
     @Override
-      public String getItemTyipe() {
+      public String getItemType() {
       return "Fruit";
       }
   }
