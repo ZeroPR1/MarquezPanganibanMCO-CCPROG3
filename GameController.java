@@ -106,6 +106,7 @@ public class GameController {
         }
         else {
 
+            // Fetch the full recipe details from the global compendium
             Recipe targetRecipe = null
               for (int i = 0; i < recipeCompendium.size(); i++) {
                   if (recipeCompendium.get(i).getId() == id) {
@@ -116,11 +117,41 @@ public class GameController {
               if (targetRecipe != null) {
                   boolean canBrew = true;
 
-                  
-              }
+                  // Verify that the player has the required base before proceeding
+                  if (!currentPlayer.getInventory().checkIngredientAvailability(targetRecipe.getBaseName(), 1, true)) {
+                      statusMessage = "Error: Insufficient base ingredient.";
+                      canBrew = false;
+                  }
+                  else {
+                    // Verify that the player has all  required fruits
+                    for (int i = 0; i < targetRecipe.getRequiredFruits().size(); i++) {
+                        if (!currentPlayer.getInventory().checkIngredientAvailability(targetRecipe.getRequiredFruits().get(i), 1, false)) {
+                          canBrew = false;
+                        }
+                    }
+                    if (!canBrew) {
+                        statusMessage = "Error: Insufficient fruit ingredients.";
+                    }
+                }
 
-          
+                // If all ingredient checks pass, execute the transaction
+                if (canBrew) {
+                    
+                    // Deduct the exact amounts from the player's inventory
+                    currentPlayer.getInventory().removeBase(targetRecipe.getBaseName(), 1);
+                    for (int i = 0; i < targetRecipe.getRequiredFruits().size(); i++) {
+                        currentPlayer.getInventory().removeFruit(targetRecipe.getRequiredFruits().get(i), 1);
+                    }
+                    
+                    // Award the player the selling price of the brewed potion
+                    currentPlayer.addCrystals(targetRecipe.getPrice());
+                    brewsSinceMarket++;
+                    statusMessage = "Successfully brewed " + targetRecipe.getName() + " and sold for " + targetRecipe.getPrice() + "!";
+                }
+            }
         }
+        
+        return statusMessage;
     }
 
    /**
