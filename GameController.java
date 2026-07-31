@@ -132,8 +132,9 @@ public class GameController {
           System.out.println("Welcome back!");
           gameStarted = true;
         } 
-        else {System.out.println("Save file not found. Please try again or start a New Game.");
-             }
+        else {
+            System.out.println("Save file not found. Please try again or start a New Game.");
+        }
       } else {
         System.out.println("Invalid choice.");
       }
@@ -297,7 +298,6 @@ public class GameController {
         }
     }
 
- 
    /**
      * Allows the player to experiment with combinations of bases and fruits to discover new recipes.
      * * <p><b>Pre-conditions:</b> The player must have at least 2 usable cauldrons in their inventory.</p>
@@ -361,12 +361,6 @@ public class GameController {
                                     System.out.println("Success! Brewed " + r.getName() + "!");
                                     currentPlayer.addCrystals(r.getPrice());
                                     currentPlayer.getSpellbook().addRecipe(r);
-                                  
-                            // Deduct the exact amounts from the player's inventory
-                                    currentPlayer.getInventory().removeBase(targetRecipe.getBaseName(), 1);
-                                      for (int i = 0; i < targetRecipe.getRequiredFruits().size(); i++) {
-                                          currentPlayer.getInventory().removeFruit(targetRecipe.getRequiredFruits().get(i), 1);
-                                      }
                                     brewsSinceMarket++;
                                 }
                             }
@@ -383,79 +377,6 @@ public class GameController {
             }
         }
     }
-  
- /**
-   * Returns the base purchase price for a specific ingredient in the market
-   * @param name the name of the ingredient.
-   * @return the integer price of the ingredient, or 0 if not found
-   * <p><b>Pre-conditions:</b> The name provided is a non-null String.</p>
-   * <p><b>Post-conditions:</b> The correct integer price is returned.</p>
-   */
-  private int getIngredientPrice(String name) {
-      int price;
-      String upperName;
-      price = 1;
-
-      if (name != null) {
-        upperName = name.toUpperCase();
-        price = 0;
-
-        switch (upperName) {
-          case "STRAWBERRY":
-            price = 125;
-            break;
-          case "ORANGE":
-            price = 80;
-            break;
-          case "LEMON":
-            price = 50;
-            break;
-          case "BANANA":
-            price = 75;
-            break;
-          case "MANGO":
-            price = 90;
-            break;
-          case "PINEAPPLE":
-            price = 240;
-            break;
-          case "KIWI":
-            price = 200;
-            break;
-          case "BLUEBERRY":
-            price = 120;
-            break;
-          case "COCONUT":
-            price = 180;
-            break;
-          case "SYRUP BASE":
-            price = 50;
-            break;
-          case "BUBBLE BASE":
-            price = 80;
-            break;
-          case "PERFUME BASE":
-            price = 250;
-            break;
-          case "MILK BASE":
-            price = 60;
-            break;
-          case "LOTION BASE":
-            price = 150;
-            break;
-          case "CAULDRON":
-            price = 3000;
-            break;
-          default:
-            System.out.println("ERROR: Ingredient " + upperName + " not found in inventory!");
-            price = -1;
-            break;
-        }
-      } else {
-        System.out.println("ERROR: Null pointer encountered for ingredient name!\n");
-      }
-      return price;
-  }
 
  /**
    * Manages the player's interactions with the Market (buying and selling).
@@ -463,8 +384,8 @@ public class GameController {
    * <p><b>Post-conditions:</b> Player inventory and crystal balance may be altered. Market slots may be emptied. 
    * If the brew threshold is met, the market is refreshed prior to entry.</p>
    */
-private void visitMarket() { 
-  // Refresh market if the player has brewed enough potions
+  private void visitMarket() { 
+      // Refresh market if the player has brewed enough potions
       if (brewsSinceMarket >= 3) {
           market.refreshMarket();
           brewsSinceMarket = 0;
@@ -486,7 +407,7 @@ private void visitMarket() {
               String input = scanner.nextLine();
 
               if (!input.equalsIgnoreCase("EXIT")) {
-                // Process multi-slot purchases
+                  // Process multi-slot purchases
                   String[] choices = input.split(",");
                   for (int i = 0; i < choices.length; i++) {
                       try {
@@ -494,12 +415,22 @@ private void visitMarket() {
                           IngredientSlot s = market.getSlot(slot);
 
                           if (s.getQuantity() > 0 && !s.getItemName().equals("Empty")) {
-                              int basePrice = getIngredientPrice(s.getItemName());
-                              int totalPrice = basePrice * s.getQuantity();
                               String purchasedName = s.getItemName();
                               int purchasedQty = s.getQuantity();
+                              int basePrice = 0;
+                              
+                              // Dynamically ask the Model for pricing data
+                              if (purchasedName.equals("CAULDRON")) {
+                                  basePrice = new Cauldron().getBuyPrice();
+                              } else if (purchasedName.contains("BASE")) {
+                                  basePrice = new ConcoctionBase(purchasedName, 1).getBuyPrice();
+                              } else {
+                                  basePrice = new Fruit(purchasedName, 1).getBuyPrice();
+                              }
+                              
+                              int totalPrice = basePrice * purchasedQty;
 
-                            // Attempt transaction and route item to correct inventory category
+                              // Attempt transaction and route item to correct inventory category
                               if (currentPlayer.deductCrystals(totalPrice)) {
                                   s.emptySlot();
                                   System.out.println("Success! Bought " + purchasedQty + "x " + purchasedName + " for " + totalPrice + " crystals!");
@@ -530,10 +461,19 @@ private void visitMarket() {
                       System.out.print("Enter quantity to sell: ");
                       try {
                           int sellQty = Integer.parseInt(scanner.nextLine());
-                          int sellPrice = getSellPrice(sellName) * sellQty;
-
-                        // Check which inventory collection to remove the item from
+                          int unitSellPrice = 0;
+                          
+                          // Dynamically ask the Model for pricing data
+                          if (sellName.contains("BASE")) {
+                              unitSellPrice = new ConcoctionBase(sellName, 1).getSellPrice();
+                          } else {
+                              unitSellPrice = new Fruit(sellName, 1).getSellPrice();
+                          }
+                          
+                          int sellPrice = unitSellPrice * sellQty;
                           boolean hasItem = false;
+                          
+                          // Check which inventory collection to remove the item from
                           if (sellName.contains("BASE")) {
                               hasItem = currentPlayer.getInventory().removeBase(sellName, sellQty);
                           } else {
@@ -558,33 +498,6 @@ private void visitMarket() {
               System.out.println("Invalid choice. Please select 1, 2, or 3.");
           }
       }
-  }
-  
- /**
-   * Returns the selling price for an ingredient, which is generally lower than the purchase price.
-   * @param name The name of the ingredient to sell.
-   * @return The integer sell price of the ingredient, or 0 if not found.
-   * <p><b>Pre-conditions:</b> The provided name is a non-null String.</p>
-   * <p><b>Post-conditions:</b> The correct integer sell price is returned.</p>
-   */
-  private int getSellPrice(String name) {
-      name = name.toUpperCase();
-      int price = 0;
-      if (name.equals("STRAWBERRY")) { price = 25; }
-      if (name.equals("ORANGE")) { price = 40; }
-      if (name.equals("LEMON")) { price = 25; }
-      if (name.equals("BANANA")) { price = 50; }
-      if (name.equals("MANGO")) { price = 30; }
-      if (name.equals("PINEAPPLE")) { price = 120; }
-      if (name.equals("KIWI")) { price = 80; }
-      if (name.equals("BLUEBERRY")) { price = 20; }
-      if (name.equals("COCONUT")) { price = 90; }
-      if (name.equals("SYRUP BASE")) { price = 10; }
-      if (name.equals("BUBBLE BASE")) { price = 20; }
-      if (name.equals("PERFUME BASE")) { price = 50; }
-      if (name.equals("MILK BASE")) { price = 15; }
-      if (name.equals("LOTION BASE")) { price = 25; }
-      return price;
   }
 
   /**
@@ -816,5 +729,4 @@ private void visitMarket() {
       
       return isSuccess;
   }
- }
-
+}
