@@ -1,4 +1,4 @@
-  /**
+/**
    * Cauldron.java
    * This file contains the cauldron class, which represents a brewing station
    * in the game. It manages the operational state of the cauldron for crafting.
@@ -9,7 +9,7 @@
    * This class tracks wheter the cauldron is currently in a usable state
    * or if it requires restoration after a failed brewing attempt.
    */ 
-public class Cauldron {
+public class Cauldron extends Item {
   /** Tracks the current operational status of the cauldron (true if usable, false if ruined). */
   private boolean isUsable;
 
@@ -20,6 +20,8 @@ public class Cauldron {
    * <p><b>Post-conditions:</b> A new cauldron object is instantiated with its isUsable attribute set to true.</p>
    */ 
   public Cauldron() {
+    // Calls the Item superclass constructor: name, quantity, buy price, sell price
+    super("CAULDRON", 1, 3000, 0); 
     this.isUsable = true;
   }
 
@@ -48,4 +50,13 @@ public class Cauldron {
   public void blessCauldron() {
     this.isUsable = true;
   }  
+  
+  /**
+   * Returns the categorization of this item.
+   * @return A string representing the item's type.
+   */
+  @Override
+  public String getItemType() { 
+      return "Equipment"; 
+  }
 }
