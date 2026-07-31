@@ -2,10 +2,10 @@
  * GameController.java
  * This file contains the GameController class, which serves as the core engine
  * for Potion Prodigy. It handles the main game loop, user menus, crafting mechanics, 
- * market interactions, and file input/output for saving and loading player states.
+ * market interactions, and used to file input/output for saving and loading player states.
+ * now it returns results to the GUI.
  */
 
-import java.util.Scanner;
 import java.util.ArrayList;
 import java.io.File;
 import java.io.FileWriter;
@@ -35,8 +35,6 @@ public class GameController {
   /** Tracks the number of potions brewed since the market was last refreshed. */
   private int brewsSinceMarket;
 
-  /** Scanner object used to read console input from the user. */
-  private Scanner scanner;
 
   /**
    * Constructs a new gameController and creates the games' core system
@@ -45,7 +43,6 @@ public class GameController {
    * Tracks are reset, and the compendium is loaded from the external file.</p>
    */
   public GameController() {
-      this.scanner = new Scanner(System.in);
       this.recipeCompendium = new ArrayList<Recipe>();
       this.market = new Market();
       this.loginBonusClaimed = false;
@@ -84,65 +81,6 @@ public class GameController {
       }
   }
 
- /**
-   * Initiates the game startup sequence, allowing the user to start a new game or load a save
-   * <p><b>Pre-conditions:</b> The GameController must be created.</p>
-   * <p><b>Post-conditions:</b> A valid Player object is created (either new or loaded)
-   * and the game proceeds to the main menu loop.</p>
-   */
-  public void startGame() {
-    boolean gameStarted = false;
-    
-    System.out.println("Welcome to Potion Prodigy!");
-
-    // Keep prompting until a new game is created or a save is loaded
-    while (!gameStarted) {
-      System.out.println("[1] New Game");
-      System.out.println("[2] Load Existing Save");
-      System.out.print("Choose an option: ");
-      String choice = scanner.nextLine();
-      
-      if (choice.equals("1")) {
-        System.out.print("Enter your name: ");
-        String name = scanner.nextLine();
-        this.currentPlayer = new Player(name);
-
-        this.currentPlayer.getInventory().addBase("SYRUP BASE", 1);
-        this.currentPlayer.getInventory().addBase("BUBBLE BASE", 1);
-        this.currentPlayer.getInventory().addBase("MILK BASE", 1);
-
-        this.currentPlayer.getInventory().addFruit("STRAWBERRY", 2);
-        this.currentPlayer.getInventory().addFruit("ORANGE", 4); 
-        this.currentPlayer.getInventory().addFruit("LEMON", 2);
-        this.currentPlayer.getInventory().addFruit("BANANA", 1);
-
-        if (this.recipeCompendium.size() > 0) {
-            this.currentPlayer.getSpellbook().addRecipe(this.recipeCompendium.get(0));
-        }
-        System.out.println("Welcome, " + name + "! Starting a new adventure...");
-        gameStarted = true;
-      }
-      else if (choice.equals("2")) {
-        System.out.print("Enter the name of your save file: ");
-        String saveName = scanner.nextLine();
-        
-        boolean loadSuccess = loadSaveFile(saveName);
-              
-        if (loadSuccess) {
-          System.out.println("Welcome back!");
-          gameStarted = true;
-        } 
-        else {
-            System.out.println("Save file not found. Please try again or start a New Game.");
-        }
-      } else {
-        System.out.println("Invalid choice.");
-      }
-    }
-    
-      mainMenuLoop();
-  }
-  
   /**
    * Manages the main interactive loop of the game, displaying the primary options
    * <p><b>Pre-conditions:</b> A valid currentPlayer must exist.</p>
