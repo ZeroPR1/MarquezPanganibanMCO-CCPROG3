@@ -44,6 +44,44 @@ public class Fruit extends Item {
     }
     return price;
   }
+
+    private static int determineSellPrice(String name) {
+    int price = 0;
+
+    switch (name.toUpperCase()){
+      case "STRAWBERRY":
+        price = 25;
+        break;
+      case "ORANGE":
+        price = 40;
+        break;
+      case "LEMON":
+        price = 25;
+        break;
+      case "BANANA":
+        price = 50;
+        break;
+      case "MANGO":
+        price = 30;
+        break;
+      case "PINEAPPLE":
+        price = 120;
+        break;
+      case "KIWI":
+        price = 80;
+        break;
+      case "BLUEBERRY":
+        price = 20;
+        break;
+      case "COCONUT":
+        price = 90;
+        break;
+      default:
+        price = 0;
+        break;
+    }
+    return price;
+  }
     @Override
       public String getItemTyipe() {
       return "Fruit";
