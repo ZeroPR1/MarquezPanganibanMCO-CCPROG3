@@ -93,69 +93,33 @@ public class GameController {
      * <p><b>Post-conditions:</b> If the recipe is valid and ingredients are sufficient, the 
      * ingredients are consumed, the potion is brewed and sold, and crystals are awarded. 
      * If invalid, the game state remains completely unchanged.</p>
+     *
+     * @param id: The ID of the recipe the player is trying to brew
+     * @return String: containg the success message or the specific error encountered
      */
-    private void recipeMode() {
-        currentPlayer.getSpellbook().displaySpellbook();
-        System.out.print("Enter Recipe ID to brew: ");
-        
-        try {
-            // Attempt to parse the user input to prevent crashes from letters or blanks
-            int id = Integer.parseInt(scanner.nextLine());
+    public String recipeMode(int id) {
+        String statusMessage = "";
 
-            // Validate that the player has actually discovered this recipe
-            if (!currentPlayer.getSpellbook().hasRecipe(id)) {
-                System.out.println("Error: Recipe not unlocked");
-            } else {
-                
-                // Fetch the full recipe details from the global compendium
-                Recipe targetRecipe = null;
-                for (int i = 0; i < recipeCompendium.size(); i++) {
-                    if (recipeCompendium.get(i).getId() == id) {
-                        targetRecipe = recipeCompendium.get(i);
-                    }
-                }
+        // Validate that the player actually discovered the recipe
+        if (!currentPlayer.getSpellbook().hasRecipe(id)) {
+            statusMessage = "Error: Recipe not unlocked";
+        }
+        else {
 
-                if (targetRecipe != null) {
-                    boolean canBrew = true;
-                    
-                    // Verify that the player has the required base before proceeding
-                    if (!currentPlayer.getInventory().checkIngredientAvailability(targetRecipe.getBaseName(), 1, true)) {
-                        System.out.println("Error: Insufficient base ingredient.");
-                        canBrew = false;
-                    } else {
-                        // Verify that the player has all required fruits
-                        for (int i = 0; i < targetRecipe.getRequiredFruits().size(); i++) {
-                            if (!currentPlayer.getInventory().checkIngredientAvailability(targetRecipe.getRequiredFruits().get(i), 1, false)) {
-                                canBrew = false;
-                            }
-                        }
-                        if (!canBrew) {
-                            System.out.println("Error: Insufficient fruit ingredients.");
-                        }
-                    }
+            Recipe targetRecipe = null
+              for (int i = 0; i < recipeCompendium.size(); i++) {
+                  if (recipeCompendium.get(i).getId() == id) {
+                      targetRecipe = recipeCompendium.get(i);
+                  }
+              }
 
-                    // If all ingredient checks pass, execute the transaction
-                    if (canBrew) {
-                        System.out.print("Confirm Brew? (Y/N): ");
-                        if (scanner.nextLine().equalsIgnoreCase("Y")){
-                            
-                            // Deduct the exact amounts from the player's inventory
-                            currentPlayer.getInventory().removeBase(targetRecipe.getBaseName(), 1);
-                            for (int i = 0; i < targetRecipe.getRequiredFruits().size(); i++) {
-                                currentPlayer.getInventory().removeFruit(targetRecipe.getRequiredFruits().get(i), 1);
-                            }
-                            
-                            // Award the player the selling price of the brewed potion
-                            System.out.println("Successfully brewed " + targetRecipe.getName() + " and sold for " + targetRecipe.getPrice() + "!");
-                            currentPlayer.addCrystals(targetRecipe.getPrice());
-                            brewsSinceMarket++;
-                        }
-                    }
-                }
-            }
-        } catch (NumberFormatException e) {
-            // Gracefully handle non-integer inputs and return to the menu
-            System.out.println("Error: Invalid input. Please enter a valid numeric ID.");
+              if (targetRecipe != null) {
+                  boolean canBrew = true;
+
+                  
+              }
+
+          
         }
     }
 
