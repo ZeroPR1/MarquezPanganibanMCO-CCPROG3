@@ -82,53 +82,6 @@ public class GameController {
   }
 
   /**
-   * Manages the main interactive loop of the game, displaying the primary options
-   * <p><b>Pre-conditions:</b> A valid currentPlayer must exist.</p>
-   * <p><b>Post-conditions:</b> The game contninues until the player chooses to exit, at which
-   * point the game state is saved and the loop stops.</p>
-   */
-  public void mainMenuLoop() { //kyle
-    boolean playing = true;
-    
-    while (playing) {
-      System.out.println("\n=== Main Menu ===");
-      System.out.println("Crystals: " + currentPlayer.getCrystals());
-      System.out.println("[1] Brew Concoction");
-      System.out.println("[2] Check Inventory");
-      System.out.println("[3] Check Spellbook");
-      System.out.println("[4] Visit Market");
-      System.out.println("[5] Bless Cauldron");
-      System.out.println("[6] Login Bonus");
-      System.out.println("[7] Exit Game");
-      System.out.print("What would you like to do? ");
-      
-      String choice = scanner.nextLine();
-
-      // Route user to the appropriate sub-menus or actions based on the selection of the user
-      if (choice.equals("1")) {
-        brewMenu();
-      } else if (choice.equals("2")) {
-        currentPlayer.getInventory().displayInventory();
-      } else if (choice.equals("3")) {
-        currentPlayer.getSpellbook().displaySpellbook();
-      } else if (choice.equals("4")) {
-        visitMarket();
-      } else if (choice.equals("5")) {
-        blessCauldronLogic();
-      } else if (choice.equals("6")) {
-        claimLoginBonus();
-      } else if (choice.equals("7")) {
-        System.out.println("Saving game...");
-        saveGame();
-        System.out.println("Thank you for playing Potion Prodigy!");
-        playing = false;
-      } else {
-        System.out.println("Invalid choice, please select 1-7.");
-      }
-    }
-  }
-
-  /**
    * Displays and manages the brewing sub menu.
    * <p><b>Pre-conditions:</b> A valid currentPlayer must be present.</p>
    * <p><b>Post-conditions:</b> Routes the user to either Recipe Mode, Creative Mode, or returns them to the main menu.</p>
