@@ -6,6 +6,7 @@
  * now it returns results to the GUI.
  */
 
+import java.util.Scanner;
 import java.util.ArrayList;
 import java.io.File;
 import java.io.FileWriter;
