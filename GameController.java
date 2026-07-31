@@ -361,6 +361,12 @@ public class GameController {
                                     System.out.println("Success! Brewed " + r.getName() + "!");
                                     currentPlayer.addCrystals(r.getPrice());
                                     currentPlayer.getSpellbook().addRecipe(r);
+                                  
+                            // Deduct the exact amounts from the player's inventory
+                                    currentPlayer.getInventory().removeBase(targetRecipe.getBaseName(), 1);
+                                      for (int i = 0; i < targetRecipe.getRequiredFruits().size(); i++) {
+                                          currentPlayer.getInventory().removeFruit(targetRecipe.getRequiredFruits().get(i), 1);
+                                      }
                                     brewsSinceMarket++;
                                 }
                             }
