@@ -58,6 +58,8 @@ public class GameController {
    * is populated with Recipe objects. If the file is missing, an error is printed and the list remains empty.</p>
    */
   private void loadCompendium() { //darshan
+      boolean isSuccess = false;
+    
       try {
           File file = new File("POTION COMPENDIUM.csv");
           Scanner fileScanner = new Scanner(file);
@@ -76,10 +78,12 @@ public class GameController {
               }
           }
           fileScanner.close();
+          isSuccess = true;
       }  
       catch (Exception e) {
-        System.out.println("Warning: POTION COMPENDIUM.csv not found.");    
       }
+
+      return isSuccess;
   }
 
    /**
