@@ -68,13 +68,17 @@ public class Inventory {
      * and true is returned. Otherwise, the inventory is unchanged and false is returned.</p>
      */
     public boolean removeFruit(String name, int quantity){
-        boolean success = false;
         for (int i = 0; i < this.fruits.size(); i++){
           if (this.fruits.get(i).getName().equals(name)){
-              success = this.fruits.get(i).deductQuantity(quantity);
+              boolean success = this.fruits.get(i).deductQuantity(quantity);
+
+              if (success && this.fruits.get(i).getQuantity() == 0) {
+                  this.fruits.remove(i);
+              }
+              return success;
           }
         }
-        return success;
+        return false;
     }
 
     /**
@@ -109,13 +113,17 @@ public class Inventory {
      * and true is returned. Otherwise, the inventory is unchanged and false is returned.</p>
      */
     public boolean removeBase(String name, int quantity) {
-      boolean success = false;
       for (int i = 0; i < this.bases.size(); i++) {
         if (this.bases.get(i).getName().equals(name)) {
-            success = this.bases.get(i).deductQuantity(quantity);
+            boolean success = this.bases.get(i).deductQuantity(quantity);
+
+            if (success && this.bases.get(i).getQuantity() == 0) {
+                this.bases.remove(i);
+            }
+            return success;
         }
       }
-      return success;
+      return false;
     }
 
     /**
@@ -221,6 +229,31 @@ public class Inventory {
       display += "--- Cauldrons ---\n";
       display += "Usable: " + getUsableCauldronCount() + " | Unusable: " + getUnusableCauldronCount() + "\n";
       return display;
+    }
+
+    /**
+     * Converts the current inventory into a 2D array for GUI table rendering.
+     * @return An Object[][] containing ingredient names and quantities.
+     * <p><b>Pre-conditions:</b> None.</p>
+     * <p><b>Post-conditions:</b> Returns a structured array combining bases and fruits.</p>
+     */
+    public Object[][] getInventoryTableData() {
+        int totalSize = this.fruits.size() + this.bases.size();
+        Object[][] data = new Object[totalSize][2];
+        int index = 0;
+        
+        for (int i = 0; i < this.bases.size(); i++) {
+            data[index][0] = this.bases.get(i).getName();
+            data[index][1] = this.bases.get(i).getQuantity();
+            index++;
+        }
+        for (int i = 0; i < this.fruits.size(); i++) {
+            data[index][0] = this.fruits.get(i).getName();
+            data[index][1] = this.fruits.get(i).getQuantity();
+            index++;
+        }
+        
+        return data;
     }
 
     /**
