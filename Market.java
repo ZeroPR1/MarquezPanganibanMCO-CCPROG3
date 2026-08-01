@@ -72,22 +72,24 @@ public class Market {
     }
 
     /**
-     * Displays the current stock and quantities available in the market to the console.
+     * Compiles the current stock and quantities available in the market into a string.
+     * @return A formatted String representing the current market inventory.
      * <p><b>Pre-conditions:</b> None.</p>
-     * <p><b>Post-conditions:</b> Iterates through the slots and prints out the item name and 
+     * <p><b>Post-conditions:</b> Iterates through the slots and returns a formatted string of the item name and 
      * quantity for available items, or "[SOLD OUT]" for empty slots.</p>
      */
-    public void displayMarket(){ //displays current stock and prices.
-        System.out.println("\n=== Welcome to the Market! ===");
+    public String displayMarket(){ //returns current stock and prices as a String.
+        String display = "\n=== Welcome to the Market! ===\n";
         for (int i = 0; i < this.slots.length; i++){
             IngredientSlot s = this.slots[i];
 
             if (s.getQuantity() > 0 && !"Empty".equals(s.getItemName())){ //check if quantity is > 0 AND the slot hasnt been flagged as empty
-                System.out.println("[" + i + "] " + s.getItemName() + " | Qty: " + s.getQuantity());
+                display += "[" + i + "] " + s.getItemName() + " | Qty: " + s.getQuantity() + "\n";
             }
             else{
-                System.out.println("[" + i + "] [SOLD OUT]");
+                display += "[" + i + "] [SOLD OUT]\n";
             }
         }
+        return display;
     }
   }
