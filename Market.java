@@ -92,4 +92,39 @@ public class Market {
         }
         return display;
     }
+
+    /**
+     * Converts the current market slots into a 2D array for GUI table rendering.
+     * @return An Object[][] containing slot ID, ingredient name, quantity, and price.
+     * <p><b>Pre-conditions:</b> None.</p>
+     * <p><b>Post-conditions:</b> Returns a structured array of the market's current state.</p>
+     */
+    public Object[][] getMarketTableData() {
+        Object[][] data = new Object[this.slots.length][4];
+        for (int i = 0; i < this.slots.length; i++) {
+            IngredientSlot s = this.slots[i];
+            data[i][0] = i; 
+            
+            if (s.getQuantity() > 0 && !"Empty".equals(s.getItemName())) {
+                String name = s.getItemName();
+                data[i][1] = name;
+                data[i][2] = s.getQuantity();
+                
+                int price = 0;
+                if (name.equals("CAULDRON")) {
+                    price = new Cauldron().getBuyPrice();
+                } else if (name.contains("BASE")) {
+                    price = new ConcoctionBase(name, 1).getBuyPrice();
+                } else {
+                    price = new Fruit(name, 1).getBuyPrice();
+                }
+                data[i][3] = price;
+            } else {
+                data[i][1] = "[SOLD OUT]";
+                data[i][2] = 0;
+                data[i][3] = "-";
+            }
+        }
+        return data;
+    }
   }
