@@ -203,22 +203,24 @@ public class Inventory {
     }
 
     /**
-     * Prints the current state of the inventory to the console.
+     * Formats the current state of the inventory into a string.
+     * @return A formatted String representing the entire inventory contents.
      * <p><b>Pre-conditions:</b> None.</p>
      * <p><b>Post-conditions:</b> The names and quantities of all fruits and bases, along with 
-     * the counts of usable and unusable cauldrons, are output to the console.</p>
+     * the counts of usable and unusable cauldrons, are returned as a formatted string.</p>
      */
-    public void displayInventory() {
-      System.out.println("\n--- Fruits ---");
+    public String displayInventory() { // Returns the inventory as a String
+      String display = "\n--- Fruits ---\n";
       for (int i = 0; i < this.fruits.size(); i++) {
-        System.out.println(this.fruits.get(i).getName() + ": " + this.fruits.get(i).getQuantity());
+        display += this.fruits.get(i).getName() + ": " + this.fruits.get(i).getQuantity() + "\n";
       }
-      System.out.println("--- Bases ---");
+      display += "--- Bases ---\n";
       for (int i = 0; i < this.bases.size(); i++) {
-        System.out.println(this.bases.get(i).getName() + ": " + this.bases.get(i).getQuantity());
+        display += this.bases.get(i).getName() + ": " + this.bases.get(i).getQuantity() + "\n";
       }
-      System.out.println("--- Cauldrons ---");
-      System.out.println("Usable: " + getUsableCauldronCount() + " | Unusable: " + getUnusableCauldronCount());
+      display += "--- Cauldrons ---\n";
+      display += "Usable: " + getUsableCauldronCount() + " | Unusable: " + getUnusableCauldronCount() + "\n";
+      return display;
     }
 
     /**
