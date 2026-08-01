@@ -51,7 +51,11 @@ public class IngredientSlot {
   public int getQuantity() {
     return this.quantity;
   }
-
+  
+  public void setQuantity(int quantity) {
+	    this.quantity = quantity;
+	}
+  
   /**
    * Clears the current slot, removing the item and resetting the quantity to zero.
    * <p><b>Pre-conditions:</b> None.</p>
