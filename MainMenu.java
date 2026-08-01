@@ -46,7 +46,6 @@ public class MainMenu extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(new CardLayout(0, 0));
 		
-		// --- 1. MENU PANEL ---
 		JPanel Menu = new JPanel();
 		Menu.setBackground(new Color(128, 128, 128));
 		Menu.setLayout(null); 
@@ -82,7 +81,6 @@ public class MainMenu extends JFrame {
 		lblNewLabel_1.setBounds(0, 509, 173, 14);
 		Menu.add(lblNewLabel_1);
 		
-		// --- 2. NAME INPUT PANEL ---
 		JPanel nameInput = new JPanel();
 		nameInput.setBackground(new Color(128, 128, 128));
 		nameInput.setLayout(null);
@@ -108,7 +106,6 @@ public class MainMenu extends JFrame {
 		btnNewButton_4.setBounds(315, 286, 114, 42);
 		nameInput.add(btnNewButton_4);
 		
-		// --- 3. DASHBOARD PANEL ---
 		JPanel Dashboard = new JPanel();
 		Dashboard.setBackground(new Color(128, 128, 128));
 		Dashboard.setLayout(null);
@@ -132,7 +129,6 @@ public class MainMenu extends JFrame {
 		btnNewButton_7.setBounds(410, 315, 145, 60);
 		Dashboard.add(btnNewButton_7);
 		
-		// Placeholder for player stats
 		JLabel lblNewLabel_4 = new JLabel("Current Gold: 100g");
 		lblNewLabel_4.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lblNewLabel_4.setForeground(Color.WHITE);
