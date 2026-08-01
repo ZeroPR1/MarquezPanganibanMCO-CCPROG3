@@ -171,7 +171,8 @@ public class GameController {
      * Resets the player's session and grants the starter package.
      */
     private void initializeNewGame() {
-        this.currentPlayer.deductCrystals(this.currentPlayer.getCrystals()); // Reset to 0
+        this.currentPlayer.deductCrystals(this.currentPlayer.getCrystals());
+        this.currentPlayer.addCrystals(5000);
         
 
         // Grant STRAWBERRY SYRUP components
