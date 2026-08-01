@@ -9,7 +9,7 @@ import java.util.ArrayList;
 /**
  * Represents the player's spellbook of unlocked potion recipes.
  * This class handles the addition of newly discovered recipes, checks for 
- * existing unlocks, and displays the recipes sorted by their unique ID.
+ * existing unlocks, and outputs the recipes sorted by their unique ID.
  */
 public class Spellbook{
 
@@ -28,15 +28,18 @@ public class Spellbook{
   /**
    * Adds a newly discovered recipe to the spellbook if it hasn't been unlocked yet.
    * @param newRecipe The Recipe object to add.
+   * @return A String message indicating success or an empty string if already unlocked.
    * <p><b>Pre-conditions:</b> newRecipe must be a valid, fully populated Recipe object.</p>
    * <p><b>Post-conditions:</b> If the recipe ID is not already in the spellbook, it is added to the 
-   * unlockedRecipes list and a success message is printed.</p>
+   * unlockedRecipes list and a success message is returned.</p>
    */
-  public void addRecipe(Recipe newRecipe){
+  public String addRecipe(Recipe newRecipe){
+    String result = "";
     if (!hasRecipe(newRecipe.getId())){
       this.unlockedRecipes.add(newRecipe);
-      System.out.println("Alchemy Success! New recipe added to spellbook: " + newRecipe.getName());
+      result = "Alchemy Success! New recipe added to spellbook: " + newRecipe.getName();
     }
+    return result;
   }
 
   /**
@@ -57,14 +60,16 @@ public class Spellbook{
   }
 
   /**
-   * Sorts and displays all currently unlocked recipes in ascending order by their ID.
+   * Sorts and formats all currently unlocked recipes in ascending order by their ID.
+   * @return A formatted String containing the sorted spellbook contents.
    * <p><b>Pre-conditions:</b> None.</p>
    * <p><b>Post-conditions:</b> The unlockedRecipes list is sorted via bubble sort, and the 
-   * ID, name, and price of each recipe are printed to the console.</p>
+   * ID, name, and price of each recipe are formatted into a string and returned.</p>
    */
-  public void displaySpellbook() { //displays all unlocked recipes sorted by concotion
+  public String displaySpellbook() { //returns all unlocked recipes sorted by concoction as a String
+    String display = "";
     if (this.unlockedRecipes.isEmpty()) {
-      System.out.println("Your spellbook is currently empty.");
+      display = "Your spellbook is currently empty.\n";
     } else {
     //bubble sort to arrange by id in ascending order
     for (int i = 0; i < this.unlockedRecipes.size() - 1; i++) {
@@ -80,12 +85,13 @@ public class Spellbook{
       }
     }
 
-    System.out.println("\n=== Your Spellbook ===");
+    display += "\n=== Your Spellbook ===\n";
     for (int i = 0; i < this.unlockedRecipes.size(); i++) {
         Recipe r = this.unlockedRecipes.get(i);
-        System.out.println("ID: " + r.getId() + " | " + r.getName() + " (Sells for " + r.getPrice() + ")");
+        display += "ID: " + r.getId() + " | " + r.getName() + " (Sells for " + r.getPrice() + ")\n";
       }  
     }
+    return display;
   }
 
   /**
