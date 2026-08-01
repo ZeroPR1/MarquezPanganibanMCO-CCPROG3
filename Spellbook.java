@@ -95,6 +95,36 @@ public class Spellbook{
   }
 
   /**
+   * Converts the unlocked recipes into a sorted 2D array for GUI table rendering.
+   * @return An Object[][] containing the potion names and their recipe IDs.
+   * <p><b>Pre-conditions:</b> None.</p>
+   * <p><b>Post-conditions:</b> Returns a structured, ID-sorted array of the spellbook's contents.</p>
+   */
+  public Object[][] getSpellbookTableData() {
+      // bubble sort to arrange by id in ascending order to match console output logic
+      for (int i = 0; i < this.unlockedRecipes.size() - 1; i++) {
+        for (int j = 0; j < this.unlockedRecipes.size() - i - 1; j++){
+            int id1 = this.unlockedRecipes.get(j).getId();
+            int id2 = this.unlockedRecipes.get(j + 1).getId();
+
+          if (id1 > id2) {
+            Recipe temp = this.unlockedRecipes.get(j);
+            this.unlockedRecipes.set(j, this.unlockedRecipes.get(j + 1));
+            this.unlockedRecipes.set(j + 1, temp);
+          }
+        }
+      }
+      
+      Object[][] data = new Object[this.unlockedRecipes.size()][2];
+      for (int i = 0; i < this.unlockedRecipes.size(); i++) {
+          Recipe r = this.unlockedRecipes.get(i);
+          data[i][0] = r.getName();
+          data[i][1] = r.getId();
+      }
+      return data;
+  }
+
+  /**
    * Compiles the IDs of all unlocked recipes into a formatted string for saving.
    * @return A comma-separated String containing the IDs of all unlocked recipes.
    * <p><b>Pre-conditions:</b> None.</p>
