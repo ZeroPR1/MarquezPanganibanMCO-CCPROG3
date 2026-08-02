@@ -51,7 +51,12 @@ public class IngredientSlot {
   public int getQuantity() {
     return this.quantity;
   }
-  
+  /**
+   * Overrides the current quantity of the item in the slot.
+   * @param quantity The new integer quantity to set.
+   * <p><b>Pre-conditions:</b> quantity must be a non-negative integer.</p>
+   * <p><b>Post-conditions:</b> The slot's quantity attribute is updated to the given value.</p>
+   */
   public void setQuantity(int quantity) {
 	    this.quantity = quantity;
 	}
