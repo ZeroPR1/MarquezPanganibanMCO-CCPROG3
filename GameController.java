@@ -544,10 +544,12 @@ public class GameController {
                 int totalCauldrons = 0;
                 int usableCauldrons = 0;
 
+                // Sequentially read and parse the text file line by line to reconstruct the player state
                 while (fileScanner.hasNextLine()) {
                     String line = fileScanner.nextLine().trim();
 
                     if (!line.isEmpty()) {
+                        // Detect header tags (e.g., [INVENTORY], [SPELLBOOK]) to determine parsing context
                         if (line.startsWith("[") && line.endsWith("]")) {
                             currentSection = line;
                         } else {
@@ -566,6 +568,7 @@ public class GameController {
                                     String itemName = parts[0].trim();
                                     int quantity = Integer.parseInt(parts[1].trim());
 
+                                    // Direct the parsed item to the appropriate inventory sub-list based on its suffix
                                     if (itemName.endsWith("BASE")) {
                                         currentPlayer.getInventory().addBase(itemName, quantity);
                                     } else if (itemName.equals("TOTAL CAULDRONS")) {
@@ -579,6 +582,8 @@ public class GameController {
                             } 
                             else if (currentSection.equals("[SPELLBOOK]")) {
                                 String[] recipeIds = line.split(",");
+
+                                // Iterate through the parsed IDs and match them with the global recipe compendium
                                 for (int i = 0; i < recipeIds.length; i++) {
                                     String idStr = recipeIds[i].trim();
                                     if (!idStr.isEmpty()) {
