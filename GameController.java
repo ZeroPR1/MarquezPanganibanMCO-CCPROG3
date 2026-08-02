@@ -3,7 +3,7 @@
  * This file contains the GameController class, which serves as the core engine
  * for Potion Prodigy. It handles the main game loop, user menus, crafting mechanics, 
  * market interactions, and used to file input/output for saving and loading player states.
- * now it returns results to the GUI.
+ * now it returns results to the GUI.[cite: 1]
  */
 
 import java.util.Scanner;
@@ -18,32 +18,32 @@ import javax.swing.JOptionPane;
 /**
  * Manages the primary flow, menus, and state of the game.
  * This class coordinates interactions between the Player, Market, and Recipe Compendium,
- * while processing GUI-based user inputs.
+ * while processing GUI-based user inputs.[cite: 1]
  */
 public class GameController {
 
     private GameView view;
 
-    /** The player entity currently engaged in the game. */
+    /** The player entity currently engaged in the game.[cite: 1] */
     private Player currentPlayer;
 
-    /** The market instance where the player can buy and sell items. */
+    /** The market instance where the player can buy and sell items.[cite: 1] */
     private Market market;
 
-    /** A comprehensive list of all available recipes in the game. */
+    /** A comprehensive list of all available recipes in the game.[cite: 1] */
     private ArrayList<Recipe> recipeCompendium;
 
-    /** Tracks if the login bonus has been claimed during the current session to prevent multiple claims. */
+    /** Tracks if the login bonus has been claimed during the current session to prevent multiple claims.[cite: 1] */
     private boolean loginBonusClaimed;
 
-    /** Tracks the number of potions brewed since the market was last refreshed. */
+    /** Tracks the number of potions brewed since the market was last refreshed.[cite: 1] */
     private int brewsSinceMarket;
 
     /**
      * Constructs a new gameController and creates the games' core system
      * <p><b>Pre-conditions:</b> None.</p>
      * <p><b>Post-conditions:</b> The scanner, recipe compendium, and market are created
-     * Tracks are reset, and the compendium is loaded from the external file.</p>
+     * Tracks are reset, and the compendium is loaded from the external file.</p>[cite: 1]
      */
     public GameController(GameView view) {
         this.view = view;
@@ -56,12 +56,10 @@ public class GameController {
         setupListeners();
     }
 
-    /**
-     * Initializes all UI listeners to bridge the GUI components to the game logic.
-     */
+    // Initializes all UI listeners to bridge the GUI components to the game logic.
     private void setupListeners() {
         //navigation
-        view.addNewGameListener(e -> view.showScreen("NAME_INPUT"));
+        view.addNewGameListener(e -> view.showScreen("nameInput"));
         view.addExitMenuListener(e -> System.exit(0));
         
         //new hame creation
@@ -74,7 +72,7 @@ public class GameController {
             this.currentPlayer = new Player(name);
             startNewGame();
             refreshDashboard();
-            view.showScreen("DASHBOARD");
+            view.showScreen("Dashboard");
         });
 
         // load/save
@@ -83,7 +81,7 @@ public class GameController {
             if (name != null && !name.trim().isEmpty()) {
                 if (loadSaveFile(name)) {
                     refreshDashboard();
-                    view.showScreen("DASHBOARD");
+                    view.showScreen("Dashboard");
                     view.displayMessage("Welcome back, " + name + "!");
                 } else {
                     view.displayMessage("Save file not found or corrupted.");
@@ -93,7 +91,7 @@ public class GameController {
 
         view.addExitAndSaveListener(e -> {
             saveGame();
-            view.showScreen("MENU");
+            view.showScreen("Menu");
         });
 
         // dashboard actions
@@ -101,7 +99,7 @@ public class GameController {
         view.addVisitMarketListener(e -> {
             checkMarketRefresh();
             view.updateMarketTable(market.getMarketTableData());
-            view.showScreen("MARKET");
+            view.showScreen("Market");
         });
         view.addClaimBonusListener(e -> claimLoginBonus());
         view.addBlessCauldronListener(e -> blessCauldronLogic());
@@ -109,14 +107,14 @@ public class GameController {
         // brewing modes
         view.addNavRecipeModeListener(e -> {
             view.updateSpellbookTable(currentPlayer.getSpellbook().getSpellbookTableData());
-            view.showScreen("RECIPE_MODE");
+            view.showScreen("recipeMode");
         });
         
-        view.addNavCreativeModeListener(e -> view.showScreen("CREATIVE_MODE"));
+        view.addNavCreativeModeListener(e -> view.showScreen("creativeMode"));
         
         view.addNavBackToDashboardListener(e -> {
             refreshDashboard();
-            view.showScreen("DASHBOARD");
+            view.showScreen("Dashboard");
         });
         
         // action executions
@@ -144,19 +142,17 @@ public class GameController {
         view.addActionBuyMarketListener(e -> {
             try {
                 int slot = Integer.parseInt(view.getMarketSlotInput());
-                int qty = Integer.parseInt(view.getMarketQtyInput());
-                processMarketPurchase(slot, qty);
+                processMarketPurchase(slot);
                 view.updateMarketTable(market.getMarketTableData());
                 refreshDashboard();
             } catch (NumberFormatException ex) {
-                view.displayMessage("Invalid slot or quantity.");
+                view.displayMessage("Please enter a valid slot number.");
             }
         });
     }
 
-    /**
-     * Refreshes all tables and labels on the dashboard to reflect current player state.
-     */
+    //Refreshes all tables and labels on the dashboard to reflect current player state.
+ 
     private void refreshDashboard() {
         if (currentPlayer != null) {
             view.updateDashboardStats(currentPlayer.getName(), currentPlayer.getCrystals(), currentPlayer.getInventory().getUsableCauldronCount());
@@ -167,9 +163,7 @@ public class GameController {
             view.updateSpellbookTable(currentPlayer.getSpellbook().getSpellbookTableData());
         }
     }
-    /**
-     * Resets the player's session and grants the starter package.
-     */
+
     private void startNewGame() {
         this.currentPlayer.deductCrystals(this.currentPlayer.getCrystals());
         this.currentPlayer.addCrystals(5000);
@@ -187,7 +181,7 @@ public class GameController {
         // Random starter ingredients
         String[] randomPool = {"BUBBLE BASE", "PERFUME BASE", "MILK BASE", "APPLE", "ORANGE"};
         Random rand = new Random();
-        int numberOfRandomItems = rand.nextInt(3) + 2; 
+        int numberOfRandomItems = rand.nextInt(3) + 2;
         
         for (int i = 0; i < numberOfRandomItems; i++) {
             String randomItem = randomPool[rand.nextInt(randomPool.length)];
@@ -204,7 +198,7 @@ public class GameController {
      * Loads the recipes from the POTION COMPENDIUM.csv file.
      * <p><b>Pre-conditions:</b> The recipeCompendium list must be created.</p>
      * <p><b>Post-conditions:</b> If the file exists and is formally correctly, recipeCompendium
-     * is populated with Recipe objects. If the file is missing, an error is printed and the list remains empty.</p>
+     * is populated with Recipe objects. If the file is missing, an error is printed and the list remains empty.</p>[cite: 1]
      */
     private void loadCompendium() { //darshan
         try {
@@ -240,7 +234,7 @@ public class GameController {
      * If invalid, the game state remains completely unchanged.</p>
      *
      * @param id: The ID of the recipe the player is trying to brew
-     * @return String: containg the success message or the specific error encountered
+     * @return String: containg the success message or the specific error encountered[cite: 1]
      */
     public String recipeMode(int id) {
         String statusMessage = "";
@@ -293,7 +287,7 @@ public class GameController {
      * Allows the player to experiment with combinations of bases and fruits to discover new recipes.
      * <p><b>Pre-conditions:</b> The player must have at least 2 usable cauldrons in their inventory.</p>
      * <p><b>Post-conditions:</b> Ingredients are consumed. If a valid recipe is discovered, it is 
-     * added to the spellbook, crystals are awarded, and the potion is sold. If invalid, a cauldron is ruined.</p>
+     * added to the spellbook, crystals are awarded, and the potion is sold. If invalid, a cauldron is ruined.</p>[cite: 1]
      * 
      * @param base: The selected base ingredient
      * @param fruits: The array of selected fruit ingredients
@@ -315,19 +309,13 @@ public class GameController {
         ArrayList<String> fruitList = new ArrayList<>();
         boolean validFruits = true;
 
-        // Iterate through the available fruits provided by the user via the GUI input
         for (int i = 0; i < fruits.length && validFruits; i++) {
             String f = fruits[i].trim();
-
-            // Skip any empty strings resulting from trailing commas or spaces in user input
             if (f.isEmpty()) continue;
-
-            // Ensure the player is not using duplicate ingredients in the same recipe
+            
             if (fruitList.contains(f)) {
                 return "Error: cannot repeat ingredients.";
-            } 
-            // Validate that the player has sufficient quantity of the requested fruit in their inventory
-            else if (!currentPlayer.getInventory().checkIngredientAvailability(f, 1, false)){
+            } else if (!currentPlayer.getInventory().checkIngredientAvailability(f, 1, false)){
                 return "Error: Insufficient " + f + ".";
             } else {
                 fruitList.add(f);
@@ -378,13 +366,14 @@ public class GameController {
      * Manages the player's interactions with the Market (buying and selling).
      * <p><b>Pre-conditions:</b> currentPlayer and market must be properly initialized.</p>
      * <p><b>Post-conditions:</b> Player inventory and crystal balance may be altered. Market slots may be emptied. 
-     * If the brew threshold is met, the market is refreshed prior to entry.</p>
+     * If the brew threshold is met, the market is refreshed prior to entry.</p>[cite: 1]
      */
-    private void processMarketPurchase(int slot, int qty) { 
+    private void processMarketPurchase(int slot) { 
         try {
             IngredientSlot s = market.getSlot(slot);
+            int qty = s.getQuantity();
 
-            if (s.getQuantity() >= qty && !s.getItemName().equals("Empty")) {
+            if (qty > 0 && !s.getItemName().equals("Empty")) {
                 String purchasedName = s.getItemName();
                 int basePrice = 0;
                 
@@ -399,10 +388,9 @@ public class GameController {
                 int totalPrice = basePrice * qty;
 
                 if (currentPlayer.deductCrystals(totalPrice)) {
-                    s.setQuantity(s.getQuantity() - qty); // update slot qty
-                    if(s.getQuantity() == 0) s.emptySlot();
+                    s.emptySlot(); // Completely empties the slot enforcing the buy-out
                     
-                    view.displayMessage("Success! Bought " + qty + "x " + purchasedName + " for " + totalPrice + " crystals!");
+                    view.displayMessage("Success! Bought the entire stock of " + qty + "x " + purchasedName + " for " + totalPrice + " crystals!");
 
                     if (purchasedName.equals("CAULDRON")) { 
                         for(int i=0; i<qty; i++) currentPlayer.getInventory().addCauldron(); 
@@ -412,10 +400,10 @@ public class GameController {
                         currentPlayer.getInventory().addFruit(purchasedName, qty); 
                     }
                 } else {
-                    view.displayMessage("Error: Insufficient funds. You need " + totalPrice + " crystals.");
+                    view.displayMessage("Error: Insufficient funds. You need " + totalPrice + " crystals to buy out this slot.");
                 }
             } else {
-                view.displayMessage("Invalid quantity or empty slot.");
+                view.displayMessage("Invalid slot or empty stock.");
             }
         } catch (Exception e) {
             view.displayMessage("Error processing purchase.");
@@ -426,7 +414,7 @@ public class GameController {
      * Grants the player a random ingredient once per session.
      * <p><b>Pre-conditions:</b> loginBonusClaimed must be tracked for the current session.</p>
      * <p><b>Post-conditions:</b> If unclaimed, a random item is added to the players inventory 
-     * and the flag is set to true. If already claimed, no action is taken.</p>
+     * and the flag is set to true. If already claimed, no action is taken.</p>[cite: 1]
      */
     private void claimLoginBonus() { //kyle
         if (this.loginBonusClaimed) {
@@ -454,7 +442,7 @@ public class GameController {
     /**
      * Allows the player to repair a ruined cauldron for a crystal fee.
      * <p><b>Pre-conditions:</b> The player must have at least one unusable cauldron and enough crystals (1000).</p>
-     * <p><b>Post-conditions:</b> If conditions are met, 1000 crystals are deducted and one cauldron is restored.</p>
+     * <p><b>Post-conditions:</b> If conditions are met, 1000 crystals are deducted and one cauldron is restored.</p>[cite: 1]
      */
     private void blessCauldronLogic() { //kyle
         int brokenCauldrons = currentPlayer.getInventory().getUnusableCauldronCount();
@@ -485,7 +473,7 @@ public class GameController {
      * Saves the current player state to a text file.
      * <p><b>Pre-conditions:</b> currentPlayer must be fully populated with valid state data.</p>
      * <p><b>Post-conditions:</b> A text file named "[PlayerName].txt" is created containing the player's 
-     * crystals, inventory data, cauldron counts, and spell book data.</p>
+     * crystals, inventory data, cauldron counts, and spell book data.</p>[cite: 1]
      */
     private void saveGame() { //darshan
         try {
@@ -531,7 +519,7 @@ public class GameController {
      * Returns true if the load is successful, or false if the file does not exist or fails to read.</p>
      *
      * @param name The name of the save file to load (excluding the .txt extension).
-     * @return true if the save file was successfully loaded, false otherwise.
+     * @return true if the save file was successfully loaded, false otherwise.[cite: 1]
      */
     private boolean loadSaveFile(String name) { //darshan
         boolean isSuccess = false;
@@ -544,12 +532,10 @@ public class GameController {
                 int totalCauldrons = 0;
                 int usableCauldrons = 0;
 
-                // Sequentially read and parse the text file line by line to reconstruct the player state
                 while (fileScanner.hasNextLine()) {
                     String line = fileScanner.nextLine().trim();
 
                     if (!line.isEmpty()) {
-                        // Detect header tags (e.g., [INVENTORY], [SPELLBOOK]) to determine parsing context
                         if (line.startsWith("[") && line.endsWith("]")) {
                             currentSection = line;
                         } else {
@@ -568,7 +554,6 @@ public class GameController {
                                     String itemName = parts[0].trim();
                                     int quantity = Integer.parseInt(parts[1].trim());
 
-                                    // Direct the parsed item to the appropriate inventory sub-list based on its suffix
                                     if (itemName.endsWith("BASE")) {
                                         currentPlayer.getInventory().addBase(itemName, quantity);
                                     } else if (itemName.equals("TOTAL CAULDRONS")) {
@@ -582,16 +567,15 @@ public class GameController {
                             } 
                             else if (currentSection.equals("[SPELLBOOK]")) {
                                 String[] recipeIds = line.split(",");
-
-                                // Iterate through the parsed IDs and match them with the global recipe compendium
                                 for (int i = 0; i < recipeIds.length; i++) {
                                     String idStr = recipeIds[i].trim();
                                     if (!idStr.isEmpty()) {
                                         int id = Integer.parseInt(idStr);
-                                        for (int j = 0; j < recipeCompendium.size(); j++) {
+                                        boolean recipeFound = false; 
+                                        for (int j = 0; j < recipeCompendium.size() && !recipeFound; j++) {
                                             if (recipeCompendium.get(j).getId() == id) {
                                                 currentPlayer.getSpellbook().addRecipe(recipeCompendium.get(j));
-                                                break;
+                                                recipeFound = true; 
                                             }
                                         }
                                     }
