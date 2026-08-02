@@ -102,11 +102,13 @@ public class Spellbook{
    */
   public Object[][] getSpellbookTableData() {
       // bubble sort to arrange by id in ascending order to match console output logic
+      // The outer loop determines the number of passes required to sort the entire list
       for (int i = 0; i < this.unlockedRecipes.size() - 1; i++) {
         for (int j = 0; j < this.unlockedRecipes.size() - i - 1; j++){
             int id1 = this.unlockedRecipes.get(j).getId();
             int id2 = this.unlockedRecipes.get(j + 1).getId();
 
+          // Swap logic: if the current element's ID is greater than the next, swap their positions
           if (id1 > id2) {
             Recipe temp = this.unlockedRecipes.get(j);
             this.unlockedRecipes.set(j, this.unlockedRecipes.get(j + 1));
