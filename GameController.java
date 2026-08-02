@@ -72,7 +72,7 @@ public class GameController {
                 return;
             }
             this.currentPlayer = new Player(name);
-            initializeNewGame();
+            startNewGame();
             refreshDashboard();
             view.showScreen("DASHBOARD");
         });
@@ -170,7 +170,7 @@ public class GameController {
     /**
      * Resets the player's session and grants the starter package.
      */
-    private void initializeNewGame() {
+    private void startNewGame() {
         this.currentPlayer.deductCrystals(this.currentPlayer.getCrystals());
         this.currentPlayer.addCrystals(5000);
         
