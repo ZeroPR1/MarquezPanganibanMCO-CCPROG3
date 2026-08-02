@@ -3,7 +3,7 @@
  * This file contains the GameController class, which serves as the core engine
  * for Potion Prodigy. It handles the main game loop, user menus, crafting mechanics, 
  * market interactions, and used to file input/output for saving and loading player states.
- * now it returns results to the GUI.[cite: 1]
+ * now it returns results to the GUI.
  */
 
 import java.util.Scanner;
@@ -18,32 +18,32 @@ import javax.swing.JOptionPane;
 /**
  * Manages the primary flow, menus, and state of the game.
  * This class coordinates interactions between the Player, Market, and Recipe Compendium,
- * while processing GUI-based user inputs.[cite: 1]
+ * while processing GUI-based user inputs.
  */
 public class GameController {
 
     private GameView view;
 
-    /** The player entity currently engaged in the game.[cite: 1] */
+    /** The player entity currently engaged in the game. */
     private Player currentPlayer;
 
-    /** The market instance where the player can buy and sell items.[cite: 1] */
+    /** The market instance where the player can buy and sell items. */
     private Market market;
 
-    /** A comprehensive list of all available recipes in the game.[cite: 1] */
+    /** A comprehensive list of all available recipes in the game. */
     private ArrayList<Recipe> recipeCompendium;
 
-    /** Tracks if the login bonus has been claimed during the current session to prevent multiple claims.[cite: 1] */
+    /** Tracks if the login bonus has been claimed during the current session to prevent multiple claims. */
     private boolean loginBonusClaimed;
 
-    /** Tracks the number of potions brewed since the market was last refreshed.[cite: 1] */
+    /** Tracks the number of potions brewed since the market was last refreshed. */
     private int brewsSinceMarket;
 
     /**
      * Constructs a new gameController and creates the games' core system
      * <p><b>Pre-conditions:</b> None.</p>
      * <p><b>Post-conditions:</b> The scanner, recipe compendium, and market are created
-     * Tracks are reset, and the compendium is loaded from the external file.</p>[cite: 1]
+     * Tracks are reset, and the compendium is loaded from the external file.</p>
      */
     public GameController(GameView view) {
         this.view = view;
@@ -204,7 +204,7 @@ public class GameController {
      * Loads the recipes from the POTION COMPENDIUM.csv file.
      * <p><b>Pre-conditions:</b> The recipeCompendium list must be created.</p>
      * <p><b>Post-conditions:</b> If the file exists and is formally correctly, recipeCompendium
-     * is populated with Recipe objects. If the file is missing, an error is printed and the list remains empty.</p>[cite: 1]
+     * is populated with Recipe objects. If the file is missing, an error is printed and the list remains empty.</p>
      */
     private void loadCompendium() { //darshan
         try {
@@ -240,7 +240,7 @@ public class GameController {
      * If invalid, the game state remains completely unchanged.</p>
      *
      * @param id: The ID of the recipe the player is trying to brew
-     * @return String: containg the success message or the specific error encountered[cite: 1]
+     * @return String: containg the success message or the specific error encountered
      */
     public String recipeMode(int id) {
         String statusMessage = "";
@@ -293,7 +293,7 @@ public class GameController {
      * Allows the player to experiment with combinations of bases and fruits to discover new recipes.
      * <p><b>Pre-conditions:</b> The player must have at least 2 usable cauldrons in their inventory.</p>
      * <p><b>Post-conditions:</b> Ingredients are consumed. If a valid recipe is discovered, it is 
-     * added to the spellbook, crystals are awarded, and the potion is sold. If invalid, a cauldron is ruined.</p>[cite: 1]
+     * added to the spellbook, crystals are awarded, and the potion is sold. If invalid, a cauldron is ruined.</p>
      * 
      * @param base: The selected base ingredient
      * @param fruits: The array of selected fruit ingredients
@@ -372,7 +372,7 @@ public class GameController {
      * Manages the player's interactions with the Market (buying and selling).
      * <p><b>Pre-conditions:</b> currentPlayer and market must be properly initialized.</p>
      * <p><b>Post-conditions:</b> Player inventory and crystal balance may be altered. Market slots may be emptied. 
-     * If the brew threshold is met, the market is refreshed prior to entry.</p>[cite: 1]
+     * If the brew threshold is met, the market is refreshed prior to entry.</p>
      */
     private void processMarketPurchase(int slot, int qty) { 
         try {
@@ -420,7 +420,7 @@ public class GameController {
      * Grants the player a random ingredient once per session.
      * <p><b>Pre-conditions:</b> loginBonusClaimed must be tracked for the current session.</p>
      * <p><b>Post-conditions:</b> If unclaimed, a random item is added to the players inventory 
-     * and the flag is set to true. If already claimed, no action is taken.</p>[cite: 1]
+     * and the flag is set to true. If already claimed, no action is taken.</p>
      */
     private void claimLoginBonus() { //kyle
         if (this.loginBonusClaimed) {
@@ -448,7 +448,7 @@ public class GameController {
     /**
      * Allows the player to repair a ruined cauldron for a crystal fee.
      * <p><b>Pre-conditions:</b> The player must have at least one unusable cauldron and enough crystals (1000).</p>
-     * <p><b>Post-conditions:</b> If conditions are met, 1000 crystals are deducted and one cauldron is restored.</p>[cite: 1]
+     * <p><b>Post-conditions:</b> If conditions are met, 1000 crystals are deducted and one cauldron is restored.</p>
      */
     private void blessCauldronLogic() { //kyle
         int brokenCauldrons = currentPlayer.getInventory().getUnusableCauldronCount();
@@ -479,7 +479,7 @@ public class GameController {
      * Saves the current player state to a text file.
      * <p><b>Pre-conditions:</b> currentPlayer must be fully populated with valid state data.</p>
      * <p><b>Post-conditions:</b> A text file named "[PlayerName].txt" is created containing the player's 
-     * crystals, inventory data, cauldron counts, and spell book data.</p>[cite: 1]
+     * crystals, inventory data, cauldron counts, and spell book data.</p>
      */
     private void saveGame() { //darshan
         try {
@@ -525,7 +525,7 @@ public class GameController {
      * Returns true if the load is successful, or false if the file does not exist or fails to read.</p>
      *
      * @param name The name of the save file to load (excluding the .txt extension).
-     * @return true if the save file was successfully loaded, false otherwise.[cite: 1]
+     * @return true if the save file was successfully loaded, false otherwise.
      */
     private boolean loadSaveFile(String name) { //darshan
         boolean isSuccess = false;
