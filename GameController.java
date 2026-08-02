@@ -41,11 +41,13 @@ public class GameController {
 
     /**
      * Constructs a new gameController and creates the games' core system
+     * 
+     * @param view The primary GUI instance for the application.
+     * 
      * <p><b>Pre-conditions:</b> A valid GameView object must be provided.</p>
      * <p><b>Post-conditions:</b> The recipe compendium and market are created, 
      * tracks are reset, listeners are bound, and the compendium is loaded from the external file.</p>
      * 
-     * @param view The primary GUI instance for the application.
      */
     public GameController(GameView view) {
         this.view = view;
@@ -283,7 +285,7 @@ public class GameController {
             File file = new File("POTION COMPENDIUM.csv");
             Scanner fileScanner = new Scanner(file);
 
-            // get the recipe ingredients by reading the csv line by line
+            // Sequentially read and parse the text file line by line to reconstruct the player state
             while (fileScanner.hasNextLine()) {
                 String[] data = fileScanner.nextLine().split(",", -1);
                 if (data.length >= 4) {
@@ -305,14 +307,16 @@ public class GameController {
 
     /**
      * Initiates the recipe brewing process by checking the player's spellbook and inventory.
+     * 
+     * @param id The ID of the recipe the player is trying to brew
+     * @return A String containing the success message or the specific error encountered
+     * 
      * <p><b>Pre-conditions:</b> The player must have an initialized spellbook, and the global 
      * recipe compendium must be loaded.</p>
      * <p><b>Post-conditions:</b> If the recipe is valid and ingredients are sufficient, the 
      * ingredients are consumed, the potion is brewed and sold, and crystals are awarded. 
      * If invalid, the game state remains completely unchanged.</p>
      *
-     * @param id The ID of the recipe the player is trying to brew
-     * @return A String containing the success message or the specific error encountered
      */
     public String recipeMode(int id) {
         String statusMessage = "";
@@ -370,13 +374,15 @@ public class GameController {
 
     /**
      * Allows the player to experiment with combinations of bases and fruits to discover new recipes.
-     * <p><b>Pre-conditions:</b> The player must have at least 2 usable cauldrons in their inventory.</p>
-     * <p><b>Post-conditions:</b> Ingredients are consumed. If a valid recipe is discovered, it is 
-     * added to the spellbook, crystals are awarded, and the potion is sold. If invalid, a cauldron is ruined.</p>
      * 
      * @param base The selected base ingredient
      * @param fruits The array of selected fruit ingredients
      * @return A String containing the success message or the specific error encountered
+     * 
+     * <p><b>Pre-conditions:</b> The player must have at least 2 usable cauldrons in their inventory.</p>
+     * <p><b>Post-conditions:</b> Ingredients are consumed. If a valid recipe is discovered, it is 
+     * added to the spellbook, crystals are awarded, and the potion is sold. If invalid, a cauldron is ruined.</p>
+     * 
      */
     private String creativeMode(String base, String[] fruits) { //darshan
         
@@ -401,10 +407,15 @@ public class GameController {
         // review the requested items by reading the list, check for duplicates, and verify inventory counts
         for (int i = 0; i < fruits.length && validFruits; i++) {
             String f = fruits[i].trim();
+            
+            // Skip any empty strings resulting from trailing commas or spaces in user input
             if (f.isEmpty()) continue;
             
+            // Ensure the player is not using duplicate ingredients in the same recipe
             if (fruitList.contains(f)) {
                 return "Error: cannot repeat ingredients.";
+                
+              // Validate that the player has sufficient quantity of the requested fruit in their inventory
             } else if (!currentPlayer.getInventory().checkIngredientAvailability(f, 1, false)){
                 return "Error: Insufficient " + f + ".";
             } else {
@@ -459,10 +470,12 @@ public class GameController {
 
     /**
      * Processes a player's purchase from a specific market slot.
+     * 
+     * @param slot The integer index of the market slot the player is buying from.
+     * 
      * <p><b>Pre-conditions:</b> currentPlayer and market must be properly initialized.</p>
      * <p><b>Post-conditions:</b> Player inventory and crystal balance are altered. Market slot is emptied on success.</p>
      * 
-     * @param slot The integer index of the market slot the player is buying from.
      */
     private void processMarketPurchase(int slot) { 
         try {
@@ -617,13 +630,15 @@ public class GameController {
     
     /**
      * Loads a saved player state from a specified text file.
+     * 
+     * @param name The name of the save file to load (excluding the .txt extension).
+     * @return true if the save file was successfully loaded, false otherwise.
+     * 
      * <p><b>Pre-conditions:</b> A text file matching the provided name must exist in the project root directory.</p>
      * <p><b>Post-conditions:</b> If the file is found and successfully parsed, the currentPlayer object is 
      * instantiated and populated with the saved crystals, inventory data, cauldron counts, and spellbook data. 
      * Returns true if the load is successful, or false if the file does not exist or fails to read.</p>
      *
-     * @param name The name of the save file to load (excluding the .txt extension).
-     * @return true if the save file was successfully loaded, false otherwise.
      */
     private boolean loadSaveFile(String name) { //darshan
         boolean isSuccess = false;
@@ -640,6 +655,7 @@ public class GameController {
                     String line = fileScanner.nextLine().trim();
 
                     if (!line.isEmpty()) {
+                    	// Detect header tags (e.g., [INVENTORY], [SPELLBOOK]) to determine parsing context
                         if (line.startsWith("[") && line.endsWith("]")) {
                             currentSection = line;
                         } else {
@@ -662,6 +678,7 @@ public class GameController {
                                     String itemName = parts[0].trim();
                                     int quantity = Integer.parseInt(parts[1].trim());
 
+                                    // Direct the parsed item to the appropriate inventory sub-list based on its suffix
                                     if (itemName.endsWith("BASE")) {
                                         currentPlayer.getInventory().addBase(itemName, quantity);
                                     } else if (itemName.equals("TOTAL CAULDRONS")) {
@@ -674,7 +691,7 @@ public class GameController {
                                 }
                             } 
                             
-                            // parse and populate Spellbook
+                         // iterate through the parsed IDs and match them with the global recipe compendium
                             else if (currentSection.equals("[SPELLBOOK]")) {
                                 String[] recipeIds = line.split(",");
                                 for (int i = 0; i < recipeIds.length; i++) {
@@ -697,7 +714,7 @@ public class GameController {
                     }
                 }
                 
-                // parse and populate Cauldrons
+                // parse and populate cauldrons
                 for (int i = 3; i < totalCauldrons; i++) {
                     currentPlayer.getInventory().addCauldron();
                 }
