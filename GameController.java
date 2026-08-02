@@ -315,13 +315,19 @@ public class GameController {
         ArrayList<String> fruitList = new ArrayList<>();
         boolean validFruits = true;
 
+        // Iterate through the available fruits provided by the user via the GUI input
         for (int i = 0; i < fruits.length && validFruits; i++) {
             String f = fruits[i].trim();
+
+            // Skip any empty strings resulting from trailing commas or spaces in user input
             if (f.isEmpty()) continue;
-            
+
+            // Ensure the player is not using duplicate ingredients in the same recipe
             if (fruitList.contains(f)) {
                 return "Error: cannot repeat ingredients.";
-            } else if (!currentPlayer.getInventory().checkIngredientAvailability(f, 1, false)){
+            } 
+            // Validate that the player has sufficient quantity of the requested fruit in their inventory
+            else if (!currentPlayer.getInventory().checkIngredientAvailability(f, 1, false)){
                 return "Error: Insufficient " + f + ".";
             } else {
                 fruitList.add(f);
